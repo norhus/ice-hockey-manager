@@ -2,8 +2,7 @@ package cz.muni.fi.pa165.icehockeymanager.dto;
 
 import cz.muni.fi.pa165.icehockeymanager.validation.annotation.FieldsValueMatch;
 import cz.muni.fi.pa165.icehockeymanager.validation.annotation.ValidPassword;
-
-import javax.validation.constraints.Email;
+import jakarta.validation.constraints.Email;
 
 @FieldsValueMatch.List({
         @FieldsValueMatch(

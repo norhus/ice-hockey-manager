@@ -1,9 +1,9 @@
 package cz.muni.fi.pa165.icehockeymanager.validation.annotation;
 
 import cz.muni.fi.pa165.icehockeymanager.validation.validator.PasswordConstraintValidator;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 

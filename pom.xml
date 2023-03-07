@@ -48,11 +48,6 @@
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>6.0.10.Final</version>
-        </dependency>
-        <dependency>
             <groupId>org.passay</groupId>
             <artifactId>passay</artifactId>
             <version>1.6.2</version>
@@ -71,10 +66,9 @@
             <version>42.5.4</version>
         </dependency>
         <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>13.0</version>
-            <scope>compile</scope>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.0.Final</version>
         </dependency>
     </dependencies>
 

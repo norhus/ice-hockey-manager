@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.icehockeymanager.validation.validator;
 
 import cz.muni.fi.pa165.icehockeymanager.validation.annotation.ValidPassword;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.LengthRule;
@@ -8,8 +10,6 @@ import org.passay.PasswordData;
 import org.passay.PasswordValidator;
 import org.passay.RuleResult;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.StringJoiner;
 
