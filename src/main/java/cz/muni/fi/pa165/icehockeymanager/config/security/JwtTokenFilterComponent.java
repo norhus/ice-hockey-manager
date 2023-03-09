@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.icehockeymanager.config.security;
 
 import cz.muni.fi.pa165.icehockeymanager.service.JwtTokenService;
-import cz.muni.fi.pa165.icehockeymanager.service.UserService;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -20,12 +21,12 @@ import java.io.IOException;
 @Component
 public class JwtTokenFilterComponent extends OncePerRequestFilter {
 
-    private final UserService userService;
+    private final UserDetailsService userDetailsService;
     private final JwtTokenService jwtTokenService;
 
     @Autowired
-    public JwtTokenFilterComponent(UserService userService, JwtTokenService jwtTokenService) {
-        this.userService = userService;
+    public JwtTokenFilterComponent(UserDetailsService userDetailsService, JwtTokenService jwtTokenService) {
+        this.userDetailsService = userDetailsService;
         this.jwtTokenService = jwtTokenService;
     }
 
@@ -37,11 +38,11 @@ public class JwtTokenFilterComponent extends OncePerRequestFilter {
 
         if (tokenHeader != null && tokenHeader.startsWith("Bearer ")) {
             token = tokenHeader.substring(7);
-            username = jwtTokenService.getUsernameFromToken(token);
+            username = jwtTokenService.extractClaim(token, Claims::getSubject);
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService.loadUserByUsername(username);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             if (jwtTokenService.validateJwtToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
