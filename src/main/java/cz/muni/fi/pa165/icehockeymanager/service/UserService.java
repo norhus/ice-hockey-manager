@@ -40,7 +40,8 @@ public class UserService {
 
     public UserWithJwtDto login(UserDto userDto) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.email(), userDto.password()));
+        UserDto user = userMapper.toDto(userRepository.findByEmail(userDto.email()).orElseThrow());
 
-        return new UserWithJwtDto(userDto.email(), userDto.role(), jwtTokenService.generateJwtToken(userDto));
+        return new UserWithJwtDto(user.email(), user.role(), jwtTokenService.generateJwtToken(user));
     }
 }

@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.icehockeymanager.config.security;
 
+import cz.muni.fi.pa165.icehockeymanager.shared.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,8 +25,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/user/register").permitAll()
-                        .requestMatchers("/api/user/login").permitAll()
+                        .requestMatchers("/api/users/*").permitAll()
+                        .requestMatchers("/api/hockey-players/get-all").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
