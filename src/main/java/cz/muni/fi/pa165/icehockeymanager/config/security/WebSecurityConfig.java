@@ -29,6 +29,8 @@ public class WebSecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/users/*").permitAll()
+                        .requestMatchers("/api/hockey-players/create").hasAnyRole(parseRole(Role.ROLE_ADMIN))
+                        .requestMatchers("/api/hockey-players/update").hasAnyRole(parseRole(Role.ROLE_ADMIN))
                         .requestMatchers("/api/hockey-players/get-all").hasAnyRole(parseRole(Role.ROLE_USER), parseRole(Role.ROLE_ADMIN))
                         .anyRequest().authenticated()
                 )

@@ -1,21 +1,15 @@
 package cz.muni.fi.pa165.icehockeymanager.entity;
 
-import cz.muni.fi.pa165.icehockeymanager.entity.Ability;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "hockey_player")
@@ -67,12 +61,6 @@ public class HockeyPlayer {
     @NotNull
     @Column(name = "senses", nullable = false)
     private Integer senses;
-
-    @ManyToMany
-    @JoinTable(name = "hockey_player_x_ability",
-            joinColumns = @JoinColumn(name = "hockey_player_id"),
-            inverseJoinColumns = @JoinColumn(name = "ability_id"))
-    private Set<Ability> abilities = new LinkedHashSet<>();
 
     public Long getId() {
         return id;
@@ -160,14 +148,6 @@ public class HockeyPlayer {
 
     public void setSenses(Integer senses) {
         this.senses = senses;
-    }
-
-    public Set<Ability> getAbilities() {
-        return abilities;
-    }
-
-    public void setAbilities(Set<Ability> abilities) {
-        this.abilities = abilities;
     }
 
 }
