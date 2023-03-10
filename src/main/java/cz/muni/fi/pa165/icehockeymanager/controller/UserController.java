@@ -38,6 +38,9 @@ public class UserController {
             return ResponseEntity.ok(userService.login(userDto));
         } catch (BadCredentialsException e) {
             return new ResponseEntity<>("Wrong email or password.", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>("Wrong email or password.", HttpStatus.BAD_REQUEST);
         }
     }
 }

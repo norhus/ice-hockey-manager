@@ -38,7 +38,7 @@ public class JwtTokenService {
                 .signWith(getSignInKey(), SignatureAlgorithm.HS512).compact();
     }
 
-    public boolean validateJwtToken(String token, UserDetails userDetails) {
+    public boolean isJwtTokenValid(String token, UserDetails userDetails) {
         String username = extractClaim(token, Claims::getSubject);
         boolean isTokenExpired = extractClaim(token, Claims::getExpiration).before(new Date());
 

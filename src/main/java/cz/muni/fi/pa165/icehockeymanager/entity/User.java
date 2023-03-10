@@ -39,7 +39,7 @@ public class User implements UserDetails {
     @NotNull
     @Column(name = "role", nullable = false, length = 16)
     @Enumerated(EnumType.STRING)
-    private Role role = Role.USER;
+    private Role role = Role.ROLE_USER;
 
     public Long getId() {
         return id;

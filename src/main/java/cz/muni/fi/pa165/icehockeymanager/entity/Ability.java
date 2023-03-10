@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.icehockeymanager.dto;
+package cz.muni.fi.pa165.icehockeymanager.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

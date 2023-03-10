@@ -1,5 +1,6 @@
-package cz.muni.fi.pa165.icehockeymanager.dto;
+package cz.muni.fi.pa165.icehockeymanager.entity;
 
+import cz.muni.fi.pa165.icehockeymanager.entity.Ability;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
