@@ -1,7 +1,6 @@
-DROP TABLE IF EXISTS hockey_player_X_ability;
 DROP TABLE IF EXISTS app_user;
 DROP TABLE IF EXISTS hockey_player;
-DROP TABLE IF EXISTS ability;
+DROP TABLE IF EXISTS league;
 
 CREATE TABLE app_user (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -22,4 +21,9 @@ CREATE TABLE hockey_player (
     defense INT NOT NULL,
     puck_skills INT NOT NULL,
     senses INT NOT NULL
+);
+
+CREATE TABLE league (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR(64) NOT NULL
 );

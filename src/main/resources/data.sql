@@ -12,3 +12,6 @@ VALUES
 	('Devon', 'Bogisich', '2023-03-10 20:46:24.155688+01', 'attacker', 134, 140, 793, 728, 997, 951),
 	('Deion', 'Raynor', '2023-03-10 20:46:24.155688+01', 'attacker', 604, 109, 318, 441, 893, 943)
 ;
+
+INSERT INTO league(name)
+VALUES ('extraliga');
