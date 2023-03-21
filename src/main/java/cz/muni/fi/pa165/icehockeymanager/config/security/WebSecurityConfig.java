@@ -28,11 +28,10 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/users/*").permitAll()
-                        .requestMatchers("/api/hockey-players/create").hasAnyRole(parseRole(Role.ROLE_ADMIN))
-                        .requestMatchers("/api/hockey-players/update").hasAnyRole(parseRole(Role.ROLE_ADMIN))
-                        .requestMatchers("/api/hockey-players/get-all").hasAnyRole(parseRole(Role.ROLE_USER), parseRole(Role.ROLE_ADMIN))
-                        .requestMatchers("/api/league/*").hasAnyRole(parseRole(Role.ROLE_USER), parseRole(Role.ROLE_ADMIN))
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
+                        .requestMatchers("/api/hockey-players/create", "/api/hockey-players/update").hasAnyRole(parseRole(Role.ROLE_ADMIN))
+                        .requestMatchers("/api/**").hasAnyRole(parseRole(Role.ROLE_USER), parseRole(Role.ROLE_ADMIN))
                         .anyRequest().authenticated()
                 )
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

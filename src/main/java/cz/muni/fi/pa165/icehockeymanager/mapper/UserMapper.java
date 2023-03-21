@@ -13,7 +13,7 @@ public interface UserMapper {
     @Mapping(source = "password", target = "password", ignore = true)
     UserDto toDto(User user);
 
-    User toEntity1(UserDto userDto);
+    User toEntity(UserDto userDto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     User partialUpdate(UserDto userDto, @MappingTarget User user);

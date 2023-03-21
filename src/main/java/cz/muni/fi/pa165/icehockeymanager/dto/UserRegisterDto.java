@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.icehockeymanager.dto;
 
 import cz.muni.fi.pa165.icehockeymanager.validation.annotation.FieldsValueMatch;
 import cz.muni.fi.pa165.icehockeymanager.validation.annotation.ValidPassword;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
@@ -16,11 +17,14 @@ public record UserRegisterDto(
 
         @Size(max = 1024)
         @Email(message = "Email is not valid", regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
+        @Schema(example= "adambarca333@gmail.com")
         String email,
 
         @ValidPassword
+        @Schema(example= "Password1")
         String password,
 
+        @Schema(example= "Password1")
         String confirmPassword
 ) {
 }
