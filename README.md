@@ -11,7 +11,7 @@ Several human players (at least two) can manage their hockey teams out of a list
 |Member          | [Norbert Husarčík](https://is.muni.cz/auth/osoba/485530)   |
 
 ## Class Diagram
-![](src/main/resources/diagrams/Hockey_class_diagram.png)
+![](core/src/main/resources/diagrams/Hockey_class_diagram.png)
 
 ## Use Case Diagram
-![](src/main/resources/diagrams/Hockey_UC_diagram.png)
+![](core/src/main/resources/diagrams/Hockey_UC_diagram.png)
