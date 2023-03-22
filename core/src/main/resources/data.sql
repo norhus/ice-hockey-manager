@@ -14,8 +14,14 @@ VALUES
 ;
 
 INSERT INTO league(name)
-VALUES ('extraliga');
-
+VALUES ('extraliga')
+;
 
 INSERT INTO team(name, app_user_id, league_id)
-VALUES ('HC Slovan Bratislava', 2, 1)
+VALUES
+    ('HC Slovan Bratislava', 2, 1),
+    ('Kosice', NULL, 1),
+    ('Banska Bystrica', NULL, 1),
+    ('Poprad', NULL, 1),
+    ('Detva', NULL, 1)
+;

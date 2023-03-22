@@ -93,5 +93,6 @@
         <module>core</module>
         <module>model</module>
         <module>league-table</module>
+        <module>game-scheduler</module>
     </modules>
 </project>
