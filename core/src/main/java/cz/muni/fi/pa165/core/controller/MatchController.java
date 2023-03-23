@@ -1,16 +1,12 @@
 package cz.muni.fi.pa165.core.controller;
 
-import cz.muni.fi.pa165.core.service.LeagueService;
 import cz.muni.fi.pa165.core.service.MatchService;
-import cz.muni.fi.pa165.model.dto.HockeyPlayerDto;
-import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +24,12 @@ public class MatchController {
     @GetMapping("/get-all")
     public ResponseEntity<List<MatchDto>> getAll() {
         return ResponseEntity.ok(matchService.findAll());
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<MatchDto> create(@Valid @RequestBody MatchDto matchDto) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(matchService.create(matchDto));
     }
 }
