@@ -34,6 +34,11 @@ public class MatchController {
                 .body(matchService.create(matchDto));
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<MatchDto> update(@Valid @RequestBody MatchDto matchDto) {
+        return ResponseEntity.ok(matchService.update(matchDto));
+    }
+
     @GetMapping("/{league}")
     public ResponseEntity<List<MatchDto>> findByLeagueName(@PathVariable String league) {
         return ResponseEntity.ok(matchService.findByLeagueName(league));

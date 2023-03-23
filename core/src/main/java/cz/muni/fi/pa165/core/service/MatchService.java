@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.core.service;
 
 
+import cz.muni.fi.pa165.core.entity.Match;
 import cz.muni.fi.pa165.core.mapper.MatchMapper;
 import cz.muni.fi.pa165.core.repository.MatchRepository;
 import cz.muni.fi.pa165.model.dto.MatchDto;
@@ -28,6 +29,13 @@ public class MatchService {
 
     public MatchDto create(MatchDto matchDto) {
         return matchMapper.toDto(matchRepository.save(matchMapper.toEntity(matchDto)));
+    }
+
+    public MatchDto update(MatchDto matchDto) {
+        Match match = matchRepository.findById(matchDto.id())
+                .orElseThrow(() -> new IllegalArgumentException("Not found match with id: " + matchDto.id()));
+
+        return matchMapper.toDto(matchRepository.save(matchMapper.updateMatchFromMatchDto(matchDto, match)));
     }
 
     public List<MatchDto> findByLeagueName(String leagueName) {
