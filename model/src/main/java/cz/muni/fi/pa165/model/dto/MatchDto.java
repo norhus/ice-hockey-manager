@@ -1,7 +1,5 @@
 package cz.muni.fi.pa165.model.dto;
 
-import cz.muni.fi.pa165.model.dto.TeamDto;
-
 import java.io.Serializable;
 import java.time.Instant;
 
