@@ -1,7 +1,8 @@
 DROP TABLE IF EXISTS app_user CASCADE;
 DROP TABLE IF EXISTS hockey_player;
 DROP TABLE IF EXISTS league CASCADE;
-DROP TABLE  IF EXISTS team;
+DROP TABLE  IF EXISTS team CASCADE;
+DROP TABLE IF EXISTS match;
 
 CREATE TABLE app_user (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -34,4 +35,13 @@ CREATE TABLE team (
     name VARCHAR(64) NOT NULL,
     app_user_id BIGINT REFERENCES app_user(id),
     league_id BIGINT REFERENCES league(id)
+);
+
+CREATE TABLE match(
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    date_of_match TIMESTAMP,
+    home_goals INT,
+    away_goals INT,
+    home_team BIGINT REFERENCES team(id),
+    away_team BIGINT REFERENCES team(id)
 );

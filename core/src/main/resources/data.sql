@@ -25,3 +25,10 @@ VALUES
     ('Poprad', NULL, 1),
     ('Detva', NULL, 1)
 ;
+
+INSERT INTO match(date_of_match, home_goals, away_goals, home_team, away_team)
+VALUES
+    ('2023-04-27 19:10:25-07', 2, 1, 1, 2),
+    ('2023-04-25 19:10:25-07', 7, 0, 3, 4),
+    ('2023-04-22 19:10:25-07', 1, 6, 5, 2)
+;
