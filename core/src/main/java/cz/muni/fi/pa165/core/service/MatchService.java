@@ -29,4 +29,11 @@ public class MatchService {
     public MatchDto create(MatchDto matchDto) {
         return matchMapper.toDto(matchRepository.save(matchMapper.toEntity(matchDto)));
     }
+
+    public List<MatchDto> findByLeagueName(String leagueName) {
+        return matchRepository.findAll().stream()
+                .filter(m -> m.getHomeTeam().getLeague().getName().equals(leagueName))
+                .map(matchMapper::toDto)
+                .toList();
+    }
 }
