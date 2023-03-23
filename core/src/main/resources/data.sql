@@ -4,7 +4,7 @@ VALUES
     ('user@gmail.com', '$2a$10$iOdtg8Qocrhm3pAV85YcWO2VTg5A6RcU2.V.bSpw..aXOeZFRbKtK', 'ROLE_USER')
 ; -- password = Password1
 
-INSERT INTO hockey_player(first_name, last_name, date_of_birth, "position", skating, physical, shooting, defense, puck_skills, senses)
+INSERT INTO hockey_player(first_name, last_name, date_of_birth, position, skating, physical, shooting, defense, puck_skills, senses)
 VALUES
     ('Mae',	'Bechtelar', '1998-12-12 20:46:24.155688+01', 'attacker', 96, 75, 99, 24, 95, 29),
 	('Johnathan', 'Rodriguez', '1999-04-01 20:46:24.155688+01', 'attacker', 41, 24, 43, 39, 10, 61),
