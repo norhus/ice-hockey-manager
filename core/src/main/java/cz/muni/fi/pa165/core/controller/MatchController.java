@@ -32,4 +32,9 @@ public class MatchController {
                 .status(HttpStatus.CREATED)
                 .body(matchService.create(matchDto));
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<MatchDto> update(@Valid @RequestBody MatchDto matchDto) {
+        return ResponseEntity.ok(matchService.update(matchDto));
+    }
 }

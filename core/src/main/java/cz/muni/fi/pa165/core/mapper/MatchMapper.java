@@ -11,5 +11,5 @@ public interface MatchMapper {
     MatchDto toDto(Match match);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Match partialUpdate(MatchDto matchDto, @MappingTarget Match match);
+    Match updateMatchFromMatchDto(MatchDto matchDto, @MappingTarget Match match);
 }
