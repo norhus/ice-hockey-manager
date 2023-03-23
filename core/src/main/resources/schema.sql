@@ -34,7 +34,7 @@ CREATE TABLE team (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name VARCHAR(64) NOT NULL,
     app_user_id BIGINT REFERENCES app_user(id),
-    league_id BIGINT REFERENCES league(id)
+    league_id BIGINT REFERENCES league(id) NOT NULL
 );
 
 CREATE TABLE match(
@@ -42,6 +42,6 @@ CREATE TABLE match(
     date_of_match TIMESTAMP,
     home_goals INT,
     away_goals INT,
-    home_team BIGINT REFERENCES team(id),
-    away_team BIGINT REFERENCES team(id)
+    home_team BIGINT REFERENCES team(id) NOT NULL,
+    away_team BIGINT REFERENCES team(id) NOT NULL
 );

@@ -17,7 +17,7 @@ class GameSchedulerController {
         this.gameSchedulerService = gameSchedulerService;
     }
 
-    @GetMapping("/generate")
+    @GetMapping("/generate/{leagueName}")
     public GameSchedulerDto generate(@RequestParam String leagueName) {
         return gameSchedulerService.generate(leagueName);
     }
