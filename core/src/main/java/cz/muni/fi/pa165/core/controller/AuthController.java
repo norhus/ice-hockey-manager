@@ -29,13 +29,4 @@ public class AuthController {
                 .status(HttpStatus.CREATED)
                 .body(userService.create(userRegisterDto));
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody UserDto userDto) {
-        try {
-            return ResponseEntity.ok(userService.login(userDto));
-        } catch (Exception e) {
-            return new ResponseEntity<>("Wrong email or password.", HttpStatus.BAD_REQUEST);
-        }
-    }
 }
