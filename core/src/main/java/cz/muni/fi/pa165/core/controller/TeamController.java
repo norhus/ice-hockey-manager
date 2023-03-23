@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/team")
 public class TeamController {
@@ -22,5 +24,10 @@ public class TeamController {
     @GetMapping("/{name}")
     public ResponseEntity<TeamDto> findByName(@PathVariable String name) {
         return ResponseEntity.ok(teamService.findByName(name));
+    }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<List<TeamDto>> getAll() {
+        return ResponseEntity.ok(teamService.findAll());
     }
 }
