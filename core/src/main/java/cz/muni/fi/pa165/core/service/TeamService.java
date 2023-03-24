@@ -29,4 +29,10 @@ import java.util.List;
                 .map(teamMapper::toDto)
                 .toList();
     }
+
+    public List<TeamDto> findByLeagueName(String leagueName) {
+        return teamRepository.findByLeagueName(leagueName).stream()
+                .map(teamMapper::toDto)
+                .toList();
+    }
 }
