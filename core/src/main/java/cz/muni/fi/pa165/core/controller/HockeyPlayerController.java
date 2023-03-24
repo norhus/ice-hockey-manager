@@ -31,6 +31,11 @@ public class HockeyPlayerController {
         return ResponseEntity.ok(hockeyPlayerService.findAll());
     }
 
+    @GetMapping("/get-all-without-team")
+    public ResponseEntity<List<HockeyPlayerDto>> getAllWithoutTeam() {
+        return ResponseEntity.ok(hockeyPlayerService.getAllWithoutTeam());
+    }
+
     @PostMapping("/create")
     public ResponseEntity<HockeyPlayerDto> create(@Valid @RequestBody HockeyPlayerDto hockeyPlayerDto) {
         return ResponseEntity
