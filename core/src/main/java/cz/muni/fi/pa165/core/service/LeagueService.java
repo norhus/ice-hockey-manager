@@ -6,6 +6,8 @@ import cz.muni.fi.pa165.core.repository.LeagueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LeagueService {
 
@@ -20,5 +22,11 @@ public class LeagueService {
 
     public LeagueDto findByName(String name) {
        return leagueMapper.toDto(leagueRepository.findByName(name));
+    }
+
+    public List<LeagueDto> findAll() {
+        return leagueRepository.findAll().stream()
+                .map(leagueMapper::toDto)
+                .toList();
     }
 }
