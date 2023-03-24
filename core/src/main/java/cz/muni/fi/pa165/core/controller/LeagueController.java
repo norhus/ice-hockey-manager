@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/league")
 public class LeagueController {
@@ -18,6 +20,11 @@ public class LeagueController {
     @Autowired
     public LeagueController(LeagueService leagueService) {
         this.leagueService = leagueService;
+    }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<List<LeagueDto>> getAll() {
+        return ResponseEntity.ok(leagueService.findAll());
     }
 
     @GetMapping("/{name}")
