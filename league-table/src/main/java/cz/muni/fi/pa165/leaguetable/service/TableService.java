@@ -1,13 +1,12 @@
 package cz.muni.fi.pa165.leaguetable.service;
 
 import cz.muni.fi.pa165.model.dto.LeagueDto;
-import cz.muni.fi.pa165.model.dto.MatchDto;
+import cz.muni.fi.pa165.model.dto.TeamDto;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class TableService {
@@ -16,6 +15,13 @@ public class TableService {
 
     public TableDto findByLeague(String leagueName) {
 
+        List<TeamDto> teams = client.get()
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment("api", "team", "find-by-league")
+                        .queryParam("league", leagueName).build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<TeamDto>>() {})
+                .block();
 
         LeagueDto league = client.get()
                 .uri(uriBuilder -> uriBuilder.
@@ -24,29 +30,14 @@ public class TableService {
                 .bodyToMono(LeagueDto.class)
                 .block();
 
-        List<MatchDto> matches = client.get()
-                .uri(uriBuilder -> uriBuilder.
-                        pathSegment("api", "match", leagueName).build())
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<MatchDto>>() {})
-                .block();
+        List<TableRowDto> rows = teams.stream()
+                .map(t -> {
+                    TableRowDto row = new TableRowDto();
+                    row.setTeamName(t.name());
+                    return row;
+                }).toList();
 
-        List<TableRowDto> rows = new ArrayList<>();
 
-        for (var m : matches) {
-            TableRowDto row1 = new TableRowDto();
-            row1.setTeamName(m.homeTeam().name());
-            TableRowDto row2 = new TableRowDto();
-            row2.setTeamName(m.awayTeam().name());
-
-            rows.add(row1);
-            rows.add(row2);
-        }
-
-        var rowsWithoutDuplicate = rows.stream().distinct().collect(Collectors.toList());
-
-        TableDto table = new TableDto(league, rowsWithoutDuplicate);
-
-        return table;
+        return new TableDto(league, rows);
     }
 }
