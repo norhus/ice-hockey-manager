@@ -1,16 +1,16 @@
 package cz.muni.fi.pa165.leaguetable.service;
 
 import cz.muni.fi.pa165.model.dto.LeagueDto;
-import lombok.Getter;
-import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
-@Getter
-@Setter
-public class TableDto {
 
-    private LeagueDto league;
+public record TableDto (
 
-    private List<TableRowDto> teams;
+    LeagueDto league,
+
+    List<TableRowDto> teams
+
+) implements Serializable {
 }

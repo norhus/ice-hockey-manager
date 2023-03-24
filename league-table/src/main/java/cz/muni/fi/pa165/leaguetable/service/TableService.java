@@ -15,7 +15,7 @@ public class TableService {
     public final WebClient client = WebClient.create("http://localhost:8080/");
 
     public TableDto findByLeague(String leagueName) {
-        TableDto table = new TableDto();
+
 
         LeagueDto league = client.get()
                 .uri(uriBuilder -> uriBuilder.
@@ -45,8 +45,7 @@ public class TableService {
 
         var rowsWithoutDuplicate = rows.stream().distinct().collect(Collectors.toList());
 
-        table.setLeague(league);
-        table.setTeams(rowsWithoutDuplicate);
+        TableDto table = new TableDto(league, rowsWithoutDuplicate);
 
         return table;
     }
