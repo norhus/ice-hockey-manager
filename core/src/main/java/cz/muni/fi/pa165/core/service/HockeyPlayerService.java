@@ -37,4 +37,10 @@ public class HockeyPlayerService {
                 .map(hockeyPlayerMapper::toDto)
                 .toList();
     }
+
+    public List<HockeyPlayerDto> getAllWithoutTeam() {
+        return hockeyPlayerRepository.findAllByTeamIdIsNull().stream()
+                .map(hockeyPlayerMapper::toDto)
+                .toList();
+    }
 }

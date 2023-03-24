@@ -4,15 +4,6 @@ VALUES
     ('user@gmail.com', '$2a$10$iOdtg8Qocrhm3pAV85YcWO2VTg5A6RcU2.V.bSpw..aXOeZFRbKtK', 'ROLE_USER')
 ; -- password = Password1
 
-INSERT INTO hockey_player(first_name, last_name, date_of_birth, position, skating, physical, shooting, defense, puck_skills, senses)
-VALUES
-    ('Mae',	'Bechtelar', '1998-12-12 20:46:24.155688+01', 'attacker', 96, 75, 99, 24, 95, 29),
-	('Johnathan', 'Rodriguez', '1999-04-01 20:46:24.155688+01', 'attacker', 41, 24, 43, 39, 10, 61),
-	('Scottie', 'Heidenreich', '1995-06-25 20:46:24.155688+01', 'center', 49, 55, 82, 91, 56, 53),
-	('Devon', 'Bogisich', '1990-04-15 20:46:24.155688+01', 'defender', 13, 14, 79, 77, 99, 95),
-	('Deion', 'Raynor', '2000-03-10 20:46:24.155688+01', 'defender', 60, 10, 31, 44, 89, 94)
-;
-
 INSERT INTO league(name)
 VALUES
     ('TIPOS Extraliga'),
@@ -31,6 +22,15 @@ VALUES
     ('Pittsburgh Penguins', NULL, 2),
     ('Dallas Stars', NULL, 2),
     ('Washington Capitals', NULL, 2)
+;
+
+INSERT INTO hockey_player(first_name, last_name, date_of_birth, position, skating, physical, shooting, defense, puck_skills, senses, team_id)
+VALUES
+    ('Mae',	'Bechtelar', '1998-12-12 20:46:24.155688+01', 'attacker', 96, 75, 99, 24, 95, 29, 1 ),
+	('Johnathan', 'Rodriguez', '1999-04-01 20:46:24.155688+01', 'attacker', 41, 24, 43, 39, 10, 61, null ),
+	('Scottie', 'Heidenreich', '1995-06-25 20:46:24.155688+01', 'center', 49, 55, 82, 91, 56, 53, null ),
+	('Devon', 'Bogisich', '1990-04-15 20:46:24.155688+01', 'defender', 13, 14, 79, 77, 99, 95, null ),
+	('Deion', 'Raynor', '2000-03-10 20:46:24.155688+01', 'defender', 60, 10, 31, 44, 89, 94, null )
 ;
 
 INSERT INTO match(date_of_match, home_goals, away_goals, home_team, away_team)

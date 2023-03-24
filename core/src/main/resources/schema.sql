@@ -11,6 +11,18 @@ CREATE TABLE app_user (
     role VARCHAR(16) NOT NULL
 );
 
+CREATE TABLE league (
+    id IDENTITY PRIMARY KEY,
+    name VARCHAR(64) NOT NULL
+);
+
+CREATE TABLE team (
+    id IDENTITY PRIMARY KEY,
+    name VARCHAR(64) NOT NULL,
+    app_user_id BIGINT REFERENCES app_user(id),
+    league_id BIGINT REFERENCES league(id) NOT NULL
+);
+
 CREATE TABLE hockey_player (
     id IDENTITY PRIMARY KEY,
     first_name VARCHAR(64) NOT NULL,
@@ -22,19 +34,9 @@ CREATE TABLE hockey_player (
     shooting INT NOT NULL,
     defense INT NOT NULL,
     puck_skills INT NOT NULL,
-    senses INT NOT NULL
-);
+    senses INT NOT NULL,
 
-CREATE TABLE league (
-    id IDENTITY PRIMARY KEY,
-    name VARCHAR(64) NOT NULL
-);
-
-CREATE TABLE team (
-    id IDENTITY PRIMARY KEY,
-    name VARCHAR(64) NOT NULL,
-    app_user_id BIGINT REFERENCES app_user(id),
-    league_id BIGINT REFERENCES league(id) NOT NULL
+    team_id BIGINT REFERENCES team(id)
 );
 
 CREATE TABLE match(
