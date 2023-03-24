@@ -8,9 +8,9 @@ import java.util.List;
 
 public record TableDto (
 
-    LeagueDto league,
+        LeagueDto league,
 
-    List<TableRowDto> teams
+        List<TableRowDto> teams
 
 ) implements Serializable {
 }
