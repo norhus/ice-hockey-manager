@@ -44,6 +44,8 @@ public record HockeyPlayerDto(
         Integer puckSkills,
 
         @Schema(example= "298")
-        Integer senses
+        Integer senses,
+
+        TeamDto teamDto
 ) {
 }

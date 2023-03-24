@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.gamescheduler.service;
 
+import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
 import org.springframework.core.ParameterizedTypeReference;
@@ -10,6 +11,7 @@ import reactor.core.publisher.Mono;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameSchedulerService {
@@ -51,5 +53,18 @@ public class GameSchedulerService {
                 .block());
 
         return new GameSchedulerDto(Instant.now(), teams, matches);
+    }
+
+    public List<GameSchedulerDto> generateAll() {
+//        List<GameSchedulerDto> schedules = new ArrayList<>();
+
+        List<LeagueDto> leagues = client.get()
+                .uri(uriBuilder -> uriBuilder.
+                        pathSegment("api", "league" ,"get-all").build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<LeagueDto>>() {})
+                .block();
+
+        return leagues.stream().map(l -> generate(l.name())).collect(Collectors.toList());
     }
 }
