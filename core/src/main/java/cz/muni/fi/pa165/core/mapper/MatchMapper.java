@@ -6,6 +6,8 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface MatchMapper {
+
+    @Mapping(target = "id", ignore = true)
     Match toEntity(MatchDto matchDto);
 
     MatchDto toDto(Match match);
