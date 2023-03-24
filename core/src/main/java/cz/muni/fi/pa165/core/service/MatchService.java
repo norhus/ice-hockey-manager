@@ -39,8 +39,7 @@ public class MatchService {
     }
 
     public List<MatchDto> findByLeagueName(String leagueName) {
-        return matchRepository.findAll().stream()
-                .filter(m -> m.getHomeTeam().getLeague().getName().equals(leagueName))
+        return matchRepository.findByHomeTeamLeagueName(leagueName).stream()
                 .map(matchMapper::toDto)
                 .toList();
     }
