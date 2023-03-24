@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/tables")
 public class TableController {
@@ -21,5 +23,10 @@ public class TableController {
     @GetMapping("/{league}")
     public ResponseEntity<TableDto> findByLeague(@PathVariable String league) {
         return ResponseEntity.ok(tableService.findByLeague(league));
+    }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<List<TableDto>> getAll() {
+        return ResponseEntity.ok(tableService.findAll());
     }
 }

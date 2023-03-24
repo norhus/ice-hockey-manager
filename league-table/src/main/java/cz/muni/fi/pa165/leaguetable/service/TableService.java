@@ -15,13 +15,7 @@ public class TableService {
 
     public TableDto findByLeague(String leagueName) {
 
-        List<TeamDto> teams = client.get()
-                .uri(uriBuilder -> uriBuilder
-                        .pathSegment("api", "team", "find-by-league")
-                        .queryParam("league", leagueName).build())
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<TeamDto>>() {})
-                .block();
+        List<TeamDto> teams = getTeams(leagueName);
 
         LeagueDto league = client.get()
                 .uri(uriBuilder -> uriBuilder.
@@ -30,14 +24,48 @@ public class TableService {
                 .bodyToMono(LeagueDto.class)
                 .block();
 
-        List<TableRowDto> rows = teams.stream()
+        List<TableRowDto> rows = makeRows(teams);
+
+
+        return new TableDto(league, rows);
+    }
+
+    public List<TableDto> findAll() {
+        List<TableDto> tables = new ArrayList<>();
+
+        List<LeagueDto> leagues = client.get()
+                .uri(uriBuilder -> uriBuilder.
+                        pathSegment("api", "league" ,"get-all").build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<LeagueDto>>() {})
+                .block();
+
+        for (var league : leagues) {
+            List<TeamDto> teams = getTeams(league.name());
+            List<TableRowDto> rows = makeRows(teams);
+
+            tables.add(new TableDto(league, rows));
+        }
+
+        return tables;
+    }
+
+    private List<TeamDto> getTeams(String leagueName) {
+        return client.get()
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment("api", "team", "find-by-league")
+                        .queryParam("league", leagueName).build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<TeamDto>>() {})
+                .block();
+    }
+
+    private static List<TableRowDto> makeRows(List<TeamDto> teams) {
+        return teams.stream()
                 .map(t -> {
                     TableRowDto row = new TableRowDto();
                     row.setTeamName(t.name());
                     return row;
                 }).toList();
-
-
-        return new TableDto(league, rows);
     }
 }
