@@ -6,10 +6,12 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface MatchMapper {
+
+    @Mapping(target = "id", ignore = true)
     Match toEntity(MatchDto matchDto);
 
     MatchDto toDto(Match match);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Match partialUpdate(MatchDto matchDto, @MappingTarget Match match);
+    Match updateMatchFromMatchDto(MatchDto matchDto, @MappingTarget Match match);
 }

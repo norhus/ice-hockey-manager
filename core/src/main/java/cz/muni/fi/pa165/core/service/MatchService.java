@@ -1,11 +1,9 @@
 package cz.muni.fi.pa165.core.service;
 
-import cz.muni.fi.pa165.core.mapper.LeagueMapper;
+
+import cz.muni.fi.pa165.core.entity.Match;
 import cz.muni.fi.pa165.core.mapper.MatchMapper;
-import cz.muni.fi.pa165.core.repository.LeagueRepository;
 import cz.muni.fi.pa165.core.repository.MatchRepository;
-import cz.muni.fi.pa165.model.dto.HockeyPlayerDto;
-import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +25,16 @@ public class MatchService {
         return matchRepository.findAll().stream()
                 .map(matchMapper::toDto)
                 .toList();
+    }
+
+    public MatchDto create(MatchDto matchDto) {
+        return matchMapper.toDto(matchRepository.save(matchMapper.toEntity(matchDto)));
+    }
+
+    public MatchDto update(MatchDto matchDto) {
+        Match match = matchRepository.findById(matchDto.id())
+                .orElseThrow(() -> new IllegalArgumentException("Not found match with id: " + matchDto.id()));
+
+        return matchMapper.toDto(matchRepository.save(matchMapper.updateMatchFromMatchDto(matchDto, match)));
     }
 }
