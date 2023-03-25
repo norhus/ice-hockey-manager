@@ -9,10 +9,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.servers.ServerVariable;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -53,7 +50,7 @@ class GameSchedulerController {
             description = "Returns game scheduler by league name"
     )
     @GetMapping("/generate/{leagueName}")
-    public GameSchedulerDto generate(@RequestParam String leagueName) {
+    public GameSchedulerDto generate(@PathVariable String leagueName) {
         return gameSchedulerService.generate(leagueName);
     }
 
