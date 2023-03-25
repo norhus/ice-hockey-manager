@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public record TeamDto (
 
-        @Schema(example = "1")
+        @Schema(example= "1")
         Long id,
 
         @Schema(example = "Poprad")
