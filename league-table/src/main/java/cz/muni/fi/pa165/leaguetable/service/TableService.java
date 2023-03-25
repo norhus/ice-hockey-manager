@@ -66,10 +66,7 @@ public class TableService {
 
     private static List<TableRowDto> makeRows(List<TeamDto> teams) {
         return teams.stream()
-                .map(t -> {
-                    TableRowDto row = new TableRowDto();
-                    row.setTeamName(t.name());
-                    return row;
-                }).toList();
+                .map(t -> new TableRowDto(t.name()))
+                .toList();
     }
 }
