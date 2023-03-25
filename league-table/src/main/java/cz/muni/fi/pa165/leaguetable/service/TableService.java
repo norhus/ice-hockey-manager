@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.leaguetable.service;
 
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -11,13 +12,17 @@ import java.util.*;
 @Service
 public class TableService {
 
-    public final WebClient client = WebClient.create("http://localhost:8080/");
+    public final WebClient coreClient;
+
+    @Autowired
+    public TableService(WebClient coreClient) {
+        this.coreClient = coreClient;
+    }
 
     public TableDto findByLeague(String leagueName) {
-
         List<TeamDto> teams = getTeams(leagueName);
 
-        LeagueDto league = client.get()
+        LeagueDto league = coreClient.get()
                 .uri(uriBuilder -> uriBuilder.
                         pathSegment("api", "league", leagueName).build())
                 .retrieve()
@@ -33,7 +38,7 @@ public class TableService {
     public List<TableDto> findAll() {
         List<TableDto> tables = new ArrayList<>();
 
-        List<LeagueDto> leagues = client.get()
+        List<LeagueDto> leagues = coreClient.get()
                 .uri(uriBuilder -> uriBuilder.
                         pathSegment("api", "league" ,"get-all").build())
                 .retrieve()
@@ -51,7 +56,7 @@ public class TableService {
     }
 
     private List<TeamDto> getTeams(String leagueName) {
-        return client.get()
+        return coreClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .pathSegment("api", "team", "find-by-league")
                         .queryParam("league", leagueName).build())
