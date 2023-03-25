@@ -28,8 +28,8 @@ public class TeamController {
         return ResponseEntity.ok(teamService.findAll());
     }
 
-    @GetMapping("/find-by-league")
-    public ResponseEntity<List<TeamDto>> findByLeagueName(@RequestParam(value = "league") String league) {
+    @GetMapping("/find-by-league/{league}")
+    public ResponseEntity<List<TeamDto>> findByLeagueName(@PathVariable String league) {
         return ResponseEntity.ok(teamService.findByLeagueName(league));
     }
 }
