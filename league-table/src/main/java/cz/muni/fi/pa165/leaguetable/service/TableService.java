@@ -58,8 +58,7 @@ public class TableService {
     private List<TeamDto> getTeams(String leagueName) {
         return coreClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .pathSegment("api", "team", "find-by-league")
-                        .queryParam("league", leagueName).build())
+                        .pathSegment("api", "team", "find-by-league", leagueName).build())
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<TeamDto>>() {})
                 .block();
