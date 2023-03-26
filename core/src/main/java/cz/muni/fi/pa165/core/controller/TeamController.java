@@ -20,7 +20,11 @@ public class TeamController {
 
     @GetMapping("/{name}")
     public ResponseEntity<TeamDto> findByName(@PathVariable String name) {
-        return ResponseEntity.ok(teamService.findByName(name));
+        TeamDto teamDto = teamService.findByName(name);
+        if (teamDto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(teamDto);
     }
 
     @GetMapping("/get-all")
@@ -30,6 +34,10 @@ public class TeamController {
 
     @GetMapping("/find-by-league/{league}")
     public ResponseEntity<List<TeamDto>> findByLeagueName(@PathVariable String league) {
-        return ResponseEntity.ok(teamService.findByLeagueName(league));
+        List<TeamDto> teams = teamService.findByLeagueName(league);
+        if (teams.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(teams);
     }
 }
