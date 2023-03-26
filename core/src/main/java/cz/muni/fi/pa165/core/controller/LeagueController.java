@@ -29,6 +29,10 @@ public class LeagueController {
 
     @GetMapping("/{name}")
     public ResponseEntity<LeagueDto> findByName(@PathVariable String name) {
-        return ResponseEntity.ok(leagueService.findByName(name));
+        LeagueDto leagueDto = leagueService.findByName(name);
+        if (leagueDto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(leagueDto);
     }
 }
