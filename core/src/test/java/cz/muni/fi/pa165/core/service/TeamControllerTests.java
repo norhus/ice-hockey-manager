@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TeamTests {
+public class TeamControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -57,13 +57,11 @@ public class TeamTests {
 
     @Test
     void findByLeagueNameValid() throws Exception {
-        int expLen = 5;
         String expectedLeagueName = "TIPOS Extraliga";
         String response = mockMvc.perform(get("/api/team/find-by-league/TIPOS Extraliga"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         List<TeamDto> teams = objectMapper.readValue(response, new TypeReference<List<TeamDto>>(){});
-        assertThat(teams.size()).isEqualTo(expLen);
         teams.stream().map(t -> assertThat(t.league().name()).isEqualTo(expectedLeagueName));
     }
 

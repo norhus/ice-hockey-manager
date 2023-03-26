@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.core.controller;
 
 import cz.muni.fi.pa165.core.service.MatchService;
-import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +35,19 @@ public class MatchController {
 
     @PutMapping("/update")
     public ResponseEntity<MatchDto> update(@Valid @RequestBody MatchDto matchDto) {
-        return ResponseEntity.ok(matchService.update(matchDto));
+        try {
+            return ResponseEntity.ok(matchService.update(matchDto));
+        } catch (IllegalArgumentException exception) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/{league}")
     public ResponseEntity<List<MatchDto>> findByLeagueName(@PathVariable String league) {
-        return ResponseEntity.ok(matchService.findByLeagueName(league));
+        List<MatchDto> matches = matchService.findByLeagueName(league);
+        if (matches.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(matches);
     }
 }
