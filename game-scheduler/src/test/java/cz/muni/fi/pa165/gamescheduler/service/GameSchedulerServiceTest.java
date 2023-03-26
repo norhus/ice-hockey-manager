@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,7 @@ public class GameSchedulerServiceTest {
 
     private List<TeamDto> teams;
     private List<MatchDto> matches;
-    
+
     @BeforeEach
     public void setUp() {
         LeagueDto league = new LeagueDto(1L, "NHL");
