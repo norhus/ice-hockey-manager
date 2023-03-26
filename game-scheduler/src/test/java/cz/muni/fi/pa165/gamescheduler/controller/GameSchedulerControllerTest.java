@@ -1,11 +1,12 @@
-package cz.muni.fi.pa165.gamescheduler.service;
+package cz.muni.fi.pa165.gamescheduler.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cz.muni.fi.pa165.gamescheduler.service.GameSchedulerDto;
+import cz.muni.fi.pa165.gamescheduler.service.GameSchedulerService;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GameSchedulerServiceTest {
+public class GameSchedulerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +40,7 @@ public class GameSchedulerServiceTest {
 
     private List<TeamDto> teams;
     private List<MatchDto> matches;
-    
+
     @BeforeEach
     public void setUp() {
         LeagueDto league = new LeagueDto(1L, "NHL");
