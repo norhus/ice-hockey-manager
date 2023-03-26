@@ -45,6 +45,10 @@ public class HockeyPlayerController {
 
     @PutMapping("/update")
     public ResponseEntity<HockeyPlayerDto> update(@Valid @RequestBody HockeyPlayerDto hockeyPlayerDto) {
-        return ResponseEntity.ok(hockeyPlayerService.update(hockeyPlayerDto));
+        try {
+            return ResponseEntity.ok(hockeyPlayerService.update(hockeyPlayerDto));
+        } catch (IllegalArgumentException exception) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
