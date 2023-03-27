@@ -28,20 +28,24 @@ public class LeagueControllerTests {
     @Test
     void getAll() throws Exception {
         int expLen = 2;
+
         String response = mockMvc.perform(get("/api/league/get-all"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         List<LeagueDto> leagues = objectMapper.readValue(response, new TypeReference<List<LeagueDto>>(){});
+
         assertThat(leagues.size()).isEqualTo(expLen);
     }
 
     @Test
     void findByNameValid() throws Exception {
         LeagueDto expectedLeagueDto = new LeagueDto(1L, "TIPOS Extraliga");
+
         String response = mockMvc.perform(get("/api/league/TIPOS Extraliga"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         LeagueDto leagueDto = objectMapper.readValue(response, LeagueDto.class);
+
         assertThat(leagueDto.id()).isEqualTo(expectedLeagueDto.id());
         assertThat(leagueDto.name()).isEqualTo(expectedLeagueDto.name());
     }

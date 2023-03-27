@@ -29,10 +29,12 @@ public class TeamControllerTests {
     @Test
     void getAll() throws Exception {
         int expLen = 10;
+
         String response = mockMvc.perform(get("/api/team/get-all"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         List<TeamDto> teams = objectMapper.readValue(response, new TypeReference<List<TeamDto>>(){});
+
         assertThat(teams.size()).isEqualTo(expLen);
     }
 
@@ -40,10 +42,12 @@ public class TeamControllerTests {
     void findByNameValid() throws Exception {
         LeagueDto expectedLeagueDto = new LeagueDto(1L, "TIPOS Extraliga");
         TeamDto expectedTeamDto = new TeamDto(2L, "Kosice", null, expectedLeagueDto);
+
         String response = mockMvc.perform(get("/api/team/Kosice"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         TeamDto teamDto = objectMapper.readValue(response, TeamDto.class);
+
         assertThat(teamDto.id()).isEqualTo(expectedTeamDto.id());
         assertThat(teamDto.name()).isEqualTo(expectedTeamDto.name());
         assertThat(teamDto.league()).isEqualTo(expectedTeamDto.league());
@@ -58,10 +62,12 @@ public class TeamControllerTests {
     @Test
     void findByLeagueNameValid() throws Exception {
         String expectedLeagueName = "TIPOS Extraliga";
+
         String response = mockMvc.perform(get("/api/team/find-by-league/TIPOS Extraliga"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         List<TeamDto> teams = objectMapper.readValue(response, new TypeReference<List<TeamDto>>(){});
+
         teams.stream().map(t -> assertThat(t.league().name()).isEqualTo(expectedLeagueName));
     }
 
