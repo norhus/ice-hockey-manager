@@ -46,10 +46,7 @@ public class TableService {
                 .block();
 
         for (var league : leagues) {
-            List<TeamDto> teams = getTeams(league.name());
-            List<TableRowDto> rows = makeRows(teams);
-
-            tables.add(new TableDto(league, rows));
+            tables.add(findByLeague(league.name()));
         }
 
         return tables;
