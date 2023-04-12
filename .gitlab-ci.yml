@@ -22,6 +22,8 @@ stages:
   - deploy
 
 build:
+    tags:
+     - shared-fi
     stage: build
     script:
      - chmod +x mvnw
@@ -29,6 +31,8 @@ build:
      - ./mvnw clean install $MAVEN_CLI_OPTS
      
 test:
+    tags:
+     - shared-fi
     stage: test
     script:
      - echo "We are testing your project, $GITLAB_USER_LOGIN"
