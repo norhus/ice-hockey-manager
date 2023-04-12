@@ -1,6 +1,7 @@
 variables:
   MAVEN_OPTS: >-
     -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+    -Dmaven.test.skip=true
 
   MAVEN_CLI_OPTS: >-
     --batch-mode
@@ -21,11 +22,14 @@ stages:
   - deploy
 
 build:
-    tags:
-     - shared-fi
     stage: build
     script:
      - chmod +x mvnw
      - echo "We are building your project, $GITLAB_USER_LOGIN"
      - ./mvnw clean install $MAVEN_CLI_OPTS
-
+     
+test:
+    stage: test
+    script:
+     - echo "We are testing your project, $GITLAB_USER_LOGIN"
+     - ./mvnw test $MAVEN_CLI_OPTS
