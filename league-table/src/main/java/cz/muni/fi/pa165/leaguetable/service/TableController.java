@@ -62,7 +62,7 @@ public class TableController {
             summary = "Get all league tables",
             description = "Return an array of  object representing league tables"
     )
-    @GetMapping("/get-all")
+    @GetMapping
     public ResponseEntity<List<TableDto>> getAll() {
         return ResponseEntity.ok(tableService.findAll());
     }

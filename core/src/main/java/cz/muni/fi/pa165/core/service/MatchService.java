@@ -39,7 +39,7 @@ public class MatchService {
         Match match = matchRepository.findById(matchDto.id())
                 .orElseThrow(() -> new IllegalArgumentException("Not found match with id: " + matchDto.id()));
 
-        return matchMapper.toDto(matchRepository.save(matchMapper.updateMatchFromMatchDto(matchDto, match)));
+        return matchMapper.toDto(matchRepository.save(matchMapper.update(matchDto, match)));
     }
 
     @Transactional

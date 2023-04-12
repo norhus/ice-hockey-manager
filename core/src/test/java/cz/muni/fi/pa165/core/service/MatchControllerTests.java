@@ -32,7 +32,7 @@ public class MatchControllerTests {
     void getAll() throws Exception {
         int expLen = 3;
 
-        String response = mockMvc.perform(get("/api/match/get-all"))
+        String response = mockMvc.perform(get("/api/matches"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         List<MatchDto> matches = objectMapper.readValue(response, new TypeReference<List<MatchDto>>(){});
@@ -44,7 +44,7 @@ public class MatchControllerTests {
     void findByLeagueNameValid() throws Exception {
         String expectedLeagueName = "TIPOS Extraliga";
 
-        String response = mockMvc.perform(get("/api/match/TIPOS Extraliga"))
+        String response = mockMvc.perform(get("/api/matches/TIPOS Extraliga"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         List<MatchDto> matches = objectMapper.readValue(response, new TypeReference<List<MatchDto>>(){});
@@ -55,7 +55,7 @@ public class MatchControllerTests {
 
     @Test
     void findByLeagueNameInvalid() throws Exception {
-        mockMvc.perform(get("/api/match/superliga"))
+        mockMvc.perform(get("/api/matches/superliga"))
                 .andExpect(status().isNotFound());
     }
 
@@ -67,7 +67,7 @@ public class MatchControllerTests {
         MatchDto expectedMatch = new MatchDto(-1L, Instant.parse("2023-04-27T19:00:00.715Z"),
                 null, null, expectedHomeTeam, expectedAwayTeam);
 
-        String response = mockMvc.perform(post("/api/match/create").contentType("application/json")
+        String response = mockMvc.perform(post("/api/matches").contentType("application/json")
                 .content(objectMapper.writeValueAsString(expectedMatch)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
@@ -88,7 +88,7 @@ public class MatchControllerTests {
         MatchDto expectedMatch = new MatchDto(2L, Instant.parse("2023-03-26T19:00:00.715Z"),
                 3, 2, expectedHomeTeam, expectedAwayTeam);
 
-        String response = mockMvc.perform(put("/api/match/update").contentType("application/json")
+        String response = mockMvc.perform(put("/api/matches").contentType("application/json")
                         .content(objectMapper.writeValueAsString(expectedMatch)))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -105,7 +105,7 @@ public class MatchControllerTests {
         MatchDto expectedMatch = new MatchDto(-1L, Instant.parse("2023-03-26T19:00:00.715Z"),
                 3, 2, expectedHomeTeam, expectedAwayTeam);
 
-        mockMvc.perform(put("/api/match/update").contentType("application/json")
+        mockMvc.perform(put("/api/matches").contentType("application/json")
                         .content(objectMapper.writeValueAsString(expectedMatch)))
                 .andExpect(status().isNotFound());
     }

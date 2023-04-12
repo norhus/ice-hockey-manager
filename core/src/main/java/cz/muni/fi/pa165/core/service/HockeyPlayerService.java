@@ -29,7 +29,7 @@ public class HockeyPlayerService {
         HockeyPlayer hockeyPlayer = hockeyPlayerRepository.findById(hockeyPlayerDto.id())
                 .orElseThrow(() -> new IllegalArgumentException("Not found hockey player with id: " + hockeyPlayerDto.id()));
 
-        return hockeyPlayerMapper.toDto(hockeyPlayerRepository.save(hockeyPlayerMapper.updateHockeyPlayerFromHockeyPlayerDto(hockeyPlayerDto, hockeyPlayer)));
+        return hockeyPlayerMapper.toDto(hockeyPlayerRepository.save(hockeyPlayerMapper.update(hockeyPlayerDto, hockeyPlayer)));
     }
 
     public List<HockeyPlayerDto> findAll() {

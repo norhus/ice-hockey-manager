@@ -35,7 +35,7 @@ import java.util.List;
                 })
 )
 @Tag(name = "Game Scheduler", description = "Microservice for Game Scheduler")
-@RequestMapping("/api/game-scheduler")
+@RequestMapping("/api/game-schedulers")
 class GameSchedulerController {
 
     private final GameSchedulerService gameSchedulerService;

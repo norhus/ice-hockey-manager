@@ -64,7 +64,7 @@ public class GameSchedulerControllerTest {
 
         when(gameSchedulerService.generate(leagueName)).thenReturn(expected);
 
-        String response = mockMvc.perform(get("/api/game-scheduler/generate/NHL"))
+        String response = mockMvc.perform(get("/api/game-schedulers/generate/NHL"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
@@ -85,7 +85,7 @@ public class GameSchedulerControllerTest {
 
         when(gameSchedulerService.generateAll()).thenReturn(expected);
 
-        String response = mockMvc.perform(get("/api/game-scheduler/generate-all"))
+        String response = mockMvc.perform(get("/api/game-schedulers/generate-all"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 

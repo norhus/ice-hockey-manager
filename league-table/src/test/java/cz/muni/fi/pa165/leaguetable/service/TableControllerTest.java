@@ -53,7 +53,7 @@ class TableControllerTest {
     void findAll() throws Exception {
         when(tableService.findAll()).thenReturn(List.of(mockTableDto));
 
-        String response = mockMvc.perform(get("/api/tables/get-all")
+        String response = mockMvc.perform(get("/api/tables")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())

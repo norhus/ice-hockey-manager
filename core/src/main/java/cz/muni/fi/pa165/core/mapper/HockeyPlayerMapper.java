@@ -2,11 +2,9 @@ package cz.muni.fi.pa165.core.mapper;
 
 import cz.muni.fi.pa165.model.dto.HockeyPlayerDto;
 import cz.muni.fi.pa165.core.entity.HockeyPlayer;
-import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface HockeyPlayerMapper {
@@ -16,6 +14,5 @@ public interface HockeyPlayerMapper {
 
     HockeyPlayerDto toDto(HockeyPlayer hockeyPlayer);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    HockeyPlayer updateHockeyPlayerFromHockeyPlayerDto(HockeyPlayerDto hockeyPlayerDto, @MappingTarget HockeyPlayer hockeyPlayer);
+    HockeyPlayer update(HockeyPlayerDto hockeyPlayerDto, @MappingTarget HockeyPlayer hockeyPlayer);
 }
