@@ -4,8 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.io.Serializable;
-
 /**
  * A DTO for the League entity
  */
@@ -17,5 +15,5 @@ public record LeagueDto(
         @Size(max = 64)
         @NotNull
         String name
-) implements Serializable {
+) {
 }

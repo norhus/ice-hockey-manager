@@ -20,5 +20,5 @@ public record TeamDto (
         String name,
         UserDto appUser,
         LeagueDto league
-) implements Serializable {
+) {
 }
