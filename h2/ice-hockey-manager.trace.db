@@ -1,0 +1,267 @@
+2023-03-23 23:31:11 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntaktická chyba v SQL príkaze "[*]ID ID APP_USER"; očakávané "INSERT"
+Syntax error in SQL statement "[*]ID ID APP_USER"; expected "INSERT"; SQL statement:
+ID ID APP_USER [42001-214]
+2023-03-23 23:31:12 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntaktická chyba v SQL príkaze "[*]ID ID APP_USER"; očakávané "INSERT"
+Syntax error in SQL statement "[*]ID ID APP_USER"; expected "INSERT"; SQL statement:
+ID ID APP_USER [42001-214]
+2023-03-24 18:02:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabuľka "TEAM" nenájdená
+Table "TEAM" not found; SQL statement:
+CREATE TABLE hockey_player ( id IDENTITY PRIMARY KEY, first_name VARCHAR(64) NOT NULL, last_name VARCHAR(64) NOT NULL, date_of_birth TIMESTAMP WITH TIME ZONE NOT NULL, position VARCHAR(16) NOT NULL, skating INT NOT NULL, physical INT NOT NULL, shooting INT NOT NULL, defense INT NOT NULL, puck_skills INT NOT NULL, senses INT NOT NULL, team_id BIGINT REFERENCES team(id) NOT NULL ) [42102-214]
+2023-03-24 18:02:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabuľka "TEAM" nenájdená
+Table "TEAM" not found; SQL statement:
+CREATE TABLE hockey_player ( id IDENTITY PRIMARY KEY, first_name VARCHAR(64) NOT NULL, last_name VARCHAR(64) NOT NULL, date_of_birth TIMESTAMP WITH TIME ZONE NOT NULL, position VARCHAR(16) NOT NULL, skating INT NOT NULL, physical INT NOT NULL, shooting INT NOT NULL, defense INT NOT NULL, puck_skills INT NOT NULL, senses INT NOT NULL, team_id BIGINT REFERENCES team(id) ) [42102-214]
+2023-03-24 18:03:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabuľka "LEAGUE" nenájdená
+Table "LEAGUE" not found; SQL statement:
+CREATE TABLE team ( id IDENTITY PRIMARY KEY, name VARCHAR(64) NOT NULL, app_user_id BIGINT REFERENCES app_user(id), league_id BIGINT REFERENCES league(id) NOT NULL ) [42102-214]
+2023-03-24 17:08:24 database: flush
+org.h2.message.DbException: Všeobecná chyba: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]" [50000-210]
+	at org.h2.message.DbException.get(DbException.java:216)
+	at org.h2.message.DbException.convert(DbException.java:414)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:120)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:3296)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:585)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:461)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4056)
+	at org.h2.mvstore.db.Store.<init>(Store.java:129)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.Driver.connect(Driver.java:59)
+	at com.intellij.database.remote.jdbc.helpers.JdbcHelperImpl.connect(JdbcHelperImpl.java:639)
+	at com.intellij.database.remote.jdbc.impl.RemoteDriverImpl.connect(RemoteDriverImpl.java:55)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:359)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:562)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:796)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:677)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:676)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Všeobecná chyba: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]" [50000-210]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:573)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:496)
+	... 34 more
+Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.FileStore.open(FileStore.java:163)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:444)
+	... 28 more
+2023-03-24 17:08:26 database: flush
+org.h2.message.DbException: Všeobecná chyba: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]" [50000-210]
+	at org.h2.message.DbException.get(DbException.java:216)
+	at org.h2.message.DbException.convert(DbException.java:414)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:120)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:3296)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:585)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:461)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4056)
+	at org.h2.mvstore.db.Store.<init>(Store.java:129)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.Driver.connect(Driver.java:59)
+	at com.intellij.database.remote.jdbc.helpers.JdbcHelperImpl.connect(JdbcHelperImpl.java:639)
+	at com.intellij.database.remote.jdbc.impl.RemoteDriverImpl.connect(RemoteDriverImpl.java:55)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:359)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:562)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:796)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:677)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:676)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Všeobecná chyba: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]" [50000-210]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:573)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:496)
+	... 34 more
+Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.FileStore.open(FileStore.java:163)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:444)
+	... 28 more
+2023-03-24 17:08:38 database: flush
+org.h2.message.DbException: Všeobecná chyba: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]" [50000-210]
+	at org.h2.message.DbException.get(DbException.java:216)
+	at org.h2.message.DbException.convert(DbException.java:414)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:120)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:3296)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:585)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:461)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4056)
+	at org.h2.mvstore.db.Store.<init>(Store.java:129)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.Driver.connect(Driver.java:59)
+	at com.intellij.database.remote.jdbc.helpers.JdbcHelperImpl.connect(JdbcHelperImpl.java:639)
+	at com.intellij.database.remote.jdbc.impl.RemoteDriverImpl.connect(RemoteDriverImpl.java:55)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:359)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:562)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:796)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:677)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:676)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Všeobecná chyba: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]" [50000-210]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:573)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:496)
+	... 34 more
+Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.FileStore.open(FileStore.java:163)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:444)
+	... 28 more
+2023-03-24 18:08:41 database: flush
+org.h2.message.DbException: Všeobecná chyba: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]" [50000-210]
+	at org.h2.message.DbException.get(DbException.java:216)
+	at org.h2.message.DbException.convert(DbException.java:414)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:120)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:3296)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:585)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:461)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4056)
+	at org.h2.mvstore.db.Store.<init>(Store.java:129)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.Driver.connect(Driver.java:59)
+	at liquibase.database.jvm.JdbcConnection.open(JdbcConnection.java:44)
+	at com.datical.liquibase.ext.database.jvm.ProJdbcConnection.open(Unknown Source)
+	at liquibase.database.ConnectionServiceFactory.create(ConnectionServiceFactory.java:32)
+	at liquibase.database.DatabaseFactory.openConnection(DatabaseFactory.java:214)
+	at liquibase.database.DatabaseFactory.openConnection(DatabaseFactory.java:176)
+	at liquibase.database.DatabaseFactory.openDatabase(DatabaseFactory.java:141)
+	at liquibase.integration.commandline.CommandLineUtils.createDatabaseObject(CommandLineUtils.java:92)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager.u(LiquibaseCommandManager.kt:529)
+	at liquibase.Scope.child(Scope.java:189)
+	at liquibase.Scope.child(Scope.java:165)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager.K(LiquibaseCommandManager.kt:524)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager.L(LiquibaseCommandManager.kt:504)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager.C(LiquibaseCommandManager.kt:496)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager$LiquibaseDbCommandProcessor$run$1.b(LiquibaseCommandManager.kt:587)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager$LiquibaseDbCommandProcessor$run$1.invoke(LiquibaseCommandManager.kt:584)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManagerKt.e(LiquibaseCommandManager.kt:611)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager$LiquibaseDbCommandProcessor.y(LiquibaseCommandManager.kt:584)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager.i(LiquibaseCommandManager.kt:78)
+	at com.haulmont.jpb.re.LiquibaseDbSnapshotGenerator$SnapshotCanceledProgressAction.r(LiquibaseDbSnapshotGenerator.kt:87)
+	at com.haulmont.jpb.re.LiquibaseDbSnapshotGenerator$SnapshotCanceledProgressAction.G(LiquibaseDbSnapshotGenerator.kt:78)
+	at com.haulmont.jpb.util.HProgressManager$runProcessWithCanceledProgressSynchronously$1.T(HProgressManager.kt:36)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Všeobecná chyba: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]" [50000-210]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:573)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:496)
+	... 40 more
+Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Gor12/Desktop/ice-hockey-manager/h2/ice-hockey-manager.mv.db [2.1.210/7]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.FileStore.open(FileStore.java:163)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:444)
+	... 34 more
+2023-03-24 18:08:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Funkcia "VERSION" nenájdená
+Function "VERSION" not found; SQL statement:
+select version() [90022-210]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:651)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:496)
+	at org.h2.message.DbException.get(DbException.java:227)
+	at org.h2.message.DbException.get(DbException.java:203)
+	at org.h2.command.Parser.readFunction(Parser.java:3877)
+	at org.h2.command.Parser.readTerm(Parser.java:5199)
+	at org.h2.command.Parser.readFactor(Parser.java:3423)
+	at org.h2.command.Parser.readSum(Parser.java:3410)
+	at org.h2.command.Parser.readConcat(Parser.java:3375)
+	at org.h2.command.Parser.readCondition(Parser.java:3160)
+	at org.h2.command.Parser.readExpression(Parser.java:3076)
+	at org.h2.command.Parser.parseSelectExpressions(Parser.java:2876)
+	at org.h2.command.Parser.parseSelect(Parser.java:2893)
+	at org.h2.command.Parser.parseQueryPrimary(Parser.java:2783)
+	at org.h2.command.Parser.parseQueryTerm(Parser.java:2650)
+	at org.h2.command.Parser.parseQueryExpressionBody(Parser.java:2629)
+	at org.h2.command.Parser.parseQueryExpressionBodyAndEndOfQuery(Parser.java:2622)
+	at org.h2.command.Parser.parseQueryExpression(Parser.java:2615)
+	at org.h2.command.Parser.parseQuery(Parser.java:2576)
+	at org.h2.command.Parser.parsePrepared(Parser.java:707)
+	at org.h2.command.Parser.parse(Parser.java:674)
+	at org.h2.command.Parser.parse(Parser.java:644)
+	at org.h2.command.Parser.prepareCommand(Parser.java:551)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:615)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:553)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcStatement.executeQuery(JdbcStatement.java:92)
+	at liquibase.database.core.CockroachDatabase.isCorrectDatabaseImplementation(CockroachDatabase.java:38)
+	at liquibase.database.DatabaseFactory.findCorrectDatabaseImplementation(DatabaseFactory.java:101)
+	at liquibase.database.DatabaseFactory.openDatabase(DatabaseFactory.java:141)
+	at liquibase.integration.commandline.CommandLineUtils.createDatabaseObject(CommandLineUtils.java:92)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager.u(LiquibaseCommandManager.kt:529)
+	at liquibase.Scope.child(Scope.java:189)
+	at liquibase.Scope.child(Scope.java:165)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager.K(LiquibaseCommandManager.kt:524)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager.L(LiquibaseCommandManager.kt:504)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager.C(LiquibaseCommandManager.kt:496)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager$LiquibaseDbCommandProcessor$run$1.b(LiquibaseCommandManager.kt:587)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager$LiquibaseDbCommandProcessor$run$1.invoke(LiquibaseCommandManager.kt:584)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManagerKt.e(LiquibaseCommandManager.kt:611)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager$LiquibaseDbCommandProcessor.y(LiquibaseCommandManager.kt:584)
+	at com.haulmont.jpb.liquibase.LiquibaseCommandManager.i(LiquibaseCommandManager.kt:78)
+	at com.haulmont.jpb.re.LiquibaseDbSnapshotGenerator$SnapshotCanceledProgressAction.r(LiquibaseDbSnapshotGenerator.kt:87)
+	at com.haulmont.jpb.re.LiquibaseDbSnapshotGenerator$SnapshotCanceledProgressAction.G(LiquibaseDbSnapshotGenerator.kt:78)
+	at com.haulmont.jpb.util.HProgressManager$runProcessWithCanceledProgressSynchronously$1.T(HProgressManager.kt:36)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
