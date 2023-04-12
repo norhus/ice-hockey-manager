@@ -26,7 +26,6 @@ build:
      - shared-fi
     stage: build
     script:
-     - chmod +x mvnw
      - echo "We are building your project, $GITLAB_USER_LOGIN"
      - ./mvnw clean install $MAVEN_CLI_OPTS
      
