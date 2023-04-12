@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/match")
+@RequestMapping("/api/matches")
 public class MatchController {
 
     private final MatchService matchService;
@@ -21,19 +21,19 @@ public class MatchController {
         this.matchService = matchService;
     }
 
-    @GetMapping("/get-all")
+    @GetMapping
     public ResponseEntity<List<MatchDto>> getAll() {
         return ResponseEntity.ok(matchService.findAll());
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<MatchDto> create(@Valid @RequestBody MatchDto matchDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(matchService.create(matchDto));
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<MatchDto> update(@Valid @RequestBody MatchDto matchDto) {
         try {
             return ResponseEntity.ok(matchService.update(matchDto));

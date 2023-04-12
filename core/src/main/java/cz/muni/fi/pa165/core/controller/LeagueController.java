@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/league")
+@RequestMapping("/api/leagues")
 public class LeagueController {
 
     private final LeagueService leagueService;
@@ -22,7 +22,7 @@ public class LeagueController {
         this.leagueService = leagueService;
     }
 
-    @GetMapping("/get-all")
+    @GetMapping
     public ResponseEntity<List<LeagueDto>> getAll() {
         return ResponseEntity.ok(leagueService.findAll());
     }

@@ -26,7 +26,7 @@ public class HockeyPlayerController {
         this.hockeyPlayerService = hockeyPlayerService;
     }
 
-    @GetMapping("/get-all")
+    @GetMapping
     public ResponseEntity<List<HockeyPlayerDto>> getAll() {
         return ResponseEntity.ok(hockeyPlayerService.findAll());
     }
@@ -36,14 +36,14 @@ public class HockeyPlayerController {
         return ResponseEntity.ok(hockeyPlayerService.getAllWithoutTeam());
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<HockeyPlayerDto> create(@Valid @RequestBody HockeyPlayerDto hockeyPlayerDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(hockeyPlayerService.create(hockeyPlayerDto));
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<HockeyPlayerDto> update(@Valid @RequestBody HockeyPlayerDto hockeyPlayerDto) {
         try {
             return ResponseEntity.ok(hockeyPlayerService.update(hockeyPlayerDto));

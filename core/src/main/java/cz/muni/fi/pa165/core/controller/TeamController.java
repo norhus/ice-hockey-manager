@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/team")
+@RequestMapping("/api/teams")
 public class TeamController {
+
     private final TeamService teamService;
 
     @Autowired
@@ -27,7 +28,7 @@ public class TeamController {
         return ResponseEntity.ok(teamDto);
     }
 
-    @GetMapping("/get-all")
+    @GetMapping
     public ResponseEntity<List<TeamDto>> getAll() {
         return ResponseEntity.ok(teamService.findAll());
     }
