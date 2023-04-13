@@ -1,80 +1,48 @@
 package cz.muni.fi.pa165.leaguetable.service;
 
+import cz.muni.fi.pa165.leaguetable.dataretriever.LeagueDataRetriever;
+import cz.muni.fi.pa165.leaguetable.dataretriever.MatchDataRetriever;
+import cz.muni.fi.pa165.leaguetable.dataretriever.TeamDataRetriever;
+import cz.muni.fi.pa165.leaguetable.exceptions.ResourceNotFoundException;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.*;
 
 @Service
 public class TableService {
 
-    public final WebClient coreClient;
+    private final LeagueDataRetriever leagueDataRetriever;
+    private final TeamDataRetriever teamDataRetriever;
+    private final MatchDataRetriever matchDataRetriever;
 
     @Autowired
-    public TableService(WebClient coreClient) {
-        this.coreClient = coreClient;
+    public TableService(LeagueDataRetriever leagueDataRetriever, TeamDataRetriever teamDataRetriever, MatchDataRetriever matchDataRetriever) {
+        this.leagueDataRetriever = leagueDataRetriever;
+        this.teamDataRetriever = teamDataRetriever;
+        this.matchDataRetriever = matchDataRetriever;
     }
 
-    public TableDto findByLeague(String leagueName) {
-        List<TeamDto> teams = getTeams(leagueName);
-        List<MatchDto> matches = getMatches(leagueName);
-
-        LeagueDto league = coreClient.get()
-                .uri(uriBuilder -> uriBuilder.
-                        pathSegment("api", "league", leagueName).build())
-                .retrieve()
-                .bodyToMono(LeagueDto.class)
-                .block();
+    public TableDto findByLeague(String leagueName) throws ResourceNotFoundException {
+        List<TeamDto> teams = teamDataRetriever.getTeams(leagueName);
+        List<MatchDto> matches = matchDataRetriever.getMatches(leagueName);
+        LeagueDto league = leagueDataRetriever.getLeague(leagueName);
 
         return makeTable(league, teams, matches);
     }
 
-
-    public List<TableDto> findAll() {
+    public List<TableDto> findAll() throws ResourceNotFoundException {
         List<TableDto> tables = new ArrayList<>();
-
-        List<LeagueDto> leagues = coreClient.get()
-                .uri(uriBuilder -> uriBuilder.
-                        pathSegment("api", "league" ,"get-all").build())
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<LeagueDto>>() {})
-                .block();
+        List<LeagueDto> leagues = leagueDataRetriever.getLeagues();
 
         for (var league : leagues) {
             tables.add(findByLeague(league.name()));
         }
 
         return tables;
-    }
-
-    private List<TeamDto> getTeams(String leagueName) {
-        return coreClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .pathSegment("api", "team", "find-by-league", leagueName).build())
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<TeamDto>>() {})
-                .block();
-    }
-
-    private List<MatchDto> getMatches(String leagueName) {
-        return coreClient.get()
-                .uri(uriBuilder -> uriBuilder.
-                        pathSegment("api", "match", leagueName).build())
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<MatchDto>>() {
-                })
-                .block();
-    }
-
-    private static List<TableRowDto> makeRows(List<TeamDto> teams) {
-        return teams.stream()
-                .map(t -> new TableRowDto(t.name()))
-                .toList();
     }
 
     private TableDto makeTable(LeagueDto league, List<TeamDto> teams, List<MatchDto> matches) {
