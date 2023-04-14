@@ -9,7 +9,6 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface HockeyPlayerMapper {
 
-    @Mapping(target = "id", ignore = true)
     HockeyPlayer toEntity(HockeyPlayerDto hockeyPlayerDto);
 
     HockeyPlayerDto toDto(HockeyPlayer hockeyPlayer);

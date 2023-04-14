@@ -1,7 +1,10 @@
 package cz.muni.fi.pa165.core.controller;
 
+import cz.muni.fi.pa165.core.entity.Team;
+import cz.muni.fi.pa165.core.repository.TeamRepository;
 import cz.muni.fi.pa165.model.dto.TeamDto;
 import cz.muni.fi.pa165.core.service.TeamService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +43,23 @@ public class TeamController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(teams);
+    }
+
+    @PutMapping("/{id}/add-hockey-players")
+    public ResponseEntity<TeamDto> addHockeyPlayersByIds(@PathVariable long id, @RequestBody List<Long> hockeyPlayerIds) {
+        try {
+            return ResponseEntity.ok(teamService.addHockeyPlayersByIds(id, hockeyPlayerIds));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}/remove-hockey-players")
+    public ResponseEntity<TeamDto> removeHockeyPlayersByIds(@PathVariable long id, @RequestBody List<Long> hockeyPlayerIds) {
+        try {
+            return ResponseEntity.ok(teamService.removeHockeyPlayersByIds(id, hockeyPlayerIds));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

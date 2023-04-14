@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * A DTO for the Team entity
@@ -19,6 +20,8 @@ public record TeamDto (
         @NotNull
         String name,
         UserDto appUser,
-        LeagueDto league
+        LeagueDto league,
+
+        List<HockeyPlayerDto> hockeyPlayers
 ) {
 }

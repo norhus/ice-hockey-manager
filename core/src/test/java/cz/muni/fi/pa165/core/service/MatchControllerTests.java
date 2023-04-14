@@ -62,8 +62,8 @@ public class MatchControllerTests {
     @Test
     void createMatchValid() throws Exception {
         LeagueDto expectedLeague = new LeagueDto(1L, "TIPOS Extraliga");
-        TeamDto expectedHomeTeam = new TeamDto(2L, "Kosice", null, expectedLeague);
-        TeamDto expectedAwayTeam = new TeamDto(3L, "Banska Bystrica", null, expectedLeague);
+        TeamDto expectedHomeTeam = new TeamDto(2L, "Kosice", null, expectedLeague, List.of());
+        TeamDto expectedAwayTeam = new TeamDto(3L, "Banska Bystrica", null, expectedLeague, List.of());
         MatchDto expectedMatch = new MatchDto(-1L, Instant.parse("2023-04-27T19:00:00.715Z"),
                 null, null, expectedHomeTeam, expectedAwayTeam);
 
@@ -83,8 +83,8 @@ public class MatchControllerTests {
     @Test
     void updateMatchValid() throws Exception {
         LeagueDto expectedLeague = new LeagueDto(1L, "TIPOS Extraliga");
-        TeamDto expectedHomeTeam = new TeamDto(3L, "Banska Bystrica", null, expectedLeague);
-        TeamDto expectedAwayTeam = new TeamDto(4L, "Poprad", null, expectedLeague);
+        TeamDto expectedHomeTeam = new TeamDto(3L, "Banska Bystrica", null, expectedLeague, List.of());
+        TeamDto expectedAwayTeam = new TeamDto(4L, "Poprad", null, expectedLeague, List.of());
         MatchDto expectedMatch = new MatchDto(2L, Instant.parse("2023-03-26T19:00:00.715Z"),
                 3, 2, expectedHomeTeam, expectedAwayTeam);
 
@@ -100,8 +100,8 @@ public class MatchControllerTests {
     @Test
     void updateMatchInvalid() throws Exception {
         LeagueDto expectedLeague = new LeagueDto(1L, "TIPOS Extraliga");
-        TeamDto expectedHomeTeam = new TeamDto(3L, "Banska Bystrica", null, expectedLeague);
-        TeamDto expectedAwayTeam = new TeamDto(4L, "Poprad", null, expectedLeague);
+        TeamDto expectedHomeTeam = new TeamDto(3L, "Banska Bystrica", null, expectedLeague, List.of());
+        TeamDto expectedAwayTeam = new TeamDto(4L, "Poprad", null, expectedLeague, List.of());
         MatchDto expectedMatch = new MatchDto(-1L, Instant.parse("2023-03-26T19:00:00.715Z"),
                 3, 2, expectedHomeTeam, expectedAwayTeam);
 

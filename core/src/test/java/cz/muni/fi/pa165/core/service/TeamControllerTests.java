@@ -41,7 +41,7 @@ public class TeamControllerTests {
     @Test
     void findByNameValid() throws Exception {
         LeagueDto expectedLeagueDto = new LeagueDto(1L, "TIPOS Extraliga");
-        TeamDto expectedTeamDto = new TeamDto(2L, "Kosice", null, expectedLeagueDto);
+        TeamDto expectedTeamDto = new TeamDto(2L, "Kosice", null, expectedLeagueDto, List.of());
 
         String response = mockMvc.perform(get("/api/teams/Kosice"))
                 .andExpect(status().isOk())

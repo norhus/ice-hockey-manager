@@ -49,8 +49,8 @@ public class GameSchedulerControllerTest {
         leagues.add(league);
 
         teams = new ArrayList<>();
-        teams.add(new TeamDto(1L, "Boston Bruins", null, leagues.get(0)));
-        teams.add(new TeamDto(2L, "Tampa Bay Lightning", null, leagues.get(0)));
+        teams.add(new TeamDto(1L, "Boston Bruins", null, leagues.get(0), List.of()));
+        teams.add(new TeamDto(2L, "Tampa Bay Lightning", null, leagues.get(0), List.of()));
 
         matches = new ArrayList<>();
         matches.add(new MatchDto(1L, Instant.parse("2023-04-27T19:00:00.715Z"),
