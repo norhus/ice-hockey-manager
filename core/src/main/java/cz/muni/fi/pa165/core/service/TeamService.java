@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service public class TeamService {
+@Service
+public class TeamService {
 
     private final TeamRepository teamRepository;
     private final HockeyPlayerRepository hockeyPlayerRepository;
