@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.model.dto.MatchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -40,6 +41,12 @@ public class MatchService {
 
     public List<MatchDto> findByLeagueName(String leagueName) {
         return matchRepository.findByHomeTeamLeagueName(leagueName).stream()
+                .map(matchMapper::toDto)
+                .toList();
+    }
+
+    public List<MatchDto> findUnplayedMatchesBeforeToday(Instant today) {
+        return matchRepository.findUnplayedMatchesBeforeToday(today).stream()
                 .map(matchMapper::toDto)
                 .toList();
     }

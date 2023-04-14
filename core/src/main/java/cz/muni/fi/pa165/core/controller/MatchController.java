@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -45,6 +46,15 @@ public class MatchController {
     @GetMapping("/{league}")
     public ResponseEntity<List<MatchDto>> findByLeagueName(@PathVariable String league) {
         List<MatchDto> matches = matchService.findByLeagueName(league);
+        if (matches.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(matches);
+    }
+
+    @GetMapping("/find-before-today")
+    public ResponseEntity<List<MatchDto>> findUnplayedMatchesBeforeToday() {
+        List<MatchDto> matches = matchService.findUnplayedMatchesBeforeToday(Instant.now());
         if (matches.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
