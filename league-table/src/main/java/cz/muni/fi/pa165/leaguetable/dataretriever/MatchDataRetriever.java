@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -19,11 +21,21 @@ public class MatchDataRetriever {
     }
 
     public List<MatchDto> getMatches(String leagueName) {
-        return coreClient.get()
-                .uri(uriBuilder -> uriBuilder.
-                        pathSegment("api", "match", leagueName).build())
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<MatchDto>>() {})
-                .block();
+        List<MatchDto> matches = new ArrayList<>();
+
+        try {
+            matches = coreClient.get()
+                    .uri(uriBuilder -> uriBuilder.
+                            pathSegment("api", "match", leagueName).build())
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<List<MatchDto>>() {})
+                    .block();
+        } catch (WebClientResponseException e) {
+            if (e.getStatusCode().is4xxClientError()) {
+                return matches;
+            }
+        }
+
+        return matches;
     }
 }

@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.leaguetable.service;
 
-import cz.muni.fi.pa165.leaguetable.exceptions.ResourceNotFoundException;
+import cz.muni.fi.pa165.leaguetable.exception.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -11,10 +11,7 @@ import io.swagger.v3.oas.annotations.servers.ServerVariable;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -55,12 +52,8 @@ public class TableController {
             description = "Returns league table by league name"
     )
     @GetMapping("/{league}")
-    public ResponseEntity<TableDto> findByLeague(@PathVariable String league) {
-        try {
-            return ResponseEntity.ok(tableService.findByLeague(league));
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<TableDto> findByLeague(@PathVariable String league) throws ResourceNotFoundException {
+        return ResponseEntity.ok(tableService.findByLeague(league));
     }
 
     @Operation(
@@ -68,11 +61,7 @@ public class TableController {
             description = "Return an array of  object representing league tables"
     )
     @GetMapping("/get-all")
-    public ResponseEntity<List<TableDto>> getAll() {
-        try {
+    public ResponseEntity<List<TableDto>> getAll() throws ResourceNotFoundException {
             return ResponseEntity.ok(tableService.findAll());
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 }

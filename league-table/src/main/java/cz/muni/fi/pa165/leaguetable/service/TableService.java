@@ -3,7 +3,7 @@ package cz.muni.fi.pa165.leaguetable.service;
 import cz.muni.fi.pa165.leaguetable.dataretriever.LeagueDataRetriever;
 import cz.muni.fi.pa165.leaguetable.dataretriever.MatchDataRetriever;
 import cz.muni.fi.pa165.leaguetable.dataretriever.TeamDataRetriever;
-import cz.muni.fi.pa165.leaguetable.exceptions.ResourceNotFoundException;
+import cz.muni.fi.pa165.leaguetable.exception.ResourceNotFoundException;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
@@ -27,9 +27,9 @@ public class TableService {
     }
 
     public TableDto findByLeague(String leagueName) throws ResourceNotFoundException {
+        LeagueDto league = leagueDataRetriever.getLeague(leagueName);
         List<TeamDto> teams = teamDataRetriever.getTeams(leagueName);
         List<MatchDto> matches = matchDataRetriever.getMatches(leagueName);
-        LeagueDto league = leagueDataRetriever.getLeague(leagueName);
 
         return makeTable(league, teams, matches);
     }

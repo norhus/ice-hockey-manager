@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.leaguetable.exceptions;
+package cz.muni.fi.pa165.leaguetable.exception;
 
 public class ResourceNotFoundException extends Exception {
 

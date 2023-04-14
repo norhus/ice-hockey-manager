@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.leaguetable.dataretriever;
 
-import cz.muni.fi.pa165.leaguetable.exceptions.ResourceNotFoundException;
+import cz.muni.fi.pa165.leaguetable.exception.ResourceNotFoundException;
 import cz.muni.fi.pa165.model.dto.TeamDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
