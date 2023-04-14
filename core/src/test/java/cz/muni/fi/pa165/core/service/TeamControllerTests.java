@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,7 +31,7 @@ public class TeamControllerTests {
     void getAll() throws Exception {
         int expLen = 10;
 
-        String response = mockMvc.perform(get("/api/team/get-all"))
+        String response = mockMvc.perform(get("/api/teams"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         List<TeamDto> teams = objectMapper.readValue(response, new TypeReference<List<TeamDto>>(){});
@@ -40,10 +41,10 @@ public class TeamControllerTests {
 
     @Test
     void findByNameValid() throws Exception {
-        LeagueDto expectedLeagueDto = new LeagueDto(1L, "TIPOS Extraliga");
-        TeamDto expectedTeamDto = new TeamDto(2L, "Kosice", null, expectedLeagueDto);
+        LeagueDto expectedLeagueDto = new LeagueDto(1L, "TIPOS Extraliga", null);
+        TeamDto expectedTeamDto = new TeamDto(2L, "Kosice", null, expectedLeagueDto, null);
 
-        String response = mockMvc.perform(get("/api/team/Kosice"))
+        String response = mockMvc.perform(get("/api/teams/Kosice"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         TeamDto teamDto = objectMapper.readValue(response, TeamDto.class);
@@ -55,7 +56,7 @@ public class TeamControllerTests {
 
     @Test
     void findByNameInvalid() throws Exception {
-        mockMvc.perform(get("/api/team/Zabokreky"))
+        mockMvc.perform(get("/api/teams/Zabokreky"))
                 .andExpect(status().isNotFound());
     }
 
@@ -63,7 +64,7 @@ public class TeamControllerTests {
     void findByLeagueNameValid() throws Exception {
         String expectedLeagueName = "TIPOS Extraliga";
 
-        String response = mockMvc.perform(get("/api/team/find-by-league/TIPOS Extraliga"))
+        String response = mockMvc.perform(get("/api/teams/find-by-league/TIPOS Extraliga"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         List<TeamDto> teams = objectMapper.readValue(response, new TypeReference<List<TeamDto>>(){});
@@ -73,7 +74,7 @@ public class TeamControllerTests {
 
     @Test
     void findByLeagueNameInvalid() throws Exception {
-        mockMvc.perform(get("/api/team/find-by-league/superliga"))
+        mockMvc.perform(get("/api/teams/find-by-league/superliga"))
                 .andExpect(status().isNotFound());
     }
 }

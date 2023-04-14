@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "team")
 public class Team {
@@ -24,6 +28,27 @@ public class Team {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "league_id")
     private League league;
+
+    @OneToMany(mappedBy = "team")
+    private Set<HockeyPlayer> hockeyPlayers = new LinkedHashSet<>();
+
+    public Set<HockeyPlayer> getHockeyPlayers() {
+        return hockeyPlayers;
+    }
+
+    public void setHockeyPlayers(Set<HockeyPlayer> hockeyPlayers) {
+        this.hockeyPlayers = hockeyPlayers;
+    }
+
+    public void addHockeyPlayers(List<HockeyPlayer> hockeyPlayers) {
+        this.hockeyPlayers.addAll(hockeyPlayers);
+        hockeyPlayers.forEach(it -> it.setTeam(this));
+    }
+
+    public void removeHockeyPlayers(List<HockeyPlayer> hockeyPlayers) {
+        hockeyPlayers.forEach(this.hockeyPlayers::remove);
+        hockeyPlayers.forEach(it -> it.setTeam(null));
+    }
 
     public Long getId() {
         return id;

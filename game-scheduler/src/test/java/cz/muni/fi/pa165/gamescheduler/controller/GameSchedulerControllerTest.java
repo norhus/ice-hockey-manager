@@ -43,14 +43,14 @@ public class GameSchedulerControllerTest {
 
     @BeforeEach
     public void setUp() {
-        LeagueDto league = new LeagueDto(1L, "NHL");
+        LeagueDto league = new LeagueDto(1L, "NHL", null);
 
         List<LeagueDto> leagues = new ArrayList<>();
         leagues.add(league);
 
         teams = new ArrayList<>();
-        teams.add(new TeamDto(1L, "Boston Bruins", null, leagues.get(0)));
-        teams.add(new TeamDto(2L, "Tampa Bay Lightning", null, leagues.get(0)));
+        teams.add(new TeamDto(1L, "Boston Bruins", null, leagues.get(0), null));
+        teams.add(new TeamDto(2L, "Tampa Bay Lightning", null, leagues.get(0), null));
 
         matches = new ArrayList<>();
         matches.add(new MatchDto(1L, Instant.parse("2023-04-27T19:00:00.715Z"),
@@ -64,7 +64,7 @@ public class GameSchedulerControllerTest {
 
         when(gameSchedulerService.generate(leagueName)).thenReturn(expected);
 
-        String response = mockMvc.perform(get("/api/game-scheduler/generate/NHL"))
+        String response = mockMvc.perform(get("/api/game-schedulers/generate/NHL"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
@@ -85,7 +85,7 @@ public class GameSchedulerControllerTest {
 
         when(gameSchedulerService.generateAll()).thenReturn(expected);
 
-        String response = mockMvc.perform(get("/api/game-scheduler/generate-all"))
+        String response = mockMvc.perform(get("/api/game-schedulers/generate-all"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 

@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.io.Serializable;
 import java.time.Instant;
 
 /**
@@ -23,5 +22,5 @@ public record MatchDto(
         Integer awayGoals,
         TeamDto homeTeam,
         TeamDto awayTeam
-) implements Serializable {
+) {
 }

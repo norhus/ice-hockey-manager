@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,7 +30,7 @@ public class LeagueControllerTests {
     void getAll() throws Exception {
         int expLen = 2;
 
-        String response = mockMvc.perform(get("/api/league/get-all"))
+        String response = mockMvc.perform(get("/api/leagues"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         List<LeagueDto> leagues = objectMapper.readValue(response, new TypeReference<List<LeagueDto>>(){});
@@ -39,9 +40,9 @@ public class LeagueControllerTests {
 
     @Test
     void findByNameValid() throws Exception {
-        LeagueDto expectedLeagueDto = new LeagueDto(1L, "TIPOS Extraliga");
+        LeagueDto expectedLeagueDto = new LeagueDto(1L, "TIPOS Extraliga", null);
 
-        String response = mockMvc.perform(get("/api/league/TIPOS Extraliga"))
+        String response = mockMvc.perform(get("/api/leagues/TIPOS Extraliga"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         LeagueDto leagueDto = objectMapper.readValue(response, LeagueDto.class);
@@ -52,7 +53,7 @@ public class LeagueControllerTests {
 
     @Test
     void findByNameInvalid() throws Exception {
-        mockMvc.perform(get("/api/league/superliga"))
+        mockMvc.perform(get("/api/leagues/superliga"))
                 .andExpect(status().isNotFound());
     }
 }

@@ -11,5 +11,5 @@ public record GameSchedulerDto (
         Instant generatedAt,
         List<TeamDto> teams,
         List<MatchDto> matches
-) implements Serializable {
+) {
 }

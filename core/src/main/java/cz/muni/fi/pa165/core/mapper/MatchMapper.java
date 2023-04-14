@@ -10,8 +10,9 @@ public interface MatchMapper {
     @Mapping(target = "id", ignore = true)
     Match toEntity(MatchDto matchDto);
 
+    @Mapping(target = "homeTeam.league", ignore = true)
+    @Mapping(target = "awayTeam.league", ignore = true)
     MatchDto toDto(Match match);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Match updateMatchFromMatchDto(MatchDto matchDto, @MappingTarget Match match);
+    Match update(MatchDto matchDto, @MappingTarget Match match);
 }

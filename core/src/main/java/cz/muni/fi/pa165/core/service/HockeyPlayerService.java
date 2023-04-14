@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.model.dto.HockeyPlayerDto;
 import cz.muni.fi.pa165.core.entity.HockeyPlayer;
 import cz.muni.fi.pa165.core.mapper.HockeyPlayerMapper;
 import cz.muni.fi.pa165.core.repository.HockeyPlayerRepository;
+import cz.muni.fi.pa165.model.dto.TeamDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class HockeyPlayerService {
         HockeyPlayer hockeyPlayer = hockeyPlayerRepository.findById(hockeyPlayerDto.id())
                 .orElseThrow(() -> new IllegalArgumentException("Not found hockey player with id: " + hockeyPlayerDto.id()));
 
-        return hockeyPlayerMapper.toDto(hockeyPlayerRepository.save(hockeyPlayerMapper.updateHockeyPlayerFromHockeyPlayerDto(hockeyPlayerDto, hockeyPlayer)));
+        return hockeyPlayerMapper.toDto(hockeyPlayerRepository.save(hockeyPlayerMapper.update(hockeyPlayerDto, hockeyPlayer)));
     }
 
     public List<HockeyPlayerDto> findAll() {
@@ -42,5 +43,17 @@ public class HockeyPlayerService {
         return hockeyPlayerRepository.findAllByTeamIdIsNull().stream()
                 .map(hockeyPlayerMapper::toDto)
                 .toList();
+    }
+
+    public HockeyPlayerDto findById(long id) {
+        return hockeyPlayerMapper.toDto(
+                hockeyPlayerRepository.findById(id).orElseThrow(
+                        () -> new IllegalArgumentException("Not found hockey player with id: " + id)
+                )
+        );
+    }
+
+    public void deleteById(long id) {
+        hockeyPlayerRepository.deleteById(id);
     }
 }

@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A DTO for the Team entity
@@ -19,6 +21,8 @@ public record TeamDto (
         @NotNull
         String name,
         UserDto appUser,
-        LeagueDto league
-) implements Serializable {
+        LeagueDto league,
+
+        Set<HockeyPlayerDto> hockeyPlayers
+) {
 }

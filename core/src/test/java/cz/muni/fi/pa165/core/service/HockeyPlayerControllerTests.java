@@ -30,7 +30,7 @@ public class HockeyPlayerControllerTests {
     void getAll() throws Exception {
         int expLen = 5;
 
-        String response = mockMvc.perform(get("/api/hockey-players/get-all"))
+        String response = mockMvc.perform(get("/api/hockey-players"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         List<HockeyPlayerDto> hockeyPlayers = objectMapper.readValue(response, new TypeReference<List<HockeyPlayerDto>>(){});
@@ -54,7 +54,7 @@ public class HockeyPlayerControllerTests {
                 Instant.parse("1974-10-22T13:13:13.715Z"), "winger", 99, 99, 99,
                 99, 99, 99, null);
 
-        String response = mockMvc.perform(post("/api/hockey-players/create").contentType("application/json")
+        String response = mockMvc.perform(post("/api/hockey-players").contentType("application/json")
                         .content(objectMapper.writeValueAsString(expectedHockeyPlayer)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
@@ -79,7 +79,7 @@ public class HockeyPlayerControllerTests {
                 Instant.parse("1998-12-12T20:46:24.715Z"), "attacker", 90, 80,
                 99, 35, 85, 40, null);
 
-        String response = mockMvc.perform(put("/api/hockey-players/update").contentType("application/json")
+        String response = mockMvc.perform(put("/api/hockey-players").contentType("application/json")
                         .content(objectMapper.writeValueAsString(expectedHockeyPlayer)))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -94,7 +94,7 @@ public class HockeyPlayerControllerTests {
                 Instant.parse("1998-12-12T20:46:24.715Z"), "attacker", 90, 80,
                 99, 35, 85, 40, null);
 
-        mockMvc.perform(put("/api/hockey-players/update").contentType("application/json")
+        mockMvc.perform(put("/api/hockey-players").contentType("application/json")
                         .content(objectMapper.writeValueAsString(expectedHockeyPlayer)))
                 .andExpect(status().isNotFound());
     }
