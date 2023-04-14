@@ -10,8 +10,8 @@ public interface MatchMapper {
     @Mapping(target = "id", ignore = true)
     Match toEntity(MatchDto matchDto);
 
-    @Mapping(target = "homeTeam.league", ignore = true)
-    @Mapping(target = "awayTeam.league", ignore = true)
+    @Mapping(target = "homeTeam.league.teams", ignore = true)
+    @Mapping(target = "awayTeam.league.teams", ignore = true)
     MatchDto toDto(Match match);
 
     Match update(MatchDto matchDto, @MappingTarget Match match);

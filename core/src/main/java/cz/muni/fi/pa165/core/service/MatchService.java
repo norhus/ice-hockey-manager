@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class MatchService {
@@ -49,5 +51,16 @@ public class MatchService {
         return matchRepository.findUnplayedMatchesBeforeToday(today).stream()
                 .map(matchMapper::toDto)
                 .toList();
+    }
+
+    public List<MatchDto> playUnplayedMatches() {
+        List<MatchDto> unplayedMatches = findUnplayedMatchesBeforeToday(Instant.now());
+        List<MatchDto> playedMatches = new ArrayList<>();
+        Random randomNum = new Random();
+        for (MatchDto match: unplayedMatches) {
+            playedMatches.add(update(new MatchDto(match.id(), match.dateOfMatch(), randomNum.nextInt(6),
+                    randomNum.nextInt(6), match.homeTeam(), match.awayTeam())));
+        }
+        return playedMatches;
     }
 }
