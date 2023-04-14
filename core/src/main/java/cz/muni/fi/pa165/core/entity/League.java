@@ -5,9 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "league")
@@ -21,6 +25,23 @@ public class League {
     @NotNull
     @Column(name = "name", nullable = false, length = 64)
     private String name;
+
+    @OneToMany(mappedBy = "league")
+    private Set<Team> teams = new LinkedHashSet<>();
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
+    }
+
+    public void addTeam(Team team) {
+        this.teams.add(team);
+        team.setLeague(this);
+    }
+
 
     public Long getId() {
         return id;

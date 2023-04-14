@@ -31,7 +31,7 @@ class TableControllerTest {
     @MockBean
     private TableService tableService;
 
-    private final TableDto mockTableDto = new TableDto(new LeagueDto(2L, "NHL"), List.of());
+    private final TableDto mockTableDto = new TableDto(new LeagueDto(2L, "NHL", null), null);
 
     @Test
     void findByLeague() throws Exception {

@@ -1,13 +1,16 @@
 package cz.muni.fi.pa165.core.controller;
 
-import cz.muni.fi.pa165.core.entity.Team;
-import cz.muni.fi.pa165.core.repository.TeamRepository;
-import cz.muni.fi.pa165.model.dto.TeamDto;
 import cz.muni.fi.pa165.core.service.TeamService;
-import jakarta.validation.Valid;
+import cz.muni.fi.pa165.model.dto.LeagueDto;
+import cz.muni.fi.pa165.model.dto.TeamDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -58,6 +61,15 @@ public class TeamController {
     public ResponseEntity<TeamDto> removeHockeyPlayersByIds(@PathVariable long id, @RequestBody List<Long> hockeyPlayerIds) {
         try {
             return ResponseEntity.ok(teamService.removeHockeyPlayersByIds(id, hockeyPlayerIds));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}/change-league")
+    public ResponseEntity<TeamDto> changeLeague(@PathVariable long id, @RequestBody LeagueDto leagueDto) {
+        try {
+            return ResponseEntity.ok(teamService.changeLeague(id, leagueDto));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }

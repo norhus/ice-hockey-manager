@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A DTO for the Team entity
@@ -22,6 +23,6 @@ public record TeamDto (
         UserDto appUser,
         LeagueDto league,
 
-        List<HockeyPlayerDto> hockeyPlayers
+        Set<HockeyPlayerDto> hockeyPlayers
 ) {
 }

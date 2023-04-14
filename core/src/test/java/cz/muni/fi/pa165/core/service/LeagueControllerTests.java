@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -39,7 +40,7 @@ public class LeagueControllerTests {
 
     @Test
     void findByNameValid() throws Exception {
-        LeagueDto expectedLeagueDto = new LeagueDto(1L, "TIPOS Extraliga");
+        LeagueDto expectedLeagueDto = new LeagueDto(1L, "TIPOS Extraliga", null);
 
         String response = mockMvc.perform(get("/api/leagues/TIPOS Extraliga"))
                 .andExpect(status().isOk())

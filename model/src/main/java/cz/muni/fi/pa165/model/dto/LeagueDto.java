@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.Set;
+
 /**
  * A DTO for the League entity
  */
@@ -14,6 +16,8 @@ public record LeagueDto(
         @Schema(example = "TIPOS Extraliga")
         @Size(max = 64)
         @NotNull
-        String name
+        String name,
+
+        Set<TeamDto> teams
 ) {
 }
