@@ -27,7 +27,7 @@ public class TeamDataRetriever {
         try {
             teams = coreClient.get()
                     .uri(uriBuilder -> uriBuilder
-                            .pathSegment("api", "team", "find-by-league", leagueName).build())
+                            .pathSegment("api", "teams", "find-by-league", leagueName).build())
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<List<TeamDto>>() {})
                     .block();

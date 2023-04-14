@@ -27,7 +27,7 @@ public class LeagueDataRetriever {
         try {
             league = coreClient.get()
                     .uri(uriBuilder -> uriBuilder.
-                            pathSegment("api", "league", leagueName).build())
+                            pathSegment("api", "leagues", leagueName).build())
                     .retrieve()
                     .bodyToMono(LeagueDto.class)
                     .block();
@@ -46,7 +46,7 @@ public class LeagueDataRetriever {
         try {
             leagues = coreClient.get()
                     .uri(uriBuilder -> uriBuilder.
-                            pathSegment("api", "league" ,"get-all").build())
+                            pathSegment("api", "leagues").build())
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<List<LeagueDto>>() {})
                     .block();
