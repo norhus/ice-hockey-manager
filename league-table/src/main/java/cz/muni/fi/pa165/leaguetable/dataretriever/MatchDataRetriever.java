@@ -26,7 +26,7 @@ public class MatchDataRetriever {
         try {
             matches = coreClient.get()
                     .uri(uriBuilder -> uriBuilder.
-                            pathSegment("api", "matches", leagueName).build())
+                            pathSegment("api", "matches", "find-played-matches", leagueName).build())
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<List<MatchDto>>() {})
                     .block();

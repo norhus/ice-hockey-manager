@@ -28,6 +28,7 @@ public class TableService {
 
     public TableDto findByLeague(String leagueName) throws ResourceNotFoundException {
         LeagueDto league = leagueDataRetriever.getLeague(leagueName);
+        league = new LeagueDto(league.id(), league.name(), null);
         List<TeamDto> teams = teamDataRetriever.getTeams(leagueName);
         List<MatchDto> matches = matchDataRetriever.getMatches(leagueName);
 
