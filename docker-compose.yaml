@@ -8,3 +8,8 @@ services:
     image: league-table:latest
     ports:
       - "8083:8083"
+  model:
+    container_name: model
+    build:
+      context: model
+    image: model:latest
