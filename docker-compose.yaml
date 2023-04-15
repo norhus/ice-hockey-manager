@@ -10,11 +10,6 @@ services:
       - "8080:8080"
     depends_on:
       - core-db
-    #    environment:
-#      SPRING_DATASOURCE_URL: jdbc:h2:tcp://db:1521/league_table
-#      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
-#      SPRING_DATASOURCE_USERNAME: sa
-#      SPRING_DATASOURCE_PASSWORD: password
     volumes:
       - ./core/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
       - ./core/src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql
