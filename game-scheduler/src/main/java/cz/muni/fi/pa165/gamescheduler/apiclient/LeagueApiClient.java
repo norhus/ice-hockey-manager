@@ -9,12 +9,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.List;
 
 @Component
-public class LeagueDataRetriever {
+public class LeagueApiClient {
 
     public final WebClient coreClient;
 
     @Autowired
-    public LeagueDataRetriever(WebClient coreClient) {
+    public LeagueApiClient(WebClient coreClient) {
         this.coreClient = coreClient;
     }
 

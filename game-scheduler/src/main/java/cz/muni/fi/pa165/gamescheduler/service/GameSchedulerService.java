@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165.gamescheduler.service;
 
 import cz.muni.fi.pa165.gamescheduler.apiclient.MatchApiClient;
-import cz.muni.fi.pa165.gamescheduler.apiclient.LeagueDataRetriever;
-import cz.muni.fi.pa165.gamescheduler.apiclient.TeamDataRetriever;
+import cz.muni.fi.pa165.gamescheduler.apiclient.LeagueApiClient;
+import cz.muni.fi.pa165.gamescheduler.apiclient.TeamApiClient;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
@@ -19,21 +19,21 @@ import java.util.stream.Collectors;
 @Service
 public class GameSchedulerService {
 
-    private final TeamDataRetriever teamDataRetriever;
-    private final LeagueDataRetriever leagueDataRetriever;
+    private final TeamApiClient teamApiClient;
+    private final LeagueApiClient leagueApiClient;
     private final MatchApiClient matchApiClient;
 
     @Autowired
-    public GameSchedulerService(TeamDataRetriever teamDataRetriever, LeagueDataRetriever leagueDataRetriever,
+    public GameSchedulerService(TeamApiClient teamApiClient, LeagueApiClient leagueApiClient,
                                 MatchApiClient matchApiClient) {
-        this.teamDataRetriever = teamDataRetriever;
-        this.leagueDataRetriever = leagueDataRetriever;
+        this.teamApiClient = teamApiClient;
+        this.leagueApiClient = leagueApiClient;
         this.matchApiClient = matchApiClient;
     }
 
     public GameSchedulerDto generate(String leagueName) {
 
-        List<TeamDto> teams = teamDataRetriever.getTeams(leagueName);
+        List<TeamDto> teams = teamApiClient.getTeams(leagueName);
         int numOfTeams = teams.size();
         boolean ghost = false;
         if (numOfTeams % 2 != 0) {
@@ -105,7 +105,7 @@ public class GameSchedulerService {
 
     public List<GameSchedulerDto> generateAll() {
 
-        List<LeagueDto> leagues = leagueDataRetriever.getLeagues();
+        List<LeagueDto> leagues = leagueApiClient.getLeagues();
 
         return leagues.stream().map(l -> generate(l.name())).collect(Collectors.toList());
     }
