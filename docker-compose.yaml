@@ -1,6 +1,24 @@
 version: '3'
 
 services:
+  core:
+    container_name: core
+    build:
+      context: core
+    image: core:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - core-db
+    #    environment:
+#      SPRING_DATASOURCE_URL: jdbc:h2:tcp://db:1521/league_table
+#      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
+#      SPRING_DATASOURCE_USERNAME: sa
+#      SPRING_DATASOURCE_PASSWORD: password
+    volumes:
+      - ./core/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./core/src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql
+
   league-table:
     container_name: league-table
     build:
@@ -8,14 +26,22 @@ services:
     image: league-table:latest
     ports:
       - "8083:8083"
+    environment:
+      core.url: http://core:8080/
+    depends_on:
+      - core
 
   game-scheduler:
     container_name: game-scheduler
     build:
       context: game-scheduler
     image: game-scheduler:latest
+    environment:
+      core.url: http://core:8080/
     ports:
       - "8082:8082"
+    depends_on:
+      - core
 
   model:
     container_name: model
@@ -23,4 +49,12 @@ services:
       context: model
     image: model:latest
 
-
+  core-db:
+    image: postgres:15.2-alpine
+    container_name: core-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
