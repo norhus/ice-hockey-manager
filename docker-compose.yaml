@@ -8,8 +8,19 @@ services:
     image: league-table:latest
     ports:
       - "8083:8083"
+
+  game-scheduler:
+    container_name: game-scheduler
+    build:
+      context: game-scheduler
+    image: game-scheduler:latest
+    ports:
+      - "8082:8082"
+
   model:
     container_name: model
     build:
       context: model
     image: model:latest
+
+
