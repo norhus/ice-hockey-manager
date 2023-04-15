@@ -21,7 +21,8 @@ VALUES
     ('Tampa Bay Lightning', NULL, 2),
     ('Pittsburgh Penguins', NULL, 2),
     ('Dallas Stars', NULL, 2),
-    ('Washington Capitals', NULL, 2)
+    ('Washington Capitals', NULL, 2),
+    ('Toronto Maple Leafs', NULL, 2)
 ;
 
 INSERT INTO hockey_player(first_name, last_name, date_of_birth, position, skating, physical, shooting, defense, puck_skills, senses, team_id)
@@ -35,7 +36,10 @@ VALUES
 
 INSERT INTO match(date_of_match, home_goals, away_goals, home_team, away_team)
 VALUES
-    ('2023-04-27 19:10:25-07', 2, 1, 1, 2),
-    ('2023-04-25 19:10:25-07', 7, 0, 3, 4),
-    ('2023-04-22 19:10:25-07', 1, 6, 5, 2)
+    ('2023-04-10 19:10:25-07', 2, 1, 1, 2),
+    ('2023-04-11 19:10:25-07', 7, 0, 3, 4),
+    ('2023-04-09 19:10:25-07', 1, 6, 5, 2),
+    ('2023-04-10 19:10:25-07', null, null, 6, 7),
+    ('2023-04-11 19:10:25-07', null, null, 8, 9),
+    ('2023-04-09 19:10:25-07', null, null, 10, 11)
 ;
