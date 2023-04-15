@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  league-table:
+    container_name: league-table
+    build:
+      context: league-table
+    image: league-table:latest
+    ports:
+      - "8083:8083"
