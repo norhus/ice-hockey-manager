@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165.gamescheduler.service;
 
 import cz.muni.fi.pa165.gamescheduler.apiclient.MatchApiClient;
-import cz.muni.fi.pa165.gamescheduler.dataretriever.LeagueDataRetriever;
-import cz.muni.fi.pa165.gamescheduler.dataretriever.TeamDataRetriever;
+import cz.muni.fi.pa165.gamescheduler.apiclient.LeagueDataRetriever;
+import cz.muni.fi.pa165.gamescheduler.apiclient.TeamDataRetriever;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
