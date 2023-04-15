@@ -8,7 +8,6 @@ import cz.muni.fi.pa165.model.dto.MatchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -47,14 +46,14 @@ public class MatchService {
                 .toList();
     }
 
-    public List<MatchDto> findUnplayedMatchesBeforeToday(Instant today) {
-        return matchRepository.findUnplayedMatchesBeforeToday(today).stream()
+    public List<MatchDto> findUnplayedMatchesBeforeNow() {
+        return matchRepository.findUnplayedMatchesBeforeNow().stream()
                 .map(matchMapper::toDto)
                 .toList();
     }
 
     public List<MatchDto> playUnplayedMatches() {
-        List<MatchDto> unplayedMatches = findUnplayedMatchesBeforeToday(Instant.now());
+        List<MatchDto> unplayedMatches = findUnplayedMatchesBeforeNow();
         List<MatchDto> playedMatches = new ArrayList<>();
         Random randomNum = new Random();
         for (MatchDto match: unplayedMatches) {

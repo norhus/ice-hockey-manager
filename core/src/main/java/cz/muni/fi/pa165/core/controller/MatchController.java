@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -53,8 +52,8 @@ public class MatchController {
     }
 
     @GetMapping("/find-unplayed-matches")
-    public ResponseEntity<List<MatchDto>> findUnplayedMatchesBeforeToday() {
-        List<MatchDto> matches = matchService.findUnplayedMatchesBeforeToday(Instant.now());
+    public ResponseEntity<List<MatchDto>> findUnplayedMatchesBeforeNow() {
+        List<MatchDto> matches = matchService.findUnplayedMatchesBeforeNow();
         if (matches.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
