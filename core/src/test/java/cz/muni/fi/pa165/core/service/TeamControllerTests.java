@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,7 +28,7 @@ public class TeamControllerTests {
 
     @Test
     void getAll() throws Exception {
-        int expLen = 10;
+        int expLen = 11;
 
         String response = mockMvc.perform(get("/api/teams"))
                 .andExpect(status().isOk())

@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -31,7 +30,7 @@ public class MatchControllerTests {
 
     @Test
     void getAll() throws Exception {
-        int expLen = 3;
+        int expLen = 6;
 
         String response = mockMvc.perform(get("/api/matches"))
                 .andExpect(status().isOk())
