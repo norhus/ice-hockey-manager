@@ -1,14 +1,14 @@
 package cz.muni.fi.pa165.gamescheduler.service;
 
+import cz.muni.fi.pa165.gamescheduler.apiclient.MatchApiClient;
+import cz.muni.fi.pa165.gamescheduler.apiclient.LeagueApiClient;
+import cz.muni.fi.pa165.gamescheduler.apiclient.TeamApiClient;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
 import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -19,22 +19,21 @@ import java.util.stream.Collectors;
 @Service
 public class GameSchedulerService {
 
-    public final WebClient coreClient;
+    private final TeamApiClient teamApiClient;
+    private final LeagueApiClient leagueApiClient;
+    private final MatchApiClient matchApiClient;
 
     @Autowired
-    public GameSchedulerService(WebClient coreClient) {
-        this.coreClient = coreClient;
+    public GameSchedulerService(TeamApiClient teamApiClient, LeagueApiClient leagueApiClient,
+                                MatchApiClient matchApiClient) {
+        this.teamApiClient = teamApiClient;
+        this.leagueApiClient = leagueApiClient;
+        this.matchApiClient = matchApiClient;
     }
 
     public GameSchedulerDto generate(String leagueName) {
 
-        List<TeamDto> teams = coreClient.get()
-                .uri(uriBuilder -> uriBuilder.pathSegment("api", "teams", "find-by-league", leagueName)
-                        .build())
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<TeamDto>>() {})
-                .block();
-
+        List<TeamDto> teams = teamApiClient.getTeams(leagueName);
         int numOfTeams = teams.size();
         boolean ghost = false;
         if (numOfTeams % 2 != 0) {
@@ -97,13 +96,7 @@ public class GameSchedulerService {
         for (List<Pair<TeamDto, TeamDto>> fixture: fixtures) {
             gameDate = gameDate.plus(2, ChronoUnit.DAYS);
             for (Pair<TeamDto, TeamDto> matchTeams : fixture) {
-                matches.add(coreClient.post()
-                .uri(uriBuilder -> uriBuilder.pathSegment("api", "matches").build())
-                .body(Mono.just(new MatchDto(0L, gameDate,
-                        null, null, matchTeams.getValue0(), matchTeams.getValue1())), MatchDto.class)
-                .retrieve()
-                .bodyToMono(MatchDto.class)
-                .block());
+                matches.add(matchApiClient.postMatch(gameDate, matchTeams));
             }
         }
 
@@ -112,12 +105,7 @@ public class GameSchedulerService {
 
     public List<GameSchedulerDto> generateAll() {
 
-        List<LeagueDto> leagues = coreClient.get()
-                .uri(uriBuilder -> uriBuilder.
-                        pathSegment("api", "leagues").build())
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<LeagueDto>>() {})
-                .block();
+        List<LeagueDto> leagues = leagueApiClient.getLeagues();
 
         return leagues.stream().map(l -> generate(l.name())).collect(Collectors.toList());
     }
