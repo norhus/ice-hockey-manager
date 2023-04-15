@@ -35,10 +35,12 @@ This can be found in the `data.sql` file located in the `core/src/main/resources
 the project and generate the JAR files for each microservice.
 2. In the root directory of the project, run the following command 
 to build the Podman images for each microservice:
+
     ```bash 
     podman-compose build
     ```
 3. Once the images are built, run the following command to start the containers:
+
     ```bash 
     podman-compose up
     ```
@@ -47,7 +49,9 @@ web browser at the following URLs:
    - `core` - http://localhost:8080/swagger-ui/index.html
    - `game-scheduler` - http://localhost:8082/swagger-ui/index.html
    - `league-table` - http://localhost:8083/swagger-ui/index.html
+
 4. To stop the containers, run the following command:
+
    ```bash 
    podman-compose down
    ```
