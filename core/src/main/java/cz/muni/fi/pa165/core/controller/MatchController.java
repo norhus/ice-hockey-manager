@@ -53,19 +53,11 @@ public class MatchController {
 
     @GetMapping("/find-unplayed-matches")
     public ResponseEntity<List<MatchDto>> findUnplayedMatchesBeforeNow() {
-        List<MatchDto> matches = matchService.findUnplayedMatchesBeforeNow();
-        if (matches.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(matches);
+        return ResponseEntity.ok(matchService.findUnplayedMatchesBeforeNow());
     }
 
     @GetMapping("/play-unplayed-matches")
     public ResponseEntity<List<MatchDto>> playUnplayedMatches() {
-        List<MatchDto> matches = matchService.playUnplayedMatches();
-        if (matches.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(matches);
+        return ResponseEntity.ok(matchService.playUnplayedMatches());
     }
 }
