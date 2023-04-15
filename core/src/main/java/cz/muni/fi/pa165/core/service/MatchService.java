@@ -8,7 +8,6 @@ import cz.muni.fi.pa165.model.dto.MatchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -64,8 +63,8 @@ public class MatchService {
         return playedMatches;
     }
 
-    public List<MatchDto> findPlayedMatchesByLeague(Instant today, String leagueName) {
-        return matchRepository.findPlayedMatchesByLeague(today, leagueName).stream()
+    public List<MatchDto> findPlayedMatchesByLeague(String leagueName) {
+        return matchRepository.findPlayedMatchesByLeague(leagueName).stream()
                 .map(matchMapper::toDto)
                 .toList();
     }
