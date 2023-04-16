@@ -1,5 +1,6 @@
-package cz.muni.fi.pa165.leaguetable.exception;
+package cz.muni.fi.pa165.leaguetable.handler;
 
+import cz.muni.fi.pa165.leaguetable.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
