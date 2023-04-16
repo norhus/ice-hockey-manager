@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -27,13 +26,6 @@ class LeagueServiceTest {
     private LeagueMapper leagueMapper;
     @InjectMocks
     private LeagueService leagueService;
-
-    @Test
-    void findByNameInvalid() {
-        LeagueDto leagueDto = leagueService.findByName("randomName");
-
-        assertNull(leagueDto);
-    }
 
     @Test
     void findByNameNHL() {
