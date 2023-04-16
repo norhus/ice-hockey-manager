@@ -60,4 +60,14 @@ public class MatchController {
     public ResponseEntity<List<MatchDto>> playUnplayedMatches() {
         return ResponseEntity.ok(matchService.playUnplayedMatches());
     }
+
+    @GetMapping("/find-played-matches/{league}")
+    public ResponseEntity<List<MatchDto>> findPlayedMatchesByLeague(@PathVariable String league) {
+        List<MatchDto> matches = matchService.findPlayedMatchesByLeague(league);
+        if (matches.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(matches);
+    }
+
 }

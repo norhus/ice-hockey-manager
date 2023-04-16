@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  core:
+    container_name: core
+    build:
+      context: core
+    image: core:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - core-db
+    volumes:
+      - ./core/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./core/src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql
+
+  league-table:
+    container_name: league-table
+    build:
+      context: league-table
+    image: league-table:latest
+    ports:
+      - "8083:8083"
+    environment:
+      core.url: http://core:8080/
+    depends_on:
+      - core
+
+  game-scheduler:
+    container_name: game-scheduler
+    build:
+      context: game-scheduler
+    image: game-scheduler:latest
+    environment:
+      core.url: http://core:8080/
+    ports:
+      - "8082:8082"
+    depends_on:
+      - core
+
+  model:
+    container_name: model
+    build:
+      context: model
+    image: model:latest
+
+  core-db:
+    image: postgres:15.2-alpine
+    container_name: core-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
