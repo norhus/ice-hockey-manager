@@ -9,12 +9,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,29 +32,45 @@ public class MatchControllerTests {
     @Autowired
     ObjectMapper objectMapper;
 
+    @MockBean
+    private MatchService matchService;
+
+    LeagueDto mockLeague = new LeagueDto(1L, "TIPOS Extraliga", null);
+    TeamDto mockHomeTeam = new TeamDto(2L, "Kosice", null, mockLeague, null);
+    TeamDto mockAwayTeam = new TeamDto(3L, "Banska Bystrica", null, mockLeague, null);
+    private final MatchDto mockMatchDto = new MatchDto(1L, Instant.now().minus(1, ChronoUnit.DAYS),
+            null, null, mockHomeTeam, mockAwayTeam);
+    private final MatchDto mockMatchDtoUpdated = new MatchDto(1L, Instant.now().minus(1, ChronoUnit.DAYS),
+            1, 1, mockHomeTeam, mockAwayTeam);
+
     @Test
     void getAll() throws Exception {
-        int expLen = 6;
+        when(matchService.findAll()).thenReturn(List.of(mockMatchDto));
 
-        String response = mockMvc.perform(get("/api/matches"))
+        String response = mockMvc.perform(get("/api/matches")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        List<MatchDto> matches = objectMapper.readValue(response, new TypeReference<List<MatchDto>>(){});
+        List<MatchDto> matches = objectMapper.readValue(response, new TypeReference<>(){});
 
-        assertThat(matches.size()).isEqualTo(expLen);
+        assertThat(matches.size()).isNotEqualTo(0);
     }
 
     @Test
     void findByLeagueNameValid() throws Exception {
-        String expectedLeagueName = "TIPOS Extraliga";
+        String leagueName = "TIPOS Extraliga";
 
-        String response = mockMvc.perform(get("/api/matches/TIPOS Extraliga"))
+        when(matchService.findByLeagueName(leagueName)).thenReturn(List.of(mockMatchDto));
+
+        String response = mockMvc.perform(get("/api/matches/TIPOS Extraliga")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        List<MatchDto> matches = objectMapper.readValue(response, new TypeReference<List<MatchDto>>(){});
+        List<MatchDto> matches = objectMapper.readValue(response, new TypeReference<>(){});
 
-        matches.stream().map(m -> assertThat(m.homeTeam().league().name()).isEqualTo(expectedLeagueName));
-        matches.stream().map(m -> assertThat(m.awayTeam().league().name()).isEqualTo(expectedLeagueName));
+        assertThat(matches.size()).isNotEqualTo(0);
+        matches.stream().map(m -> assertThat(m.homeTeam().league().name()).isEqualTo(leagueName));
+        matches.stream().map(m -> assertThat(m.awayTeam().league().name()).isEqualTo(leagueName));
     }
 
     @Test
@@ -61,52 +81,66 @@ public class MatchControllerTests {
 
     @Test
     void createMatchValid() throws Exception {
-        LeagueDto expectedLeague = new LeagueDto(1L, "TIPOS Extraliga", null);
-        TeamDto expectedHomeTeam = new TeamDto(2L, "Kosice", null, expectedLeague, null);
-        TeamDto expectedAwayTeam = new TeamDto(3L, "Banska Bystrica", null, expectedLeague, null);
-        MatchDto expectedMatch = new MatchDto(-1L, Instant.parse("2023-04-27T19:00:00.715Z"),
-                null, null, expectedHomeTeam, expectedAwayTeam);
+        when(matchService.create(mockMatchDto)).thenReturn(mockMatchDto);
 
         String response = mockMvc.perform(post("/api/matches").contentType("application/json")
-                .content(objectMapper.writeValueAsString(expectedMatch)))
+                .content(objectMapper.writeValueAsString(mockMatchDto)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
         MatchDto matchDto = objectMapper.readValue(response, MatchDto.class);
 
-        assertThat(matchDto.dateOfMatch()).isEqualTo(expectedMatch.dateOfMatch());
-        assertThat(matchDto.homeGoals()).isEqualTo(expectedMatch.homeGoals());
-        assertThat(matchDto.awayGoals()).isEqualTo(expectedMatch.awayGoals());
-        assertThat(matchDto.homeTeam().name()).isEqualTo(expectedMatch.homeTeam().name());
-        assertThat(matchDto.awayTeam().name()).isEqualTo(expectedMatch.awayTeam().name());
+        assertThat(matchDto).isEqualTo(mockMatchDto);
     }
 
     @Test
     void updateMatchValid() throws Exception {
-        LeagueDto expectedLeague = new LeagueDto(1L, "TIPOS Extraliga", null);
-        TeamDto expectedHomeTeam = new TeamDto(3L, "Banska Bystrica", null, expectedLeague, null);
-        TeamDto expectedAwayTeam = new TeamDto(4L, "Poprad", null, expectedLeague, null);
-        MatchDto expectedMatch = new MatchDto(2L, Instant.parse("2023-03-26T19:00:00.715Z"),
-                3, 2, expectedHomeTeam, expectedAwayTeam);
+        when(matchService.update(mockMatchDtoUpdated)).thenReturn(mockMatchDtoUpdated);
 
         String response = mockMvc.perform(put("/api/matches").contentType("application/json")
-                        .content(objectMapper.writeValueAsString(expectedMatch)))
+                        .content(objectMapper.writeValueAsString(mockMatchDtoUpdated)))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         MatchDto matchDto = objectMapper.readValue(response, MatchDto.class);
 
-        assertThat(matchDto.id()).isEqualTo(expectedMatch.id());
+        assertThat(matchDto).isEqualTo(mockMatchDtoUpdated);
     }
 
     @Test
     void updateMatchInvalid() throws Exception {
-        LeagueDto expectedLeague = new LeagueDto(1L, "TIPOS Extraliga", null);
-        TeamDto expectedHomeTeam = new TeamDto(3L, "Banska Bystrica", null, expectedLeague, null);
-        TeamDto expectedAwayTeam = new TeamDto(4L, "Poprad", null, expectedLeague, null);
-        MatchDto expectedMatch = new MatchDto(-1L, Instant.parse("2023-03-26T19:00:00.715Z"),
-                3, 2, expectedHomeTeam, expectedAwayTeam);
+        when(matchService.update(mockMatchDto)).thenThrow(new IllegalArgumentException());
 
         mockMvc.perform(put("/api/matches").contentType("application/json")
-                        .content(objectMapper.writeValueAsString(expectedMatch)))
+                        .content(objectMapper.writeValueAsString(mockMatchDto)))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void findUnplayedMatchesBeforeNowValid() throws Exception {
+        when(matchService.findUnplayedMatchesBeforeNow()).thenReturn(List.of(mockMatchDto));
+
+        String response = mockMvc.perform(get("/api/matches/find-unplayed-matches")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        List<MatchDto> matches = objectMapper.readValue(response, new TypeReference<>(){});
+
+        assertThat(matches.size()).isNotEqualTo(0);
+        matches.stream().map(m -> assertThat(m.dateOfMatch()).isBefore(Instant.now()));
+        matches.stream().map(m -> assertThat(m.homeGoals()).isEqualTo(null));
+    }
+
+    @Test
+    void playUnplayedMatchesValid() throws Exception {
+        when(matchService.playUnplayedMatches()).thenReturn(List.of(mockMatchDtoUpdated));
+
+        String response = mockMvc.perform(get("/api/matches/play-unplayed-matches")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        List<MatchDto> matches = objectMapper.readValue(response, new TypeReference<>(){});
+
+        assertThat(matches.size()).isNotEqualTo(0);
+        matches.stream().map(m -> assertThat(m.dateOfMatch()).isBefore(Instant.now()));
+        matches.stream().map(m -> assertThat(m.homeGoals()).isNotEqualTo(null));
     }
 }

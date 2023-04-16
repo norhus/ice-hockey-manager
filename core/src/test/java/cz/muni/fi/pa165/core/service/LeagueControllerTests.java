@@ -7,12 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,29 +28,36 @@ public class LeagueControllerTests {
     @Autowired
     ObjectMapper objectMapper;
 
+    @MockBean
+    private LeagueService leagueService;
+
+    private final LeagueDto mockLeagueDto = new LeagueDto(2L, "NHL", null);
+
     @Test
     void getAll() throws Exception {
-        int expLen = 2;
+        when(leagueService.findAll()).thenReturn(List.of(mockLeagueDto));
 
-        String response = mockMvc.perform(get("/api/leagues"))
+        String response = mockMvc.perform(get("/api/leagues")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        List<LeagueDto> leagues = objectMapper.readValue(response, new TypeReference<List<LeagueDto>>(){});
+        List<LeagueDto> leagues = objectMapper.readValue(response, new TypeReference<>(){});
 
-        assertThat(leagues.size()).isEqualTo(expLen);
+        assertThat(leagues.size()).isNotEqualTo(0);
     }
 
     @Test
     void findByNameValid() throws Exception {
-        LeagueDto expectedLeagueDto = new LeagueDto(1L, "TIPOS Extraliga", null);
+        String leagueName = "NHL";
+        when(leagueService.findByName(leagueName)).thenReturn(mockLeagueDto);
 
-        String response = mockMvc.perform(get("/api/leagues/TIPOS Extraliga"))
+        String response = mockMvc.perform(get("/api/leagues/" + leagueName)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         LeagueDto leagueDto = objectMapper.readValue(response, LeagueDto.class);
 
-        assertThat(leagueDto.id()).isEqualTo(expectedLeagueDto.id());
-        assertThat(leagueDto.name()).isEqualTo(expectedLeagueDto.name());
+        assertThat(leagueDto.name()).isEqualTo(leagueName);
     }
 
     @Test
