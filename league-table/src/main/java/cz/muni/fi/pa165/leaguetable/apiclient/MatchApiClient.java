@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.leaguetable.dataretriever;
+package cz.muni.fi.pa165.leaguetable.apiclient;
 
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MatchDataRetriever {
+public class MatchApiClient {
 
     public final WebClient coreClient;
 
     @Autowired
-    public MatchDataRetriever(WebClient coreClient) {
+    public MatchApiClient(WebClient coreClient) {
         this.coreClient = coreClient;
     }
 
-    public List<MatchDto> getMatches(String leagueName) {
+    public List<MatchDto> getMatchesByLeagueName(String leagueName) {
         List<MatchDto> matches = new ArrayList<>();
 
         try {
@@ -33,6 +33,8 @@ public class MatchDataRetriever {
         } catch (WebClientResponseException e) {
             if (e.getStatusCode().is4xxClientError()) {
                 return matches;
+            } else {
+                throw new RuntimeException("Unexpected Server Error", e);
             }
         }
 

@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.leaguetable.dataretriever;
+package cz.muni.fi.pa165.leaguetable.apiclient;
 
 import cz.muni.fi.pa165.leaguetable.exception.ResourceNotFoundException;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
@@ -8,21 +8,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class LeagueDataRetriever {
+public class LeagueApiClient {
 
     public final WebClient coreClient;
 
     @Autowired
-    public LeagueDataRetriever(WebClient coreClient) {
+    public LeagueApiClient(WebClient coreClient) {
         this.coreClient = coreClient;
     }
 
-    public LeagueDto getLeague(String leagueName) throws ResourceNotFoundException {
-        LeagueDto league = null;
+    public LeagueDto getLeagueByName(String leagueName) {
+        LeagueDto league;
 
         try {
             league = coreClient.get()
@@ -34,14 +33,16 @@ public class LeagueDataRetriever {
         } catch (WebClientResponseException e) {
             if (e.getStatusCode().is4xxClientError()) {
                 throw new ResourceNotFoundException(String.format("League with name %s does not exist", leagueName));
+            } else {
+                throw new RuntimeException("Unexpected Server Error", e);
             }
         }
 
         return league;
     }
 
-    public List<LeagueDto> getLeagues() throws ResourceNotFoundException {
-        List<LeagueDto> leagues = new ArrayList<>();
+    public List<LeagueDto> getLeagues() {
+        List<LeagueDto> leagues;
 
         try {
             leagues = coreClient.get()
@@ -53,6 +54,8 @@ public class LeagueDataRetriever {
         } catch (WebClientResponseException e) {
             if (e.getStatusCode().is4xxClientError()) {
                 throw new ResourceNotFoundException("There is no league");
+            } else {
+                throw new RuntimeException("Unexpected Server Error", e);
             }
         }
 
