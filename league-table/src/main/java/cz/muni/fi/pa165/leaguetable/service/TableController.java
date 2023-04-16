@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.leaguetable.service;
 
-import cz.muni.fi.pa165.leaguetable.exception.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -55,7 +54,7 @@ public class TableController {
             description = "Returns league table by league name"
     )
     @GetMapping("/{league}")
-    public ResponseEntity<TableDto> findByLeague(@PathVariable String league) throws ResourceNotFoundException {
+    public ResponseEntity<TableDto> findByLeague(@PathVariable String league) {
         return ResponseEntity.ok(tableService.findByLeague(league));
     }
 
@@ -64,7 +63,7 @@ public class TableController {
             description = "Return an array of  object representing league tables"
     )
     @GetMapping
-    public ResponseEntity<List<TableDto>> getAll() throws ResourceNotFoundException {
+    public ResponseEntity<List<TableDto>> getAll() {
             return ResponseEntity.ok(tableService.findAll());
     }
 }
