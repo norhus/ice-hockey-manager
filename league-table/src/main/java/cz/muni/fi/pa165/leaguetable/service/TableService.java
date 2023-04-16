@@ -1,9 +1,8 @@
 package cz.muni.fi.pa165.leaguetable.service;
 
-import cz.muni.fi.pa165.leaguetable.dataretriever.LeagueDataRetriever;
-import cz.muni.fi.pa165.leaguetable.dataretriever.MatchDataRetriever;
-import cz.muni.fi.pa165.leaguetable.dataretriever.TeamDataRetriever;
-import cz.muni.fi.pa165.leaguetable.exception.ResourceNotFoundException;
+import cz.muni.fi.pa165.leaguetable.apiclient.LeagueApiClient;
+import cz.muni.fi.pa165.leaguetable.apiclient.MatchApiClient;
+import cz.muni.fi.pa165.leaguetable.apiclient.TeamApiClient;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
@@ -15,29 +14,29 @@ import java.util.*;
 @Service
 public class TableService {
 
-    private final LeagueDataRetriever leagueDataRetriever;
-    private final TeamDataRetriever teamDataRetriever;
-    private final MatchDataRetriever matchDataRetriever;
+    private final LeagueApiClient leagueApiClient;
+    private final TeamApiClient teamApiClient;
+    private final MatchApiClient matchApiClient;
 
     @Autowired
-    public TableService(LeagueDataRetriever leagueDataRetriever, TeamDataRetriever teamDataRetriever, MatchDataRetriever matchDataRetriever) {
-        this.leagueDataRetriever = leagueDataRetriever;
-        this.teamDataRetriever = teamDataRetriever;
-        this.matchDataRetriever = matchDataRetriever;
+    public TableService(LeagueApiClient leagueApiClient, TeamApiClient teamApiClient, MatchApiClient matchApiClient) {
+        this.leagueApiClient = leagueApiClient;
+        this.teamApiClient = teamApiClient;
+        this.matchApiClient = matchApiClient;
     }
 
-    public TableDto findByLeague(String leagueName) throws ResourceNotFoundException {
-        LeagueDto league = leagueDataRetriever.getLeague(leagueName);
+    public TableDto findByLeague(String leagueName) {
+        LeagueDto league = leagueApiClient.getLeagueByName(leagueName);
         league = new LeagueDto(league.id(), league.name(), null);
-        List<TeamDto> teams = teamDataRetriever.getTeams(leagueName);
-        List<MatchDto> matches = matchDataRetriever.getMatches(leagueName);
+        List<TeamDto> teams = teamApiClient.getTeamsByLeagueName(leagueName);
+        List<MatchDto> matches = matchApiClient.getMatchesByLeagueName(leagueName);
 
         return makeTable(league, teams, matches);
     }
 
-    public List<TableDto> findAll() throws ResourceNotFoundException {
+    public List<TableDto> findAll() {
         List<TableDto> tables = new ArrayList<>();
-        List<LeagueDto> leagues = leagueDataRetriever.getLeagues();
+        List<LeagueDto> leagues = leagueApiClient.getLeagues();
 
         for (var league : leagues) {
             tables.add(findByLeague(league.name()));
