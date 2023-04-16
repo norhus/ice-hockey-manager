@@ -14,4 +14,8 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
 
     @Query("SELECT m FROM Match m WHERE m.dateOfMatch < NOW() AND m.homeGoals IS NULL")
     List<Match> findUnplayedMatchesBeforeNow();
+
+    @Query("SELECT m FROM Match m WHERE m.dateOfMatch < NOW() AND m.homeTeam.league.name = :leagueName  AND m.homeGoals IS NOT NULL")
+    List<Match> findPlayedMatchesByLeague(String leagueName);
+
 }

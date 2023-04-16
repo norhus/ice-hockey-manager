@@ -62,4 +62,11 @@ public class MatchService {
         }
         return playedMatches;
     }
+
+    public List<MatchDto> findPlayedMatchesByLeague(String leagueName) {
+        return matchRepository.findPlayedMatchesByLeague(leagueName).stream()
+                .map(matchMapper::toDto)
+                .toList();
+    }
+
 }

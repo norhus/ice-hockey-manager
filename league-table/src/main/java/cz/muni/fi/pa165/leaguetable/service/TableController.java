@@ -64,6 +64,6 @@ public class TableController {
     )
     @GetMapping
     public ResponseEntity<List<TableDto>> getAll() {
-        return ResponseEntity.ok(tableService.findAll());
+            return ResponseEntity.ok(tableService.findAll());
     }
 }
