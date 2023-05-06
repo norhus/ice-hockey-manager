@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.leaguetable.service;
 
+import cz.muni.fi.pa165.model.shared.utils.Utils;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.servers.ServerVariable;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,8 +56,9 @@ public class TableController {
             description = "Returns league table by league name"
     )
     @GetMapping("/{league}")
-    public ResponseEntity<TableDto> findByLeague(@PathVariable String league) {
-        return ResponseEntity.ok(tableService.findByLeague(league));
+    public ResponseEntity<TableDto> findByLeague(@PathVariable String league, HttpServletRequest request) {
+
+        return ResponseEntity.ok(tableService.findByLeague(league, Utils.getToken(request)));
     }
 
     @Operation(
@@ -63,7 +66,7 @@ public class TableController {
             description = "Return an array of  object representing league tables"
     )
     @GetMapping
-    public ResponseEntity<List<TableDto>> getAll() {
-            return ResponseEntity.ok(tableService.findAll());
+    public ResponseEntity<List<TableDto>> getAll(HttpServletRequest request) {
+        return ResponseEntity.ok(tableService.findAll(Utils.getToken(request)));
     }
 }

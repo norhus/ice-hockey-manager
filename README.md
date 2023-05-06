@@ -14,7 +14,7 @@ In root folder `mvn clean install` compile sources.
 Start `core` module:
 - `cd core` 
 - `mvn spring-boot:run` to start the core server
-- Swagger - open http://localhost:8080/swagger-ui/index.html
+- Swagger - open http://localhost:8081/swagger-ui/index.html
 
 Start `game-scheduler` module:
 - `cd game-scheduler`
@@ -46,7 +46,7 @@ to build the Podman images for each microservice:
     ```
    After the microservices are running, you can access them in your 
 web browser at the following URLs:
-   - `core` - http://localhost:8080/swagger-ui/index.html
+   - `core` - http://localhost:8081/swagger-ui/index.html
    - `game-scheduler` - http://localhost:8082/swagger-ui/index.html
    - `league-table` - http://localhost:8083/swagger-ui/index.html
 

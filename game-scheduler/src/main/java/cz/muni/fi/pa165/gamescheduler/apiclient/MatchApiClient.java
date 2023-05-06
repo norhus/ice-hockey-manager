@@ -20,10 +20,11 @@ public class MatchApiClient {
         this.coreClient = coreClient;
     }
 
-    public MatchDto postMatch(Instant gameDate, Pair<TeamDto, TeamDto> matchTeams) {
+    public MatchDto postMatch(Instant gameDate, Pair<TeamDto, TeamDto> matchTeams, String token) {
 
         return coreClient.post()
                 .uri(uriBuilder -> uriBuilder.pathSegment("api", "matches").build())
+                .headers(h -> h.setBearerAuth(token))
                 .body(Mono.just(new MatchDto(0L, gameDate,
                         null, null, matchTeams.getValue0(), matchTeams.getValue1())), MatchDto.class)
                 .retrieve()

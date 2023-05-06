@@ -9,11 +9,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static cz.muni.fi.pa165.model.shared.enums.Scope.SCOPE_TEST_READ;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,10 +37,11 @@ class TableControllerTest {
     private final TableDto mockTableDto = new TableDto(new LeagueDto(2L, "NHL", null), null);
 
     @Test
+    @WithMockUser(authorities = SCOPE_TEST_READ)
     void findByLeague() throws Exception {
         String league = "NHL";
 
-        when(tableService.findByLeague(league)).thenReturn(mockTableDto);
+        when(tableService.findByLeague(league, null)).thenReturn(mockTableDto);
 
         String response = mockMvc.perform(get("/api/tables/" + league)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -50,8 +54,9 @@ class TableControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = SCOPE_TEST_READ)
     void findAll() throws Exception {
-        when(tableService.findAll()).thenReturn(List.of(mockTableDto));
+        when(tableService.findAll(any())).thenReturn(List.of(mockTableDto));
 
         String response = mockMvc.perform(get("/api/tables")
                         .contentType(MediaType.APPLICATION_JSON)

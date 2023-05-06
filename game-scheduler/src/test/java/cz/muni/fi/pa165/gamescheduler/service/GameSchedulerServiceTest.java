@@ -68,18 +68,18 @@ class GameSchedulerServiceTest {
 
     @Test
     void generate() {
-        when(teamApiClient.getTeams(any())).thenReturn(firstLeagueTeams);
-        when(matchApiClient.postMatch(any(), any()))
+        when(teamApiClient.getTeams(any(), any())).thenReturn(firstLeagueTeams);
+        when(matchApiClient.postMatch(any(), any(), any()))
                 .thenReturn(firstLeagueMatches.get(0))
                 .thenReturn(firstLeagueMatches.get(1));
 
-        GameSchedulerDto gameScheduler = gameSchedulerService.generate(firstLeagueName);
+        GameSchedulerDto gameScheduler = gameSchedulerService.generate(firstLeagueName, "some_token");
 
         assertThat(gameScheduler.teams()).hasSize(2);
         assertThat(gameScheduler.matches()).hasSize(2);
 
-        verify(teamApiClient, times(1)).getTeams(firstLeagueName);
-        verify(matchApiClient, times(2)).postMatch(any(), any());
+        verify(teamApiClient, times(1)).getTeams(firstLeagueName, "some_token");
+        verify(matchApiClient, times(2)).postMatch(any(), any(), any());
     }
 
 
@@ -90,17 +90,17 @@ class GameSchedulerServiceTest {
 
         teams.add(team1);
 
-        when(teamApiClient.getTeams(any())).thenReturn(teams);
-        when(matchApiClient.postMatch(any(), any()))
+        when(teamApiClient.getTeams(any(), any())).thenReturn(teams);
+        when(matchApiClient.postMatch(any(), any(), any()))
                 .thenReturn(any());
 
-        GameSchedulerDto gameSchedulerDto = gameSchedulerService.generate(firstLeagueName);
+        GameSchedulerDto gameSchedulerDto = gameSchedulerService.generate(firstLeagueName, any());
 
         assertThat(gameSchedulerDto.teams()).hasSize(1);
         assertThat(gameSchedulerDto.matches()).isEmpty();
 
-        verify(teamApiClient, times(1)).getTeams(firstLeagueName);
-        verify(matchApiClient, times(0)).postMatch(any(), any());
+        verify(teamApiClient, times(1)).getTeams(any(), any());
+        verify(matchApiClient, times(0)).postMatch(any(), any(), any());
     }
     @Test
     void generateAll() {
@@ -111,17 +111,17 @@ class GameSchedulerServiceTest {
         leagues.add(league1);
         leagues.add(league2);
 
-        when(leagueApiClient.getLeagues()).thenReturn(leagues);
-        when(teamApiClient.getTeams(any()))
+        when(leagueApiClient.getLeagues(any())).thenReturn(leagues);
+        when(teamApiClient.getTeams(any(), any()))
                 .thenReturn(firstLeagueTeams)
                 .thenReturn(secondLeagueTeams);
-        when(matchApiClient.postMatch(any(), any()))
+        when(matchApiClient.postMatch(any(), any(), any()))
                 .thenReturn(firstLeagueMatches.get(0))
                 .thenReturn(firstLeagueMatches.get(1))
                 .thenReturn(secondLeagueMatches.get(0))
                 .thenReturn(secondLeagueMatches.get(1));
 
-        List<GameSchedulerDto> gameSchedulers = gameSchedulerService.generateAll();
+        List<GameSchedulerDto> gameSchedulers = gameSchedulerService.generateAll("some_token");
 
         assertThat(gameSchedulers).hasSize(2);
         assertThat(gameSchedulers.get(0).teams()).hasSize(2);
@@ -129,8 +129,8 @@ class GameSchedulerServiceTest {
         assertThat(gameSchedulers.get(0).matches()).hasSize(2);
         assertThat(gameSchedulers.get(1).matches()).hasSize(2);
 
-        verify(leagueApiClient, times(1)).getLeagues();
-        verify(teamApiClient, times(2)).getTeams(any());
-        verify(matchApiClient, times(4)).postMatch(any(), any());
+        verify(leagueApiClient, times(1)).getLeagues(any());
+        verify(teamApiClient, times(2)).getTeams(any(), any());
+        verify(matchApiClient, times(4)).postMatch(any(), any(), any());
     }
 }

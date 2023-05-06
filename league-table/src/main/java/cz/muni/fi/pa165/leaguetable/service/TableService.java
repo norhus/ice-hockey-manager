@@ -2,50 +2,50 @@ package cz.muni.fi.pa165.leaguetable.service;
 
 import cz.muni.fi.pa165.leaguetable.apiclient.LeagueApiClient;
 import cz.muni.fi.pa165.leaguetable.apiclient.MatchApiClient;
-import cz.muni.fi.pa165.leaguetable.apiclient.TeamApiClient;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class TableService {
 
     private final LeagueApiClient leagueApiClient;
-    private final TeamApiClient teamApiClient;
     private final MatchApiClient matchApiClient;
 
     @Autowired
-    public TableService(LeagueApiClient leagueApiClient, TeamApiClient teamApiClient, MatchApiClient matchApiClient) {
+    public TableService(LeagueApiClient leagueApiClient, MatchApiClient matchApiClient) {
         this.leagueApiClient = leagueApiClient;
-        this.teamApiClient = teamApiClient;
         this.matchApiClient = matchApiClient;
     }
 
-    public TableDto findByLeague(String leagueName) {
-        LeagueDto league = leagueApiClient.getLeagueByName(leagueName);
-        league = new LeagueDto(league.id(), league.name(), null);
-        List<TeamDto> teams = teamApiClient.getTeamsByLeagueName(leagueName);
-        List<MatchDto> matches = matchApiClient.getMatchesByLeagueName(leagueName);
+    public TableDto findByLeague(String leagueName, String token) {
+        LeagueDto league = leagueApiClient.getLeagueByName(leagueName, token);
+        List<MatchDto> matches = matchApiClient.getMatchesByLeagueName(leagueName, token);
 
-        return makeTable(league, teams, matches);
+        return makeTable(league, league.teams(), matches);
     }
 
-    public List<TableDto> findAll() {
+    public List<TableDto> findAll(String token) {
         List<TableDto> tables = new ArrayList<>();
-        List<LeagueDto> leagues = leagueApiClient.getLeagues();
+        List<LeagueDto> leagues = leagueApiClient.getLeagues(token);
 
         for (var league : leagues) {
-            tables.add(findByLeague(league.name()));
+            tables.add(findByLeague(league.name(), token));
         }
 
         return tables;
     }
 
-    private TableDto makeTable(LeagueDto league, List<TeamDto> teams, List<MatchDto> matches) {
+    private TableDto makeTable(LeagueDto league, Set<TeamDto> teams, List<MatchDto> matches) {
         Map<String, TableRowDto> tableRowMap = new HashMap<>();
 
         for (TeamDto team : teams) {

@@ -1,10 +1,10 @@
-package cz.muni.fi.pa165.core;
+package cz.muni.fi.pa165.client;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CoreApplicationTests {
+class ClientApplicationTests {
 
     @Test
     void contextLoads() {
