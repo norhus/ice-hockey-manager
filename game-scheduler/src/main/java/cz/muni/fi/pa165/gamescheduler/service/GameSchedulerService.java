@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.gamescheduler.service;
 
-import cz.muni.fi.pa165.gamescheduler.apiclient.MatchApiClient;
 import cz.muni.fi.pa165.gamescheduler.apiclient.LeagueApiClient;
+import cz.muni.fi.pa165.gamescheduler.apiclient.MatchApiClient;
 import cz.muni.fi.pa165.gamescheduler.apiclient.TeamApiClient;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
@@ -31,9 +31,9 @@ public class GameSchedulerService {
         this.matchApiClient = matchApiClient;
     }
 
-    public GameSchedulerDto generate(String leagueName) {
+    public GameSchedulerDto generate(String leagueName, String token) {
 
-        List<TeamDto> teams = teamApiClient.getTeams(leagueName);
+        List<TeamDto> teams = teamApiClient.getTeams(leagueName, token);
         int numOfTeams = teams.size();
         boolean ghost = false;
         if (numOfTeams % 2 != 0) {
@@ -96,17 +96,17 @@ public class GameSchedulerService {
         for (List<Pair<TeamDto, TeamDto>> fixture: fixtures) {
             gameDate = gameDate.plus(2, ChronoUnit.DAYS);
             for (Pair<TeamDto, TeamDto> matchTeams : fixture) {
-                matches.add(matchApiClient.postMatch(gameDate, matchTeams));
+                matches.add(matchApiClient.postMatch(gameDate, matchTeams, token));
             }
         }
 
         return new GameSchedulerDto(Instant.now(), teams, matches);
     }
 
-    public List<GameSchedulerDto> generateAll() {
+    public List<GameSchedulerDto> generateAll(String token) {
 
-        List<LeagueDto> leagues = leagueApiClient.getLeagues();
+        List<LeagueDto> leagues = leagueApiClient.getLeagues(token);
 
-        return leagues.stream().map(l -> generate(l.name())).collect(Collectors.toList());
+        return leagues.stream().map(l -> generate(l.name(), token)).collect(Collectors.toList());
     }
 }

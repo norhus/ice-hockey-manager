@@ -13,10 +13,14 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>ice-hockey-manager</name>
     <description>ice-hockey-manager</description>
+
     <properties>
         <java.version>17</java.version>
+        <swagger-jakarta-version>2.2.9</swagger-jakarta-version>
     </properties>
+
     <packaging>pom</packaging>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -90,11 +94,23 @@
             <version>4.10.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>6.0.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
     <modules>
         <module>core</module>
         <module>model</module>
         <module>league-table</module>
         <module>game-scheduler</module>
+        <module>client</module>
     </modules>
 </project>

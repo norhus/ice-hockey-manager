@@ -7,7 +7,7 @@ services:
       context: core
     image: core:latest
     ports:
-      - "8080:8080"
+      - "8081:8081"
     depends_on:
       - core-db
     volumes:
@@ -22,7 +22,7 @@ services:
     ports:
       - "8083:8083"
     environment:
-      core.url: http://core:8080/
+      core.url: http://core:8081/
     depends_on:
       - core
 
@@ -32,7 +32,7 @@ services:
       context: game-scheduler
     image: game-scheduler:latest
     environment:
-      core.url: http://core:8080/
+      core.url: http://core:8081/
     ports:
       - "8082:8082"
     depends_on:
