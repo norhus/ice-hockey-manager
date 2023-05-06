@@ -7,7 +7,6 @@ from locust.exception import StopUser
 
 
 class BasicUserBehavior(TaskSet):
-
     @task(3)
     def get_unplayed_matches(self):
         self.client.get("/api/matches/find-unplayed-matches")
@@ -52,7 +51,6 @@ class BasicUserBehavior(TaskSet):
 
 
 class AdvancedUserBehavior(TaskSet):
-
     @task(1)
     def get_teams(self):
         self.client.get("/api/teams")
@@ -98,33 +96,35 @@ class AdvancedUserBehavior(TaskSet):
         self.client.get("/api/leagues/NHL")
 
 
-class BasicUser(HttpUser):
+class AuthorizedUser(HttpUser):
+    host = "http://localhost:8081"
+    token = None
+
+    def on_start(self):
+        if not AuthorizedUser.token:
+            AuthorizedUser.token = input("Please enter token: ")
+            print("\nYour token is:", AuthorizedUser.token)
+        self.client.headers = {'content-type': 'application/json',
+                               'Authorization': f'Bearer {AuthorizedUser.token}'}
+
+
+class BasicUser(AuthorizedUser):
     weight = 10
     wait_time = between(5, 15)
-    host = "http://localhost:8080"
 
     tasks = [BasicUserBehavior]
 
-    def on_start(self):
-        self.client.headers = {'content-type': 'application/json'}
 
-
-class AdvancedUser(HttpUser):
+class AdvancedUser(AuthorizedUser):
     weight = 6
     wait_time = between(5, 15)
-    host = "http://localhost:8080"
 
     tasks = [BasicUserBehavior, AdvancedUserBehavior]
 
-    def on_start(self):
-        self.client.headers = {'content-type': 'application/json'}
 
-
-class AdminUser(HttpUser):
+class AdminUser(AuthorizedUser):
     weight = 1
-    # wait_time = between(60, 3600)
-    wait_time = between(5, 15)
-    host = "http://localhost:8080"
+    wait_time = between(60, 3600)
 
     @task(8)
     def create_player(self):
@@ -171,7 +171,3 @@ class AdminUser(HttpUser):
             else:
                 response.failure("Failed delete hockey player")
                 raise StopUser
-
-    def on_start(self):
-        self.client.headers = {'content-type': 'application/json'}
-
