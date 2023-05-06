@@ -1,10 +1,9 @@
 package cz.muni.fi.pa165.core.service;
 
-import cz.muni.fi.pa165.model.dto.HockeyPlayerDto;
 import cz.muni.fi.pa165.core.entity.HockeyPlayer;
 import cz.muni.fi.pa165.core.mapper.HockeyPlayerMapper;
 import cz.muni.fi.pa165.core.repository.HockeyPlayerRepository;
-import cz.muni.fi.pa165.model.dto.TeamDto;
+import cz.muni.fi.pa165.model.dto.HockeyPlayerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

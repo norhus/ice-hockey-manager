@@ -13,16 +13,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cz.muni.fi.pa165.model.shared.enums.Scope.SCOPE_TEST_READ;
+import static cz.muni.fi.pa165.model.shared.enums.Scope.SCOPE_TEST_WRITE;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
@@ -58,11 +62,11 @@ public class GameSchedulerControllerTest {
     }
 
     @Test
-    void generate() throws Exception {
-        String leagueName = "NHL";
+    @WithMockUser(authorities = {SCOPE_TEST_WRITE, SCOPE_TEST_READ})
+     void generate() throws Exception {
         GameSchedulerDto expected = new GameSchedulerDto(Instant.now(), teams, matches);
 
-        when(gameSchedulerService.generate(leagueName)).thenReturn(expected);
+        when(gameSchedulerService.generate(any(), any())).thenReturn(expected);
 
         String response = mockMvc.perform(get("/api/game-schedulers/generate/NHL"))
                 .andExpect(status().isOk())
@@ -79,11 +83,12 @@ public class GameSchedulerControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = {SCOPE_TEST_WRITE, SCOPE_TEST_READ})
     void generateAll() throws Exception {
         List<GameSchedulerDto> expected = new ArrayList<>();
         expected.add(new GameSchedulerDto(Instant.now(), teams, matches));
 
-        when(gameSchedulerService.generateAll()).thenReturn(expected);
+        when(gameSchedulerService.generateAll(any())).thenReturn(expected);
 
         String response = mockMvc.perform(get("/api/game-schedulers/generate-all"))
                 .andExpect(status().isOk())

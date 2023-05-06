@@ -44,11 +44,7 @@ public class MatchController {
 
     @GetMapping("/{league}")
     public ResponseEntity<List<MatchDto>> findByLeagueName(@PathVariable String league) {
-        List<MatchDto> matches = matchService.findByLeagueName(league);
-        if (matches.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(matches);
+        return ResponseEntity.ok(matchService.findByLeagueName(league));
     }
 
     @GetMapping("/find-unplayed-matches")
@@ -63,11 +59,7 @@ public class MatchController {
 
     @GetMapping("/find-played-matches/{league}")
     public ResponseEntity<List<MatchDto>> findPlayedMatchesByLeague(@PathVariable String league) {
-        List<MatchDto> matches = matchService.findPlayedMatchesByLeague(league);
-        if (matches.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(matches);
+        return ResponseEntity.ok(matchService.findPlayedMatchesByLeague(league));
     }
 
 }

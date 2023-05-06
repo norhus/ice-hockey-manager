@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}" th:with="title=${#messages.msg('core.hockeyPlayers.title')}">
+<body>
+<th:block layout:fragment="body">
+
+    <div class="alert alert-info" role="alert">
+        user: <th:block th:text="${user.subject}"></th:block>
+        <br>
+        allowed scopes: <th:block th:text="${scopes}"></th:block>
+        <br>
+        token: <th:block th:text="${token}"></th:block>
+        <br>
+        <form method="post" th:action="@{/logout}">
+            <button class="btn btn-outline-primary" type="submit">Logout</button>
+        </form>
+    </div>
+
+    <p th:text="#{core.hockeyPlayers.intro}">intro text</p>
+
+<!--    Errors -->
+    <div th:if="${connect_problem}" class="alert alert-danger" role="alert">
+        Cannot connect to the Core API. Start the Resource server!
+    </div>
+    <div th:if="${api_forbidden}" class="alert alert-danger" role="alert">
+        Core API returned HTTP status 403 Forbidden.
+        <br>
+        <br>
+        WWW-Authenticate: <th:block th:text="${wwwAuthenticate}"></th:block>
+    </div>
+    <div th:if="${api_problem}" class="alert alert-danger" role="alert">
+        Core API returned an error:
+        <pre>
+        HTTP status code: <th:block th:text="${api_exception.code}"></th:block>
+        response: <th:block th:text="${api_exception.responseBody}"></th:block>
+        </pre>
+    </div>
+
+<!--   Table  -->
+    <th:block th:if="${hockeyPlayerDtoList != null}">
+        <p th:text="#{core.hockeyPlayers.table}">Hockey players:</p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">no.</th>
+
+                <th scope="col" th:text="#{hockeyPlayer.id}">id</th>
+                <th scope="col" th:text="#{hockeyPlayer.firstName}">firstName</th>
+                <th scope="col" th:text="#{hockeyPlayer.lastName}">lastName</th>
+                <th scope="col" th:text="#{hockeyPlayer.dateOfBirth}">dateOfBirth</th>
+                <th scope="col" th:text="#{hockeyPlayer.position}">position</th>
+                <th scope="col" th:text="#{hockeyPlayer.skating}">skating</th>
+                <th scope="col" th:text="#{hockeyPlayer.physical}">physical</th>
+                <th scope="col" th:text="#{hockeyPlayer.shooting}">shooting</th>
+                <th scope="col" th:text="#{hockeyPlayer.defense}">defense</th>
+                <th scope="col" th:text="#{hockeyPlayer.puckSkills}">puckSkills</th>
+                <th scope="col" th:text="#{hockeyPlayer.senses}">senses</th>
+                <th scope="col" th:text="#{hockeyPlayer.teamDto}">teamDto</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="it , i: ${hockeyPlayerDtoList}">
+                <th th:text="${i.count}" scope="row"></th>
+
+                <td th:text="${it.id}"></td>
+                <td th:text="${it.firstName}"></td>
+                <td th:text="${it.lastName}"></td>
+                <td th:text="${#temporals.format(it.dateOfBirth,'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${it.position}"></td>
+                <td th:text="${it.skating}"></td>
+                <td th:text="${it.physical}"></td>
+                <td th:text="${it.shooting}"></td>
+                <td th:text="${it.defense}"></td>
+                <td th:text="${it.puckSkills}"></td>
+                <td th:text="${it.senses}"></td>
+                <td th:if="${it.teamDto != null}" th:text="${it.teamDto.name}"></td>
+                <td th:if="${it.teamDto == null}" th:text="' '"></td>
+            </tr>
+            </tbody>
+        </table>
+    </th:block>
+
+    <!-- add new hockey player -->
+    <div>
+        <form action="#" th:action="@{/hockey-players}" th:object="${hockeyPlayerForm}" method="post">
+            <div class="errorbox" th:if="${#fields.hasErrors()}">
+                Please fix the following errors:
+                <ul>
+                    <li th:each="err : ${#fields.errors()}" th:text="${err}" ></li>
+                </ul>
+            </div>
+
+            <button type="submit" name="add"><th:block th:text="#{core.hockeyPlayers.add}">Add hockey player</th:block></button>
+            <table>
+                <tr>
+                    <th><th:block th:text="#{hockeyPlayer.firstName}">firstName</th:block>:</th>
+                    <td><input type="text" th:field="*{firstName}" th:errorclass="error" size="64"></td>
+                </tr>
+                <tr>
+                    <th><th:block th:text="#{hockeyPlayer.lastName}">lastName</th:block>:</th>
+                    <td><input type="text" th:field="*{lastName}" th:errorclass="error" size="64"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</th:block>
+</body>
+</html>
