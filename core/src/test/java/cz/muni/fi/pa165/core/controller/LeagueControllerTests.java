@@ -1,7 +1,8 @@
-package cz.muni.fi.pa165.core.service;
+package cz.muni.fi.pa165.core.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cz.muni.fi.pa165.core.service.LeagueService;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static cz.muni.fi.pa165.model.shared.enums.Scope.SCOPE_TEST_READ;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,6 +37,7 @@ public class LeagueControllerTests {
     private final LeagueDto mockLeagueDto = new LeagueDto(2L, "NHL", null);
 
     @Test
+    @WithMockUser(authorities = SCOPE_TEST_READ)
     void getAll() throws Exception {
         when(leagueService.findAll()).thenReturn(List.of(mockLeagueDto));
 
@@ -47,6 +51,7 @@ public class LeagueControllerTests {
     }
 
     @Test
+    @WithMockUser(authorities = SCOPE_TEST_READ)
     void findByNameValid() throws Exception {
         String leagueName = "NHL";
         when(leagueService.findByName(leagueName)).thenReturn(mockLeagueDto);
@@ -61,6 +66,7 @@ public class LeagueControllerTests {
     }
 
     @Test
+    @WithMockUser(authorities = SCOPE_TEST_READ)
     void findByNameInvalid() throws Exception {
         mockMvc.perform(get("/api/leagues/superliga"))
                 .andExpect(status().isNotFound());

@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY /target/core-*.jar /app/core.jar
 
-EXPOSE 8080
+EXPOSE 8081
 
 ENTRYPOINT ["java", "-jar", "/app/core.jar"]

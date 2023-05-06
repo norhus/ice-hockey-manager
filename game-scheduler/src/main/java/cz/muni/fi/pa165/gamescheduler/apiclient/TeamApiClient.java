@@ -18,11 +18,12 @@ public class TeamApiClient {
         this.coreClient = coreClient;
     }
 
-    public List<TeamDto> getTeams(String leagueName) {
+    public List<TeamDto> getTeams(String leagueName, String token) {
 
         return coreClient.get()
                 .uri(uriBuilder -> uriBuilder.pathSegment("api", "teams", "find-by-league", leagueName)
                         .build())
+                .headers(h -> h.setBearerAuth(token))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<TeamDto>>() {})
                 .block();

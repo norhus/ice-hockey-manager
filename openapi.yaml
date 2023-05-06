@@ -1,0 +1,66 @@
+openapi: 3.0.1
+info:
+  title: Core API
+  description: API secured by OAuth 2
+  version: "1.0"
+servers:
+- url: http://localhost:8081
+  description: core server
+tags:
+- name: Core
+  description: Core API
+paths:
+  /api/hockey-players:
+    get:
+      tags:
+      - Core
+      summary: Get all hockey players
+      operationId: hockeyPlayers-getAll
+      responses:
+        "200":
+          description: OK - events were successfully returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'HockeyPlayerDto'
+        "401":
+          description: Unauthorized - access token not provided or valid
+        "403":
+          description: Forbidden - access token does not have scope test_read
+      security:
+      - Bearer:
+        - test_read
+    post:
+      tags:
+        - Core
+      summary: Create a new hockey player
+      operationId: hockeyPlayers-create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'HockeyPlayerDto'
+        required: true
+      responses:
+        "201":
+          description: Created - hockey player was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: 'HockeyPlayerDto'
+        "401":
+          description: Unauthorized - access token not provided or valid
+        "403":
+          description: Forbidden - access token does not have scope test_write
+      security:
+        - Bearer:
+            - test_write
+
+components:
+  securitySchemes:
+    Bearer:
+      type: http
+      description: provide a valid access token
+      scheme: bearer

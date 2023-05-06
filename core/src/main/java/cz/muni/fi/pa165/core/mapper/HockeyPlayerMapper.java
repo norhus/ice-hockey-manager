@@ -11,6 +11,9 @@ public interface HockeyPlayerMapper {
 
     HockeyPlayer toEntity(HockeyPlayerDto hockeyPlayerDto);
 
+    @Mapping(source = "team", target = "teamDto")
+    @Mapping(target = "teamDto.league.teams", ignore = true)
+    @Mapping(target = "teamDto.hockeyPlayers", ignore = true)
     HockeyPlayerDto toDto(HockeyPlayer hockeyPlayer);
 
     HockeyPlayer update(HockeyPlayerDto hockeyPlayerDto, @MappingTarget HockeyPlayer hockeyPlayer);

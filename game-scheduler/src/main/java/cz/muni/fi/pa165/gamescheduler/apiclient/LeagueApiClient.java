@@ -18,11 +18,12 @@ public class LeagueApiClient {
         this.coreClient = coreClient;
     }
 
-    public List<LeagueDto> getLeagues() {
+    public List<LeagueDto> getLeagues(String token) {
 
         return coreClient.get()
                 .uri(uriBuilder -> uriBuilder.
                         pathSegment("api", "leagues").build())
+                .headers(h -> h.setBearerAuth(token))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<LeagueDto>>() {
                 })
