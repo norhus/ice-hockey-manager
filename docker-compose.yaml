@@ -53,3 +53,13 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+
+  client:
+    container_name: client
+    build:
+      context: client
+    image: client:latest
+    environment:
+      core.url: http://core:8081
+    ports:
+      - "8080:8080"
