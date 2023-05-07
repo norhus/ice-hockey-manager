@@ -89,7 +89,7 @@ Also, please ensure that you have your authentication token ready before running
 
 3. Navigate to `http://localhost:8089` in your web browser to access the Locust web interface.
 
-4. Enter the number of users and the hatch rate, then click the "Start swarming" button.
+4. Enter the number of users and the hatch rate, then click the `Start swarming` button.
    Then you must to put your token into console and press enter.
 
 
