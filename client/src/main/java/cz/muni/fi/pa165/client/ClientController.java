@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.model.dto.HockeyPlayerDto;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -27,6 +28,9 @@ import java.util.TreeSet;
 
 @Controller
 public class ClientController {
+
+    @Value("${core.url}")
+    private String coreUrl;
 
     private static final Logger log = LoggerFactory.getLogger(ClientApplication.class);
 
@@ -56,6 +60,7 @@ public class ClientController {
 
         // add access token to API calls
         ApiClient apiClient = new ApiClient();
+        apiClient.updateBaseUri(coreUrl);
         apiClient.setRequestInterceptor(httpRequestBuilder -> {
             log.debug("Bearer " + accessToken.getTokenValue());
             httpRequestBuilder.header("Authorization", "Bearer " + accessToken.getTokenValue());

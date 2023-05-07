@@ -53,3 +53,36 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+
+  client:
+    container_name: client
+    build:
+      context: client
+    image: client:latest
+    environment:
+      core.url: http://core:8081
+    ports:
+      - "8080:8080"
+
+  prometheus:
+    image: prom/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml:Z"
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - "./grafana/provisioning/dashboards/dashboard.json:/etc/grafana/provisioning/dashboards/dashboard.json"
+      - "./grafana/provisioning/dashboards/grafana-dashboard.yml:/etc/grafana/provisioning/dashboards/grafana-dashboard.yml"
+      - "./grafana/provisioning/datasources/prometheus-ds.yml:/etc/grafana/provisioning/datasources/prometheus-ds.yml"
+    ports:
+      - "3000:3000"
+    environment:
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: "/etc/grafana/provisioning/dashboards/dashboard.json"
+
+
+
