@@ -58,6 +58,19 @@ web browser at the following URLs:
 
 
 ### Milestone 3
+#### **Security**
+Make sure that the services are running first.
+1. Open your web browser and go to  http://localhost:8080
+2. Click on `Login` and enter your credentials.
+3. Select the checkboxes for the required permissions for testing, then click on `YES, CONTINUE`
+4. Click on the `Run hockey player` button.
+5. The token will be displayed on the screen or in the console output.
+6. Now that you have obtained your authorization token, you can use Swagger UI to access the microservices at the URLs
+provided in the previous milestone.
+7. In Swagger UI click on the `Authorize` button and enter the token in the `Value:` field.
+8. Click on the `Authorize` button to apply the token.
+9. Now, you can test the microservices with the authorized requests in Swagger UI.
+
 #### **Runnable scenario**
 Make sure that the services are running first. 
 Also, please ensure that you have your authentication token ready before running the tests.
