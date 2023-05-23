@@ -40,8 +40,27 @@ public class GameSchedulerService {
             numOfTeams++;
             ghost = true;
         }
-        List<List<Pair<TeamDto, TeamDto>>> fixtures = new ArrayList<>();
+        List<List<Pair<TeamDto, TeamDto>>> fixtures = createFixtures(teams, numOfTeams, ghost);
 
+        fixtures = interleaveAndMix(numOfTeams, ghost, fixtures);
+
+        fixtures.addAll(createReverseFixtures(fixtures));
+
+        List<MatchDto> matches = new ArrayList<>();
+        Instant gameDate = Instant.now();
+
+        for (List<Pair<TeamDto, TeamDto>> fixture: fixtures) {
+            gameDate = gameDate.plus(2, ChronoUnit.DAYS);
+            for (Pair<TeamDto, TeamDto> matchTeams : fixture) {
+                matches.add(matchApiClient.postMatch(gameDate, matchTeams, token));
+            }
+        }
+
+        return new GameSchedulerDto(Instant.now(), teams, matches);
+    }
+
+    private static List<List<Pair<TeamDto, TeamDto>>> createFixtures(List<TeamDto> teams, int numOfTeams, boolean ghost) {
+        List<List<Pair<TeamDto, TeamDto>>> fixtures = new ArrayList<>();
         for (int i = 0; i < numOfTeams - 1; i++) {
             List<Pair<TeamDto, TeamDto>> fixture = new ArrayList<>();
             for (int j = 0; j < numOfTeams / 2; j++) {
@@ -56,7 +75,10 @@ public class GameSchedulerService {
             }
             fixtures.add(fixture);
         }
+        return fixtures;
+    }
 
+    private static List<List<Pair<TeamDto, TeamDto>>> interleaveAndMix(int numOfTeams, boolean ghost, List<List<Pair<TeamDto, TeamDto>>> fixtures) {
         List<List<Pair<TeamDto, TeamDto>>> interleaved = new ArrayList<>();
 
         int even = 0;
@@ -69,17 +91,18 @@ public class GameSchedulerService {
             }
         }
 
-        fixtures = interleaved;
-
         if (!ghost) {
-            for (int i = 0; i < fixtures.size(); i++) {
+            for (int i = 0; i < interleaved.size(); i++) {
                 if (i % 2 == 1) {
-                    Pair<TeamDto, TeamDto> matchTeams = fixtures.get(i).get(0);
-                    fixtures.get(i).set(0, new Pair<>(matchTeams.getValue1(), matchTeams.getValue0()));
+                    Pair<TeamDto, TeamDto> matchTeams = interleaved.get(i).get(0);
+                    interleaved.get(i).set(0, new Pair<>(matchTeams.getValue1(), matchTeams.getValue0()));
                 }
             }
         }
+        return interleaved;
+    }
 
+    private static List<List<Pair<TeamDto, TeamDto>>> createReverseFixtures(List<List<Pair<TeamDto, TeamDto>>> fixtures) {
         List<List<Pair<TeamDto, TeamDto>>> reverseFixtures = new ArrayList<>();
         for(List<Pair<TeamDto, TeamDto>> fixture: fixtures){
             List<Pair<TeamDto, TeamDto>> reverseFixture = new ArrayList<>();
@@ -88,19 +111,7 @@ public class GameSchedulerService {
             }
             reverseFixtures.add(reverseFixture);
         }
-        fixtures.addAll(reverseFixtures);
-
-        List<MatchDto> matches = new ArrayList<>();
-        Instant gameDate = Instant.now();
-
-        for (List<Pair<TeamDto, TeamDto>> fixture: fixtures) {
-            gameDate = gameDate.plus(2, ChronoUnit.DAYS);
-            for (Pair<TeamDto, TeamDto> matchTeams : fixture) {
-                matches.add(matchApiClient.postMatch(gameDate, matchTeams, token));
-            }
-        }
-
-        return new GameSchedulerDto(Instant.now(), teams, matches);
+        return reverseFixtures;
     }
 
     public List<GameSchedulerDto> generateAll(String token) {
