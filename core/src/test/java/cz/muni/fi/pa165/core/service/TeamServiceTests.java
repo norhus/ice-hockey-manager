@@ -185,4 +185,14 @@ class TeamServiceTests {
         verify(teamRepository, times(1)).findById(1L);
         verify(leagueRepository, times(1)).findById(1L);
     }
+
+    @Test
+    void createTeamValid() {
+        when(teamRepository.save(any(Team.class))).thenReturn(team1);
+
+        TeamDto teamDto = teamService.create(expectedTeamDto1);
+
+        assertEquals(teamDto, expectedTeamDto1);
+        verify(teamRepository, times(1)).save(any(Team.class));
+    }
 }

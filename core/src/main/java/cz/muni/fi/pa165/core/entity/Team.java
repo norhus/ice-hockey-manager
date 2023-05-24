@@ -3,12 +3,16 @@ package cz.muni.fi.pa165.core.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "team")
 public class Team {
     @Id
@@ -32,14 +36,6 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private Set<HockeyPlayer> hockeyPlayers = new LinkedHashSet<>();
 
-    public Set<HockeyPlayer> getHockeyPlayers() {
-        return hockeyPlayers;
-    }
-
-    public void setHockeyPlayers(Set<HockeyPlayer> hockeyPlayers) {
-        this.hockeyPlayers = hockeyPlayers;
-    }
-
     public void addHockeyPlayers(List<HockeyPlayer> hockeyPlayers) {
         this.hockeyPlayers.addAll(hockeyPlayers);
         hockeyPlayers.forEach(it -> it.setTeam(this));
@@ -49,37 +45,4 @@ public class Team {
         hockeyPlayers.forEach(this.hockeyPlayers::remove);
         hockeyPlayers.forEach(it -> it.setTeam(null));
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public User getAppUser() {
-        return appUser;
-    }
-
-    public void setAppUser(User appUser) {
-        this.appUser = appUser;
-    }
-
-    public League getLeague() {
-        return league;
-    }
-
-    public void setLeague(League league) {
-        this.league = league;
-    }
-
 }

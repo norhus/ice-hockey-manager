@@ -8,16 +8,28 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
+/**
+ * Component for communication with league endpoints
+ */
 @Component
 public class LeagueApiClient {
 
     public final WebClient coreClient;
 
+    /**
+     * Creates a LeagueApiClient instance
+     */
     @Autowired
     public LeagueApiClient(WebClient coreClient) {
         this.coreClient = coreClient;
     }
 
+    /**
+     * Fetches all leagues using endpoint from core
+     *
+     * @param token String with the token
+     * @return List of leagues
+     */
     public List<LeagueDto> getLeagues(String token) {
 
         return coreClient.get()

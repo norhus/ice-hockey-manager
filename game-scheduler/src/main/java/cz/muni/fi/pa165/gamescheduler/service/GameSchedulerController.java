@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Spring REST Controller for game-scheduler.
+ */
 @RestController
 @OpenAPIDefinition(
         info = @Info(
@@ -45,11 +48,19 @@ class GameSchedulerController {
 
     private final GameSchedulerService gameSchedulerService;
 
+    /**
+     * Creates a GameSchedulerController instance
+     *
+     * @param gameSchedulerService GameSchedulerService instance
+     */
     @Autowired
     public GameSchedulerController(GameSchedulerService gameSchedulerService) {
         this.gameSchedulerService = gameSchedulerService;
     }
 
+    /**
+     * REST method for generating matches for a league
+     */
     @Operation(
             summary = "Generate league matches by league name",
             description = "Returns game scheduler by league name"
@@ -59,6 +70,9 @@ class GameSchedulerController {
         return gameSchedulerService.generate(leagueName, Utils.getToken(request));
     }
 
+    /**
+     * REST method for generating matches for all leagues
+     */
     @Operation(
             summary = "Generate league matches for each league",
             description = "Return an array of objects representing game schedulers"

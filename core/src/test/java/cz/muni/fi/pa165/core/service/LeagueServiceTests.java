@@ -74,4 +74,14 @@ public class LeagueServiceTests {
         assertNull(leagueDto);
         verify(leagueRepository, times(1)).findByName("superliga");
     }
+
+    @Test
+    void createLeagueValid() {
+        when(leagueRepository.save(any(League.class))).thenReturn(league1);
+
+        LeagueDto leagueDto = leagueService.create(expectedLeagueDto1);
+
+        assertEquals(leagueDto, expectedLeagueDto1);
+        verify(leagueRepository, times(1)).save(any(League.class));
+    }
 }

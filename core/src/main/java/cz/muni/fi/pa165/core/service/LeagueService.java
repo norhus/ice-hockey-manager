@@ -29,4 +29,8 @@ public class LeagueService {
                 .map(leagueMapper::toDto)
                 .toList();
     }
+
+    public LeagueDto create(LeagueDto leagueDto) {
+        return leagueMapper.toDto(leagueRepository.save(leagueMapper.toEntity(leagueDto)));
+    }
 }

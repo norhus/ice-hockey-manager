@@ -11,10 +11,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "hockey_player")
 public class HockeyPlayer {
     @Id
@@ -68,101 +72,4 @@ public class HockeyPlayer {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Instant getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Instant dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public Integer getSkating() {
-        return skating;
-    }
-
-    public void setSkating(Integer skating) {
-        this.skating = skating;
-    }
-
-    public Integer getPhysical() {
-        return physical;
-    }
-
-    public void setPhysical(Integer physical) {
-        this.physical = physical;
-    }
-
-    public Integer getShooting() {
-        return shooting;
-    }
-
-    public void setShooting(Integer shooting) {
-        this.shooting = shooting;
-    }
-
-    public Integer getDefense() {
-        return defense;
-    }
-
-    public void setDefense(Integer defense) {
-        this.defense = defense;
-    }
-
-    public Integer getPuckSkills() {
-        return puckSkills;
-    }
-
-    public void setPuckSkills(Integer puckSkills) {
-        this.puckSkills = puckSkills;
-    }
-
-    public Integer getSenses() {
-        return senses;
-    }
-
-    public void setSenses(Integer senses) {
-        this.senses = senses;
-    }
-
 }
