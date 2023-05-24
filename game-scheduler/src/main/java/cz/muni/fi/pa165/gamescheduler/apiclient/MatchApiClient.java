@@ -10,16 +10,30 @@ import reactor.core.publisher.Mono;
 
 import java.time.Instant;
 
+/**
+ * Component for communication with match endpoints
+ */
 @Component
 public class MatchApiClient {
 
     public final WebClient coreClient;
 
+    /**
+     * Creates a MatchApiClient instance
+     */
     @Autowired
     public MatchApiClient(WebClient coreClient) {
         this.coreClient = coreClient;
     }
 
+    /**
+     * Post a new match using endpoint from core
+     *
+     * @param gameDate Instant date of match
+     * @param matchTeams Pair of teams playing in the match
+     * @param token String with the token
+     * @return Created match
+     */
     public MatchDto postMatch(Instant gameDate, Pair<TeamDto, TeamDto> matchTeams, String token) {
 
         return coreClient.post()
