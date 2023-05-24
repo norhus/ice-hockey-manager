@@ -186,4 +186,18 @@ public class TeamControllerTests {
                         .content(objectMapper.writeValueAsString(mockLeague)))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    @WithMockUser(authorities = SCOPE_TEST_WRITE)
+    void createTeamValid() throws Exception {
+        when(teamService.create(mockTeamDto)).thenReturn(mockTeamDto);
+
+        String response = mockMvc.perform(post("/api/teams").contentType("application/json").with(csrf())
+                        .content(objectMapper.writeValueAsString(mockTeamDto)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+        TeamDto teamDto = objectMapper.readValue(response, TeamDto.class);
+
+        assertThat(teamDto).isEqualTo(mockTeamDto);
+    }
 }

@@ -77,4 +77,8 @@ public class TeamService {
 
         return teamMapper.toDto(teamRepository.save(team));
     }
+
+    public TeamDto create(TeamDto teamDto) {
+        return teamMapper.toDto(teamRepository.save(teamMapper.toEntity(teamDto)));
+    }
 }

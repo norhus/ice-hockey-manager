@@ -3,14 +3,11 @@ package cz.muni.fi.pa165.core.controller;
 import cz.muni.fi.pa165.core.service.TeamService;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -73,5 +70,12 @@ public class TeamController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<TeamDto> create(@Valid @RequestBody TeamDto teamDto) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(teamService.create(teamDto));
     }
 }
