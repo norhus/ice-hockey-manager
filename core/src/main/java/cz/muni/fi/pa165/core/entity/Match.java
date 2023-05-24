@@ -1,10 +1,14 @@
 package cz.muni.fi.pa165.core.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "match")
 public class Match {
     @Id
@@ -28,53 +32,4 @@ public class Match {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "away_team")
     private Team awayTeam;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Instant getDateOfMatch() {
-        return dateOfMatch;
-    }
-
-    public void setDateOfMatch(Instant dateOfMatch) {
-        this.dateOfMatch = dateOfMatch;
-    }
-
-    public Integer getHomeGoals() {
-        return homeGoals;
-    }
-
-    public void setHomeGoals(Integer homeGoals) {
-        this.homeGoals = homeGoals;
-    }
-
-    public Integer getAwayGoals() {
-        return awayGoals;
-    }
-
-    public void setAwayGoals(Integer awayGoals) {
-        this.awayGoals = awayGoals;
-    }
-
-    public Team getHomeTeam() {
-        return homeTeam;
-    }
-
-    public void setHomeTeam(Team homeTeam) {
-        this.homeTeam = homeTeam;
-    }
-
-    public Team getAwayTeam() {
-        return awayTeam;
-    }
-
-    public void setAwayTeam(Team awayTeam) {
-        this.awayTeam = awayTeam;
-    }
-
 }
