@@ -16,9 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static cz.muni.fi.pa165.model.shared.enums.Scope.SCOPE_TEST_READ;
+import static cz.muni.fi.pa165.model.shared.enums.Scope.SCOPE_TEST_WRITE;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -70,5 +73,19 @@ public class LeagueControllerTests {
     void findByNameInvalid() throws Exception {
         mockMvc.perform(get("/api/leagues/superliga"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(authorities = SCOPE_TEST_WRITE)
+    void createLeagueValid() throws Exception {
+        when(leagueService.create(mockLeagueDto)).thenReturn(mockLeagueDto);
+
+        String response = mockMvc.perform(post("/api/leagues").contentType("application/json").with(csrf())
+                        .content(objectMapper.writeValueAsString(mockLeagueDto)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+        LeagueDto leagueDto = objectMapper.readValue(response, LeagueDto.class);
+
+        assertThat(leagueDto).isEqualTo(mockLeagueDto);
     }
 }
