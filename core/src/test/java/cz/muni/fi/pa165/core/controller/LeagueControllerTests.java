@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.muni.fi.pa165.core.service.LeagueService;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
@@ -28,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class LeagueControllerTests {
 
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -38,6 +40,16 @@ public class LeagueControllerTests {
     private LeagueService leagueService;
 
     private final LeagueDto mockLeagueDto = new LeagueDto(2L, "NHL", null);
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @BeforeEach()
+    public void setup()
+    {
+        //Init MockMvc Object and build
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
 
     @Test
     @WithMockUser(authorities = SCOPE_TEST_READ)
