@@ -8,6 +8,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
+/**
+ * Component for communication with league endpoints
+ */
 @Component
 public class LeagueApiClient {
 
@@ -18,6 +21,13 @@ public class LeagueApiClient {
         this.coreClient = coreClient;
     }
 
+    /**
+     * Retrieves a league by its name using endpoint from core
+     *
+     * @param leagueName the name of the league to retrieve
+     * @param token      the authentication token for the request
+     * @return the LeagueDto representing the retrieved league
+     */
     public LeagueDto getLeagueByName(String leagueName, String token) {
         return coreClient.get()
                     .uri(uriBuilder -> uriBuilder.
@@ -28,6 +38,12 @@ public class LeagueApiClient {
                     .block();
     }
 
+    /**
+     * Retrieves a list of leagues using endpoint from core
+     *
+     * @param token the authentication token for the request
+     * @return a List of LeagueDto representing the retrieved leagues
+     */
     public List<LeagueDto> getLeagues(String token) {
         return coreClient.get()
                 .uri(uriBuilder -> uriBuilder.

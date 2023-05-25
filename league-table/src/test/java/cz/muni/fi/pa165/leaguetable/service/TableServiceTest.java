@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.leaguetable.service;
 
 import cz.muni.fi.pa165.leaguetable.apiclient.LeagueApiClient;
 import cz.muni.fi.pa165.leaguetable.apiclient.MatchApiClient;
-import cz.muni.fi.pa165.leaguetable.apiclient.TeamApiClient;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
@@ -29,8 +28,6 @@ class TableServiceTest {
 
     @Mock
     private LeagueApiClient leagueApiClient;
-    @Mock
-    private TeamApiClient teamApiClient;
     @Mock
     private MatchApiClient matchApiClient;
     @InjectMocks
