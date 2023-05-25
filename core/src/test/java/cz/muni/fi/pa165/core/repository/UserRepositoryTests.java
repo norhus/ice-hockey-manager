@@ -34,7 +34,7 @@ class UserRepositoryTests {
     }
 
     @Test
-    void testFindByEmail_ExistingEmail() {
+    void testFindByEmailExistingEmail() {
         String email = "user1@example.com";
 
         Optional<User> foundUser = userRepository.findByEmail(email);
@@ -44,7 +44,7 @@ class UserRepositoryTests {
     }
 
     @Test
-    void testFindByEmail_NonExistingEmail() {
+    void testFindByEmailNonExistingEmail() {
         String email = "nonexisting@example.com";
 
         Optional<User> foundUser = userRepository.findByEmail(email);

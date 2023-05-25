@@ -8,6 +8,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
+/**
+ * Component for communication with match endpoints
+ */
 @Component
 public class MatchApiClient {
 
@@ -18,6 +21,13 @@ public class MatchApiClient {
         this.coreClient = coreClient;
     }
 
+    /**
+     * Retrieves a list of matches by league name using endpoint from core
+     *
+     * @param leagueName the name of the league for which to retrieve matches.
+     * @param token      the authentication token for the request.
+     * @return a List of MatchDto representing the retrieved matches.
+     */
     public List<MatchDto> getMatchesByLeagueName(String leagueName, String token) {
         return coreClient.get()
                     .uri(uriBuilder -> uriBuilder.

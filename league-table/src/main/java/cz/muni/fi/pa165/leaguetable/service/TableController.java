@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Spring REST Controller for league table
+ */
 @RestController
 @OpenAPIDefinition(
         info = @Info(
@@ -51,6 +54,13 @@ public class TableController {
         this.tableService = tableService;
     }
 
+    /**
+     * Retrieves the league table for a specific league by its name.
+     *
+     * @param league  the name of the league for which to retrieve the table.
+     * @param request the HttpServletRequest for accessing the request information.
+     * @return a ResponseEntity containing the league table if found, or an appropriate error response.
+     */
     @Operation(
             summary = "Get league table by league name",
             description = "Returns league table by league name"
@@ -61,6 +71,12 @@ public class TableController {
         return ResponseEntity.ok(tableService.findByLeague(league, Utils.getToken(request)));
     }
 
+    /**
+     * Retrieves all league tables.
+     *
+     * @param request the HttpServletRequest for accessing the request information.
+     * @return a ResponseEntity containing a list of league tables, or an appropriate error response.
+     */
     @Operation(
             summary = "Get all league tables",
             description = "Return an array of  object representing league tables"
