@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.core.service.MatchService;
 import cz.muni.fi.pa165.model.dto.LeagueDto;
 import cz.muni.fi.pa165.model.dto.MatchDto;
 import cz.muni.fi.pa165.model.dto.TeamDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +15,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -31,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class MatchControllerTests {
 
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -47,6 +49,17 @@ public class MatchControllerTests {
             null, null, mockHomeTeam, mockAwayTeam);
     private final MatchDto mockMatchDtoUpdated = new MatchDto(1L, Instant.now().minus(1, ChronoUnit.DAYS),
             1, 1, mockHomeTeam, mockAwayTeam);
+
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @BeforeEach()
+    public void setup()
+    {
+        //Init MockMvc Object and build
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
 
     @Test
     @WithMockUser(authorities = SCOPE_TEST_READ)
