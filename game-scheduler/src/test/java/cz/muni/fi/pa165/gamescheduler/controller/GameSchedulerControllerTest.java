@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -31,9 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GameSchedulerControllerTest {
+class GameSchedulerControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
     @MockBean
@@ -42,11 +43,17 @@ public class GameSchedulerControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
     private List<TeamDto> teams;
     private List<MatchDto> matches;
 
     @BeforeEach
     public void setUp() {
+        //Init MockMvc Object and build
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
         LeagueDto league = new LeagueDto(1L, "NHL", null);
 
         List<LeagueDto> leagues = new ArrayList<>();

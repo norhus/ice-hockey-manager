@@ -58,16 +58,8 @@ public class ClientController {
                                @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient oauth2Client) {
         OAuth2AccessToken accessToken = oauth2Client.getAccessToken();
 
-        // add access token to API calls
-        ApiClient apiClient = new ApiClient();
-        apiClient.updateBaseUri(coreUrl);
-        apiClient.setRequestInterceptor(httpRequestBuilder -> {
-            log.debug("Bearer " + accessToken.getTokenValue());
-            httpRequestBuilder.header("Authorization", "Bearer " + accessToken.getTokenValue());
-        });
-
         // call Core API
-        CoreApi coreApi = new CoreApi(apiClient);
+        CoreApi coreApi = getCoreApi(accessToken);
         try {
             List<HockeyPlayerDto> hockeyPlayerDtoList = coreApi.hockeyPlayersGetAll();
             model.addAttribute("hockeyPlayerDtoList", hockeyPlayerDtoList);
@@ -97,7 +89,7 @@ public class ClientController {
     }
 
     @PostMapping("/hockey-players")
-    public String createEvent(@Valid @ModelAttribute HockeyPlayerForm hockeyPlayerForm,
+    public String createHockeyPlayer(@Valid @ModelAttribute HockeyPlayerForm hockeyPlayerForm,
                               BindingResult bindingResult,
                               Model model,
                               @AuthenticationPrincipal OidcUser user,
@@ -108,14 +100,7 @@ public class ClientController {
         model.addAttribute("user", user);
         model.addAttribute("scopes", accessToken.getScopes());
 
-        // add access token to Core API calls
-        ApiClient apiClient = new ApiClient();
-        apiClient.setRequestInterceptor(httpRequestBuilder -> {
-            log.debug("Bearer " + accessToken.getTokenValue());
-            httpRequestBuilder.header("Authorization", "Bearer " + accessToken.getTokenValue());
-        });
-
-        CoreApi coreApi = new CoreApi(apiClient);
+        CoreApi coreApi = getCoreApi(accessToken);
         if (bindingResult.hasErrors()) {
             try {
                 List<HockeyPlayerDto> hockeyPlayerDtoList = coreApi.hockeyPlayersGetAll();
@@ -172,5 +157,16 @@ public class ClientController {
                 0,
                 hockeyPlayerForm.getTeamDto()
         );
+    }
+
+    private CoreApi getCoreApi(OAuth2AccessToken token) {
+        ApiClient apiClient = new ApiClient();
+        apiClient.updateBaseUri(coreUrl);
+        apiClient.setRequestInterceptor(httpRequestBuilder -> {
+            log.debug("Bearer " + token);
+            httpRequestBuilder.header("Authorization", "Bearer " + token.getTokenValue());
+        });
+
+        return new CoreApi(apiClient);
     }
 }

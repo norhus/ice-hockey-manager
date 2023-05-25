@@ -1,7 +1,6 @@
 variables:
   MAVEN_OPTS: >-
     -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
-    -Dmaven.test.skip=true
 
   MAVEN_CLI_OPTS: >-
     --batch-mode

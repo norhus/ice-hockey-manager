@@ -1,28 +1,37 @@
 package cz.muni.fi.pa165.core.service;
 
-import cz.muni.fi.pa165.model.dto.UserDto;
-import cz.muni.fi.pa165.model.dto.UserRegisterDto;
 import cz.muni.fi.pa165.core.entity.User;
-import cz.muni.fi.pa165.core.mapper.UserMapper;
 import cz.muni.fi.pa165.core.repository.UserRepository;
+import cz.muni.fi.pa165.model.shared.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userMapper = userMapper;
     }
 
-    public UserDto create(UserRegisterDto userRegisterDto) {
-        User user = userMapper.toEntity(userRegisterDto);
+    public Collection<SimpleGrantedAuthority> getAuthoritiesByEmail(String email) {
+        var user = createIfNotExist(email);
 
-        return userMapper.toDto(userRepository.save(user));
+        return user.getAuthorities();
+    }
+
+    public User createIfNotExist(String email) {
+        User user = userRepository.findByEmail(email).orElse(null);
+
+        if (user == null) {
+            user = userRepository.save(new User(null, email, email, Role.ROLE_USER));
+        }
+
+        return user;
     }
 }
