@@ -38,12 +38,6 @@ services:
     depends_on:
       - core
 
-  model:
-    container_name: model
-    build:
-      context: model
-    image: model:latest
-
   core-db:
     image: postgres:15.2-alpine
     container_name: core-db
