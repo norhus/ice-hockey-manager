@@ -121,4 +121,30 @@
         <module>game-scheduler</module>
         <module>client</module>
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <noqualifier>all</noqualifier>
+                    <destDir>javadoc</destDir>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>aggregate</id>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                        <configuration>
+                            <reportOutputDirectory>${project.basedir}/documents</reportOutputDirectory>
+                            <destDir>javadoc</destDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
