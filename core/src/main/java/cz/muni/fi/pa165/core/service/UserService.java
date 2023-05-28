@@ -51,7 +51,7 @@ public class UserService {
         User user = userRepository.findByEmail(email).orElse(null);
 
         if (user == null) {
-            user = userRepository.save(new User(null, email, email, Role.ROLE_USER));
+            user = userRepository.save(new User(null, email, null, Role.ROLE_USER));
         }
 
         return user;

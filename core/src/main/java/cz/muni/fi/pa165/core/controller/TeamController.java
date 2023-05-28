@@ -114,8 +114,8 @@ public class TeamController {
             summary = "Add team to the current user",
             description = "This operation adds a team to the current user."
     )
-    @PostMapping("/{teamId}/add-to-me")
-    public ResponseEntity<TeamDto> addTeamToMe(@PathVariable("teamId") long teamId) {
+    @PutMapping("/{teamId}/add-to-me")
+    public ResponseEntity<TeamDto> addTeamToMe(@PathVariable long teamId) {
         TeamDto teamDto = teamService.addTeamToMe(teamId);
         return ResponseEntity.ok(teamDto);
     }
@@ -124,9 +124,8 @@ public class TeamController {
             summary = "Remove team from current user",
             description = "Remove the team with the specified ID from the current user's list of teams."
     )
-    @DeleteMapping("/{teamId}/remove-from-me")
-    public ResponseEntity<Void> removeTeamFromMe(@PathVariable("teamId") long teamId) {
-        teamService.removeTeamFromMe(teamId);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/{teamId}/remove-from-me")
+    public ResponseEntity<TeamDto> removeTeamFromMe(@PathVariable long teamId) {
+        return ResponseEntity.ok(teamService.removeTeamFromMe(teamId));
     }
 }

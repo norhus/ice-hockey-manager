@@ -177,8 +177,6 @@ public class TeamService {
         }
 
         team.setAppUser(null);
-        teamRepository.save(team);
-
-        return teamMapper.toDto(team);
+        return teamMapper.toDto(teamRepository.save(team));
     }
 }
