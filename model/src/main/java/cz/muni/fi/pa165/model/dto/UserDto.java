@@ -15,11 +15,6 @@ public record UserDto(
         @NotNull
         String email,
 
-        @Schema(example= "Password1")
-        @Size(max = 64)
-        @NotNull
-        String password,
-
         @Schema(hidden = true)
         Role role
 ) {

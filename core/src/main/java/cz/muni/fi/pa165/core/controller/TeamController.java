@@ -9,13 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -114,5 +108,24 @@ public class TeamController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(teamService.create(teamDto));
+    }
+
+    @Operation(
+            summary = "Add team to the current user",
+            description = "This operation adds a team to the current user."
+    )
+    @PutMapping("/{teamId}/add-to-me")
+    public ResponseEntity<TeamDto> addTeamToMe(@PathVariable long teamId) {
+        TeamDto teamDto = teamService.addTeamToMe(teamId);
+        return ResponseEntity.ok(teamDto);
+    }
+
+    @Operation(
+            summary = "Remove team from current user",
+            description = "Remove the team with the specified ID from the current user's list of teams."
+    )
+    @PutMapping("/{teamId}/remove-from-me")
+    public ResponseEntity<TeamDto> removeTeamFromMe(@PathVariable long teamId) {
+        return ResponseEntity.ok(teamService.removeTeamFromMe(teamId));
     }
 }
