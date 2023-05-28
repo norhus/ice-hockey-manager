@@ -4,7 +4,9 @@ import cz.muni.fi.pa165.core.entity.User;
 import cz.muni.fi.pa165.core.repository.UserRepository;
 import cz.muni.fi.pa165.model.shared.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -53,5 +55,17 @@ public class UserService {
         }
 
         return user;
+    }
+
+    /**
+     * Get the currently logged-in user
+     *
+     * @return User instance of the currently logged-in user, or null if not found
+     */
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        return userRepository.findByEmail(email).orElse(null);
     }
 }

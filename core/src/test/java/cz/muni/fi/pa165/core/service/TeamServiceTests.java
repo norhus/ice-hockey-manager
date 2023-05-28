@@ -38,6 +38,9 @@ class TeamServiceTests {
     @Mock
     private LeagueRepository leagueRepository;
 
+    @Mock
+    private UserService userService;
+
     @Autowired
     private TeamMapper teamMapper;
 
@@ -52,7 +55,7 @@ class TeamServiceTests {
 
     @BeforeEach
     void setUp () {
-        teamService = new TeamService(teamRepository, teamMapper, hockeyPlayerRepository, leagueRepository);
+        teamService = new TeamService(teamRepository, teamMapper, hockeyPlayerRepository, leagueRepository, userService);
 
         hockeyPlayers = new ArrayList<>();
         HockeyPlayer hockeyPlayer1 = new HockeyPlayer();

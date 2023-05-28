@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.core.service;
 import cz.muni.fi.pa165.core.entity.HockeyPlayer;
 import cz.muni.fi.pa165.core.entity.League;
 import cz.muni.fi.pa165.core.entity.Team;
+import cz.muni.fi.pa165.core.entity.User;
 import cz.muni.fi.pa165.core.mapper.TeamMapper;
 import cz.muni.fi.pa165.core.repository.HockeyPlayerRepository;
 import cz.muni.fi.pa165.core.repository.LeagueRepository;
@@ -23,8 +24,8 @@ public class TeamService {
     private final TeamRepository teamRepository;
     private final HockeyPlayerRepository hockeyPlayerRepository;
     private final LeagueRepository leagueRepository;
-
     private final TeamMapper teamMapper;
+    private final UserService userService;
 
     /**
      * Creates a TeamService instance
@@ -33,17 +34,20 @@ public class TeamService {
      * @param teamMapper TeamMapper instance
      * @param hockeyPlayerRepository HockeyPlayerRepository instance
      * @param leagueRepository LeagueRepository instance
+     * @param userService UserService instance
      */
     @Autowired
     public TeamService(TeamRepository teamRepository,
                        TeamMapper teamMapper,
                        HockeyPlayerRepository hockeyPlayerRepository,
-                       LeagueRepository leagueRepository
+                       LeagueRepository leagueRepository,
+                       UserService userService
     ) {
         this.teamRepository = teamRepository;
         this.teamMapper = teamMapper;
         this.hockeyPlayerRepository = hockeyPlayerRepository;
         this.leagueRepository = leagueRepository;
+        this.userService = userService;
     }
 
     /**
@@ -135,5 +139,46 @@ public class TeamService {
      */
     public TeamDto create(TeamDto teamDto) {
         return teamMapper.toDto(teamRepository.save(teamMapper.toEntity(teamDto)));
+    }
+
+    /**
+     * Add the team to the current user
+     * @param teamId ID of the team to be added
+     *
+     * @return updated TeamDto instance
+     */
+    public TeamDto addTeamToMe(long teamId) {
+        User currentUser = userService.getCurrentUser();
+        if (currentUser == null) {
+            throw new IllegalStateException("Current user not found.");
+        }
+
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new IllegalArgumentException("Team not found with ID: " + teamId));
+
+        team.setAppUser(currentUser);
+        teamRepository.save(team);
+
+        return teamMapper.toDto(team);
+    }
+
+    /**
+     * Remove the team from the current user
+     *
+     * @param teamId ID of the team to be removed
+     * @return updated TeamDto instance
+     */
+    public TeamDto removeTeamFromMe(long teamId) {
+        User currentUser = userService.getCurrentUser();
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new IllegalArgumentException("Team not found with ID: " + teamId));
+
+        if (team.getAppUser() != currentUser) {
+            throw new IllegalArgumentException("The team does not belong to the current user.");
+        }
+
+        team.setAppUser(null);
+        teamRepository.save(team);
+
+        return teamMapper.toDto(team);
     }
 }
