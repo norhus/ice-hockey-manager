@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Spring REST Controller for match
+ */
 @Tag(name = "Match Controller", description = "Controller for manipulation with Match Entity")
 @RestController
 @RequestMapping("/api/matches")
@@ -24,6 +27,11 @@ public class MatchController {
         this.matchService = matchService;
     }
 
+    /**
+     * Retrieves all matches.
+     *
+     * @return A list of MatchDto objects representing all matches.
+     */
     @Operation(
             summary = "Get all matches",
             description = "Retrieves all matches"
@@ -33,6 +41,12 @@ public class MatchController {
         return ResponseEntity.ok(matchService.findAll());
     }
 
+    /**
+     * Creates a new match.
+     *
+     * @param matchDto The MatchDto object representing the match to be created.
+     * @return The MatchDto object representing the created match.
+     */
     @Operation(
             summary = "Create a match",
             description = "Creates a new match"
@@ -44,6 +58,12 @@ public class MatchController {
                 .body(matchService.create(matchDto));
     }
 
+    /**
+     * Updates an existing match.
+     *
+     * @param matchDto The MatchDto object representing the updated match.
+     * @return The MatchDto object representing the updated match.
+     */
     @Operation(
             summary = "Update a match",
             description = "Updates an existing match"
@@ -57,6 +77,12 @@ public class MatchController {
         }
     }
 
+    /**
+     * Retrieves matches by the name of the league.
+     *
+     * @param league The name of the league.
+     * @return A list of MatchDto objects representing the matches in the specified league.
+     */
     @Operation(
             summary = "Get matches by league",
             description = "Retrieves matches by the name of the league"
@@ -66,6 +92,11 @@ public class MatchController {
         return ResponseEntity.ok(matchService.findByLeagueName(league));
     }
 
+    /**
+     * Retrieves unplayed matches before the current time.
+     *
+     * @return A list of MatchDto objects representing the unplayed matches.
+     */
     @Operation(
             summary = "Get unplayed matches",
             description = "Retrieves unplayed matches before the current time"
@@ -75,6 +106,11 @@ public class MatchController {
         return ResponseEntity.ok(matchService.findUnplayedMatchesBeforeNow());
     }
 
+    /**
+     * Plays the unplayed matches and updates their scores randomly.
+     *
+     * @return A list of MatchDto objects representing the played matches.
+     */
     @Operation(
             summary = "Play unplayed matches",
             description = "Plays the unplayed matches and updates their scores randomly"
@@ -84,6 +120,12 @@ public class MatchController {
         return ResponseEntity.ok(matchService.playUnplayedMatches());
     }
 
+    /**
+     * Retrieves played matches in a specific league.
+     *
+     * @param league The name of the league.
+     * @return A list of MatchDto objects representing the played matches in the specified league.
+     */
     @Operation(
             summary = "Get played matches by league",
             description = "Retrieves played matches in a specific league"
