@@ -74,6 +74,13 @@ provided in the previous milestone.
 #### **Runnable scenario**
 Make sure that the services are running first. 
 Also, please ensure that you have your authentication token ready before running the tests.
+The goal of this scenario is to showcase the functionality of the Hockey Management App.
+The scenario focuses on the following actions:
+creating and deleting hockey players,
+creating leagues and teams,
+browsing upcoming matches and viewing team standings,
+searching for hockey players without a team, adding selected players to a team,
+exploring other leagues, teams and their players.
 1. Install the required dependencies:
 
     ```sh
