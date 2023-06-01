@@ -19,10 +19,10 @@ public class OAuth2Config {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(x -> x
-                        .requestMatchers(HttpMethod.GET, "/api/**").hasAuthority(Scope.TEST_READ.label)
-                        .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority(Scope.TEST_WRITE.label)
-                        .requestMatchers(HttpMethod.PUT, "/api/**").hasAuthority(Scope.TEST_WRITE.label)
-                        .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority(Scope.TEST_WRITE.label)
+//                        .requestMatchers(HttpMethod.GET, "/api/**").hasAuthority(Scope.TEST_READ.label)
+//                        .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority(Scope.TEST_WRITE.label)
+//                        .requestMatchers(HttpMethod.PUT, "/api/**").hasAuthority(Scope.TEST_WRITE.label)
+//                        .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority(Scope.TEST_WRITE.label)
                         .anyRequest().permitAll()
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken)

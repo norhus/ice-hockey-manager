@@ -28,12 +28,12 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(x -> x
-                        .requestMatchers(HttpMethod.POST,"/api/hockey-players").hasRole(Role.ROLE_ADMIN.name())
-                        .requestMatchers(HttpMethod.PUT,"/api/hockey-players").hasRole(Role.ROLE_ADMIN.name())
-                        .requestMatchers(HttpMethod.DELETE,"/api/hockey-players").hasRole(Role.ROLE_ADMIN.name())
+                        .requestMatchers(HttpMethod.POST,"/api/hockey-players").hasRole(parseRole(Role.ROLE_ADMIN))
+                        .requestMatchers(HttpMethod.PUT,"/api/hockey-players").hasRole(parseRole(Role.ROLE_ADMIN))
+                        .requestMatchers(HttpMethod.DELETE,"/api/hockey-players").hasRole(parseRole(Role.ROLE_ADMIN))
 
-                        .requestMatchers(HttpMethod.POST,"/api/leagues").hasRole(Role.ROLE_ADMIN.name())
-                        .requestMatchers(HttpMethod.POST,"/api/teams").hasRole(Role.ROLE_ADMIN.name())
+                        .requestMatchers(HttpMethod.POST,"/api/leagues").hasRole(parseRole(Role.ROLE_ADMIN))
+                        .requestMatchers(HttpMethod.POST,"/api/teams").hasRole(parseRole(Role.ROLE_ADMIN))
 
                         .requestMatchers(HttpMethod.GET, "/api/**").hasAuthority(Scope.TEST_READ.label)
                         .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority(Scope.TEST_WRITE.label)
@@ -49,5 +49,9 @@ public class SecurityConfig {
     @Bean
     public OpaqueTokenIntrospector introspector() {
         return new CustomAuthoritiesOpaqueTokenIntrospector(userService);
+    }
+
+    private String parseRole(Role role) {
+        return role.name().replace("ROLE_", "");
     }
 }
